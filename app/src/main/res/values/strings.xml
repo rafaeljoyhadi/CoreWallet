@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">coreWallet</string>
+    <string name="core_savings">Core Savings</string>
 </resources>
