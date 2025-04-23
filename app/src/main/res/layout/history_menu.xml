@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:background="@color/blue">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="110dp"
+                android:layout_height="20dp"
+                android:src="@drawable/corewallet_icon_raw" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="-70dp"
+        android:background="@drawable/rounded_corners">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="25dp"
+            android:paddingEnd="20dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Activity"
+                android:textSize="15sp"
+                android:textColor="@android:color/background_dark"
+                android:textStyle="bold"/>
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_filter"
+                app:tint="@android:color/black"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Body -->
+    <!-- Konten Body -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="-60dp"
+        android:background="@android:color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="0dp"
+            android:paddingBottom="12dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+        <!-- Dummy 1 -->
+            <include layout="@layout/item_history"
+                android:tag="IRVAN|IDR 100.000.00|Account Transfer - Uang Jajan|04|MAR|2025|income"/>
+
+            <!-- Dummy 2 -->
+            <include layout="@layout/item_history"
+                android:tag="DEDEK|IDR 250.000.00|Top Up - ShopeePay|03|MAR|2025|expense"/>
+
+            <!-- Dummy 3 -->
+            <include layout="@layout/item_history"
+                android:tag="KAK ROS|IDR 150.000.00|Account Transfer - Keperluan Dapur|02|MAR|2025|income"/>
+
+            <!-- Dummy 4 -->
+            <include layout="@layout/item_history"
+                android:tag="IRVAN|IDR 50.000.00|Cashback - Tokopedia|01|MAR|2025|expense"/>
+
+            <!-- Dummy 5 -->
+            <include layout="@layout/item_history"
+                android:tag="DEDEK|IDR 70.000.00|Account Transfer - Makan Siang|29|FEB|2025|income"/>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
