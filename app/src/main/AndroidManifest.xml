@@ -35,8 +35,14 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".CoreBudgetForm"
+            android:exported="true" />
+        <activity
+            android:name=".CoreBudget"
+            android:exported="true" />
+        <activity
             android:name=".CoreSavings"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

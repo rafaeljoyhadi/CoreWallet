@@ -48,7 +48,7 @@ import androidx.core.view.WindowInsetsCompat
 class CoreSavings : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_core_savings)
+        setContentView(R.layout.core_savings)
         window.statusBarColor = Color.parseColor("#0d5892")
 
         val btnCoreGoal: Button = findViewById(R.id.btn_core_goal)
