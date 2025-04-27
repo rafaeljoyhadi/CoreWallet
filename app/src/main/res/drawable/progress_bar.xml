@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Background area (belum terisi) -->
+    <item android:id="@android:id/background">
+        <shape>
+            <solid android:color="#E0E0E0"/> <!-- Abu-abu terang -->
+            <corners android:radius="8dp" />
+            <stroke
+                android:width="2dp"
+                android:color="#B0B0B0"/> <!-- Outline background (abu) -->
+        </shape>
+    </item>
+
+    <!-- Secondary progress (opsional) -->
+    <item android:id="@android:id/secondaryProgress">
+        <clip>
+            <shape>
+                <solid android:color="#CCCCCC"/>
+                <corners android:radius="8dp" />
+            </shape>
+        </clip>
+    </item>
+
+    <!-- Primary progress (hijau) -->
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape>
+                <solid android:color="#b8ffa4"/> <!-- Hijau -->
+                <corners android:radius="8dp" />
+                <stroke
+                    android:width="2dp"
+                    android:color="#93cc83"/> <!-- Outline progress (hijau tua) -->
+            </shape>
+        </clip>
+    </item>
+
+</layer-list>
+
+
+<!--<layer-list xmlns:android="http://schemas.android.com/apk/res/android">-->
+<!--    <item android:id="@android:id/background">-->
+<!--        <shape>-->
+<!--            <solid android:color="#e0e0e0"/> &lt;!&ndash; Background color &ndash;&gt;-->
+<!--            <corners android:radius="8dp" />-->
+<!--            <stroke-->
+<!--                android:width="2dp"-->
+<!--                android:color="#b3b3b3"/> &lt;!&ndash; Outline (border) color &ndash;&gt;-->
+<!--        </shape>-->
+<!--    </item>-->
+
+<!--    &lt;!&ndash; Secondary progress (optional) &ndash;&gt;-->
+<!--    <item android:id="@android:id/secondaryProgress">-->
+<!--        <clip>-->
+<!--            <shape>-->
+<!--                <solid android:color="#AAAAAA"/>-->
+<!--                <corners android:radius="8dp" />-->
+<!--                <stroke-->
+<!--                    android:width="2dp"-->
+<!--                    android:color="#93cc83"/>-->
+<!--            </shape>-->
+<!--        </clip>-->
+<!--    </item>-->
+
+<!--    &lt;!&ndash; Primary progress &ndash;&gt;-->
+<!--    <item android:id="@android:id/progress">-->
+<!--        <clip>-->
+<!--            <shape>-->
+<!--                <solid android:color="#b8ffa4"/> &lt;!&ndash; Progress bar color &ndash;&gt;-->
+<!--                <corners android:radius="8dp" />-->
+<!--                <stroke-->
+<!--                    android:width="2dp"-->
+<!--                    android:color="#93cc83"/>-->
+<!--            </shape>-->
+<!--        </clip>-->
+<!--    </item>-->
+<!--</layer-list>-->
