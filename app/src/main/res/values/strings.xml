@@ -8,5 +8,4 @@
         <item>Traveling</item>
         <item>Shopping</item>
     </string-array>
-    <string name="title_activity_register">RegisterActivity</string>
 </resources>
