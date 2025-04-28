@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">coreWallet</string>
+    <string name="core_savings">Core Savings</string>
+
+    <string-array name="categories_cb_form">
+        <item>Lifestyle</item>
+        <item>Traveling</item>
+        <item>Shopping</item>
+    </string-array>
     <string name="title_activity_register">RegisterActivity</string>
 </resources>
