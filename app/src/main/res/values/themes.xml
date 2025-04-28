@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.CoreWallet" parent="android:Theme.Material.Light.NoActionBar">
-
+    <style name="Theme.CoreWallet" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/primary_blue</item>
+        <item name="colorOnPrimary">@color/secondary_blue</item>
+        <item name="colorSecondary">@color/primary_gray</item>
+        <item name="colorOnSecondary">@color/secondary_gray</item>
     </style>
+
 </resources>
