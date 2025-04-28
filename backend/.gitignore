@@ -1,0 +1,23 @@
+# Node.js related
+node_modules/
+package-lock.json
+
+# Environment variables
+.env
+
+# Logs and Debug files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs/
+
+# VS Code settings
+.vscode/
+
+# Runtime files
+/.pnp.cjs
+/.pnp.loader.mjs
+
+# Build outputs
+/dist/
+/build/
