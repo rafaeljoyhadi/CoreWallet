@@ -44,7 +44,6 @@ object RetrofitInstance {
 class CoreSavings : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.core_savings)
         window.statusBarColor = Color.parseColor("#0d5892")
 
