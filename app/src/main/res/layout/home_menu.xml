@@ -162,7 +162,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <!-- Quick Access Grid (gunakan GridLayout atau RecyclerView di tahap berikutnya) -->
+            <!-- Quick Access Grid -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/quickAccessButtons"
                 android:layout_width="0dp"
@@ -174,16 +174,18 @@
 
                 <!-- Button Transfer -->
                 <LinearLayout
+                    android:id="@+id/btnTransfer"
                     android:layout_width="71dp"
                     android:layout_height="76dp"
                     android:layout_margin="4dp"
-                    android:layout_weight="1"
                     android:background="@drawable/bg_rounded_corner"
                     android:backgroundTint="#E3F2FD"
                     android:elevation="2dp"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:padding="8dp">
+                    android:padding="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
                         android:layout_width="40dp"
@@ -201,24 +203,19 @@
                 </LinearLayout>
 
                 <!-- Button Top Up -->
-
-                <!-- Button Withdraw -->
-
-                <!-- Button Profile -->
-
                 <LinearLayout
+                    android:id="@+id/btnTopUp"
                     android:layout_width="71dp"
                     android:layout_height="76dp"
                     android:layout_margin="4dp"
-                    android:layout_weight="1"
                     android:background="@drawable/bg_rounded_corner"
                     android:backgroundTint="#E3F2FD"
                     android:elevation="2dp"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="8dp"
-                    tools:layout_editor_absoluteX="102dp"
-                    tools:layout_editor_absoluteY="0dp">
+                    app:layout_constraintStart_toEndOf="@id/btnTransfer"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
                         android:layout_width="40dp"
@@ -235,19 +232,20 @@
                         android:textSize="12sp" />
                 </LinearLayout>
 
+                <!-- Button Withdraw -->
                 <LinearLayout
+                    android:id="@+id/btnWithdraw"
                     android:layout_width="71dp"
                     android:layout_height="76dp"
                     android:layout_margin="4dp"
-                    android:layout_weight="1"
                     android:background="@drawable/bg_rounded_corner"
                     android:backgroundTint="#E3F2FD"
                     android:elevation="2dp"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="8dp"
-                    tools:layout_editor_absoluteX="205dp"
-                    tools:layout_editor_absoluteY="0dp">
+                    app:layout_constraintStart_toEndOf="@id/btnTopUp"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
                         android:layout_width="40dp"
@@ -264,24 +262,26 @@
                         android:textSize="12sp" />
                 </LinearLayout>
 
+                <!-- Button Profile -->
                 <LinearLayout
+                    android:id="@+id/btnProfile"
                     android:layout_width="71dp"
                     android:layout_height="76dp"
                     android:layout_margin="4dp"
-                    android:layout_weight="1"
                     android:background="@drawable/bg_rounded_corner"
                     android:backgroundTint="#E3F2FD"
                     android:elevation="2dp"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="8dp"
-                    tools:layout_editor_absoluteX="307dp"
-                    tools:layout_editor_absoluteY="0dp">
+                    app:layout_constraintStart_toEndOf="@id/btnWithdraw"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
 
                     <ImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:src="@drawable/ic_history"
+                        android:src="@drawable/ic_profile"
                         app:tint="#1976D2" />
 
                     <TextView
@@ -292,7 +292,6 @@
                         android:textColor="#000"
                         android:textSize="12sp" />
                 </LinearLayout>
-
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
