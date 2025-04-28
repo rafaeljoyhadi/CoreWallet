@@ -13,18 +13,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CoreWallet"
+
         tools:targetApi="31">
 
         <activity
             android:name=".RegisterActivity"
             android:exported="true"
             android:label="@string/title_activity_register"
-            android:theme="@style/Theme.CoreWallet" >
+            android:theme="@style/Theme.CoreWallet">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".CoreBudgetForm"
             android:exported="true" />
@@ -41,6 +44,18 @@
             android:theme="@style/Theme.CoreWallet">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".TransferActivity"
+            android:exported="true"
+            android:label="Transfer"
+            android:theme="@style/Theme.CoreWallet" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
