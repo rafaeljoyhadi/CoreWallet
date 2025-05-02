@@ -18,7 +18,6 @@ class SessionCookieJar(private val context: Context) : CookieJar {
             cookieStrings.add(cookieString)
         }
 
-        // Save all cookies under one key (or per index if you want)
         editor.putStringSet("cookies", cookieStrings)
         editor.apply()
     }
@@ -38,5 +37,10 @@ class SessionCookieJar(private val context: Context) : CookieJar {
         }
 
         return cookies
+    }
+
+    fun clearCookies() {
+        sharedPreferences.edit().remove("cookies").apply()
+        Log.d("SessionCookieJar", "[CLEAR] Cookies cleared")
     }
 }

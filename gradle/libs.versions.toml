@@ -42,11 +42,9 @@ androidx-core-ktx-legacy = { module = "androidx.core:core-ktx", version.ref = "c
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-lifecycle-runtime-ktx-legacy = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtxLegacy" }
 
-androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
-androidx-activity-compose-legacy = { module = "androidx.activity:activity-compose", version.ref = "activityComposeLegacy" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version = "1.10.1" }
 
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
-androidx-compose-bom-legacy = { module = "androidx.compose:compose-bom", version.ref = "composeBomLegacy" }
 
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
@@ -72,11 +70,6 @@ converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref
 # Material Design
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 material-legacy = { module = "com.google.android.material:material", version = "1.9.0" }
-
-# Legacy / Optional Libraries
-androidx-core-legacy = { module = "androidx.core:core", version = "1.9.0" }
-androidx-appcompat-legacy = { module = "androidx.appcompat:appcompat", version = "1.6.1" }
-
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

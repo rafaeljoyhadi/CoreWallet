@@ -22,7 +22,7 @@
             <ImageView
                 android:layout_width="110dp"
                 android:layout_height="20dp"
-                android:src="@drawable/corewallet_icon_raw" />
+                android:src="@drawable/img_corewallet_icon_raw" />
         </LinearLayout>
     </LinearLayout>
 
@@ -141,7 +141,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="70dp"
                 android:layout_marginBottom="20dp"
-                android:background="@drawable/rounded_button"
+                android:background="@drawable/btn_rounded"
                 android:text="Edit Profile"
                 android:textColor="@android:color/white"
                 android:gravity="center"

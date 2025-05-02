@@ -82,6 +82,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/passwordInput" />
 
+    <!-- Pin -->
+    <EditText
+        android:id="@+id/pinInput"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="PIN (6 digits)"
+        android:inputType="numberPassword"
+        android:maxLength="6"
+        app:layout_constraintTop_toBottomOf="@id/confirmPasswordInput"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp" />
+
+
     <!-- Register Button -->
     <Button
         android:id="@+id/registerButton"
@@ -91,7 +105,8 @@
         android:text="Register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/confirmPasswordInput" />
+        app:layout_constraintTop_toBottomOf="@id/pinInput" />
+
 
     <!-- Link to Login -->
     <TextView

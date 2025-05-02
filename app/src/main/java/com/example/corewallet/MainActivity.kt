@@ -1,4 +1,4 @@
-package com.example.test
+package com.example.corewallet
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

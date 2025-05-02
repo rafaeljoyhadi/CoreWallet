@@ -4,14 +4,12 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.widget.Button
-import android.widget.ProgressBar
 import androidx.activity.ComponentActivity
-import androidx.activity.enableEdgeToEdge
 
 class CoreBudget : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.core_budget)
+        setContentView(R.layout.activity_core_budget)
         window.statusBarColor = Color.parseColor("#0d5892")
 //        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
 //            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())

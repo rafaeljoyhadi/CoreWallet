@@ -4,18 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    tools:context=".MainActivity">
 
-    <LinearLayout
+    <Button
+        android:id="@+id/transfer_btn"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="Transfer" />
 
-        <Button
-            android:id="@+id/btn_core_savings"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="@string/core_savings" />
+    <Button
+        android:id="@+id/btn_core_savings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/core_savings" />
 
-    </LinearLayout>
 </LinearLayout>

@@ -14,7 +14,10 @@ data class RegisterRequest(
     val pin: String
 )
 
-data class UserResponse(val message: String, val user: User? = null)
+data class UserResponse(
+    val message: String,
+    val user: User?,
+)
 
 data class User(
     val id_user: Int,
@@ -29,4 +32,7 @@ interface AuthService {
 
     @POST("/users")
     fun register(@Body request: RegisterRequest): Call<UserResponse>
+
+    @POST("/users/logout")
+    fun logout(): Call<UserResponse>
 }

@@ -27,7 +27,7 @@
                 <ImageView
                     android:layout_width="110dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/corewallet_icon_raw" />
+                    android:src="@drawable/img_corewallet_icon_raw" />
             </LinearLayout>
         </LinearLayout>
 
@@ -78,7 +78,7 @@
                         android:layout_width="370dp"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:background="@drawable/background_blue_shape">
+                        android:background="@drawable/bg_blue">
 
                         <!-- Title & Date Row -->
                         <LinearLayout
@@ -87,7 +87,7 @@
                             android:orientation="horizontal"
                             android:padding="10dp"
 
-                            android:background="@drawable/background_blue_shape">
+                            android:background="@drawable/bg_blue">
 
                             <!-- Title Section -->
                             <TextView
@@ -114,7 +114,7 @@
                                 android:id="@+id/btnOverflow"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
-                                android:src="@drawable/menu_vertical"
+                                android:src="@drawable/ic_menu_vertical"
 
                                 android:contentDescription="More options"
                                 android:padding="4dp"
@@ -129,7 +129,7 @@
                             android:layout_height="match_parent"
                             android:orientation="vertical"
                             android:padding="20dp"
-                            android:background="@drawable/background_light_blue_shape">
+                            android:background="@drawable/bg_light_blue">
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -192,7 +192,7 @@
                         android:textColor="@android:color/black"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        android:background="@drawable/background_light_blue_shape"
+                        android:background="@drawable/bg_light_blue"
                         android:gravity="center"
                         android:layout_marginTop="20dp"
                         android:layout_marginStart="16dp"

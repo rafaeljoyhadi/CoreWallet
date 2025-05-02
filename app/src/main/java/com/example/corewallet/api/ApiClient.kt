@@ -1,6 +1,8 @@
 package com.example.corewallet.api
 
 import SessionCookieJar
+import android.annotation.SuppressLint
+import android.content.Context
 import com.example.corewallet.App
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -11,11 +13,15 @@ object ApiClient {
 
     private const val BASE_URL = "http://10.0.2.2:3000"
 
+    @SuppressLint("StaticFieldLeak")
+    private lateinit var cookieJar: SessionCookieJar
+
     private val okHttpClient: OkHttpClient by lazy {
+        cookieJar = SessionCookieJar(App.instance) // Store reference
         OkHttpClient.Builder()
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
-            .cookieJar(SessionCookieJar(App.instance))
+            .cookieJar(cookieJar)
             .build()
     }
 
@@ -28,12 +34,5 @@ object ApiClient {
             .create(AuthService::class.java)
     }
 
-    val apiService: ApiService by lazy {
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .client(okHttpClient)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(ApiService::class.java)
-    }
+    fun getCookieJar(): SessionCookieJar = cookieJar
 }

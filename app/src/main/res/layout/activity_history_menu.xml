@@ -22,7 +22,7 @@
             <ImageView
                 android:layout_width="110dp"
                 android:layout_height="20dp"
-                android:src="@drawable/corewallet_icon_raw" />
+                android:src="@drawable/img_corewallet_icon_raw" />
 
         </LinearLayout>
     </LinearLayout>
@@ -76,23 +76,23 @@
             android:paddingEnd="16dp">
 
         <!-- Dummy 1 -->
-            <include layout="@layout/item_history"
+            <include layout="@layout/activity_history"
                 android:tag="IRVAN|IDR 100.000.00|Account Transfer - Uang Jajan|04|MAR|2025|income"/>
 
             <!-- Dummy 2 -->
-            <include layout="@layout/item_history"
+            <include layout="@layout/activity_history"
                 android:tag="DEDEK|IDR 250.000.00|Top Up - ShopeePay|03|MAR|2025|expense"/>
 
             <!-- Dummy 3 -->
-            <include layout="@layout/item_history"
+            <include layout="@layout/activity_history"
                 android:tag="KAK ROS|IDR 150.000.00|Account Transfer - Keperluan Dapur|02|MAR|2025|income"/>
 
             <!-- Dummy 4 -->
-            <include layout="@layout/item_history"
+            <include layout="@layout/activity_history"
                 android:tag="IRVAN|IDR 50.000.00|Cashback - Tokopedia|01|MAR|2025|expense"/>
 
             <!-- Dummy 5 -->
-            <include layout="@layout/item_history"
+            <include layout="@layout/activity_history"
                 android:tag="DEDEK|IDR 70.000.00|Account Transfer - Makan Siang|29|FEB|2025|income"/>
 
         </LinearLayout>
