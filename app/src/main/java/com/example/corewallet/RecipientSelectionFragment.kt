@@ -5,15 +5,26 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.corewallet.ContactAdapter
 import com.example.corewallet.Contact
+import com.example.corewallet.databinding.FragmentAddRecipientBinding
+import com.example.corewallet.databinding.FragmentRecipientSelectionBinding
 
 class RecipientSelectionFragment : Fragment() {
 
     private lateinit var viewModel: TransferViewModel
     private lateinit var contactAdapter: ContactAdapter
+    private lateinit var allContacts: List<Contact>
+
+    private var _binding: FragmentRecipientSelectionBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,39 +37,53 @@ class RecipientSelectionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Initialize ViewModel
         viewModel = ViewModelProvider(requireActivity()).get(TransferViewModel::class.java)
 
-        // Initialize RecyclerView
-        val recyclerView = view.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.recycler_contacts)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_contacts)
         initRecyclerView(recyclerView)
 
-        // Handle SearchView
-//        val searchView = view.findViewById<androidx.appcompat.widget.SearchView>(R.id.search_view)
-//        handleSearchView(searchView)
-
-        // Add New Beneficiary Button
-        val addNewBeneficiaryButton = view.findViewById<View>(R.id.btn_add_new_beneficiary)
-        addNewBeneficiaryButton.setOnClickListener {
-            // Navigate to Add Beneficiary Screen
-            // Example: findNavController().navigate(R.id.action_recipientSelectionFragment_to_addBeneficiaryFragment)
+        // Reference to the EditText directly
+        val searchInput = view.findViewById<EditText>(R.id.search_input)
+        searchInput.setOnEditorActionListener { _, _, _ ->
+            val query = searchInput.text.toString().trim()
+            filterContacts(query)
+            true
         }
 
-        // Fetch or simulate contacts
+        val addNewBeneficiaryButton: Button = view.findViewById(R.id.btn_add_new_beneficiary)
+        addNewBeneficiaryButton.setOnClickListener {
+            parentFragmentManager.commit {
+                replace(R.id.transfer_content, AddRecipientFragment()) // use the correct container ID
+                addToBackStack(null)
+            }
+        }
+
         val contacts = listOf(
             Contact("JOY", "9933793887"),
             Contact("IRVAN", "9933793843"),
-            Contact("CAROLLYN", "9933793843")
+            Contact("CAROLLYN", "9933793843"),
+            Contact("MATT", "9933793887"),
+            Contact("DEA", "9933793887"),
+            Contact("GRACE", "9933793887"),
+            Contact("JOYIII", "9933793887"),
+            Contact("VAN", "9933793843"),
+            Contact("OLLYN", "9933793843"),
+            Contact("MATT", "9933793887"),
+            Contact("DIANA", "9933793887"),
+            Contact("REY", "9933793887")
         )
-        contactAdapter.updateList(contacts) // Use updateList instead of submitList
+        allContacts = contacts
+        contactAdapter.updateList(allContacts)
+
     }
 
     private fun filterContacts(query: String) {
-        val filteredContacts = contactAdapter.contacts.filter {
-            it.name.contains(query, ignoreCase = true) || it.accountNumber.contains(query, ignoreCase = true)
+        val filteredContacts = allContacts.filter {
+            it.name.contains(query, ignoreCase = true) || it.accountNumber.contains(query)
         }
-        contactAdapter.updateList(filteredContacts) // Update the adapter with the filtered list
+        contactAdapter.updateList(filteredContacts)
     }
+
 
     private fun initRecyclerView(recyclerView: androidx.recyclerview.widget.RecyclerView) {
         contactAdapter = ContactAdapter(mutableListOf()) { contact ->
@@ -73,17 +98,5 @@ class RecipientSelectionFragment : Fragment() {
         }
     }
 
-    private fun handleSearchView(searchView: androidx.appcompat.widget.SearchView) {
-        searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                filterContacts(newText.orEmpty())
-                return true
-            }
-        })
-    }
 
 }

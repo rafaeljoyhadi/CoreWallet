@@ -35,22 +35,11 @@
             android:theme="@style/Theme.CoreWallet">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".TransferActivity"
-            android:exported="true"
-            android:label="Transfer"
-            android:theme="@style/Theme.CoreWallet" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>
