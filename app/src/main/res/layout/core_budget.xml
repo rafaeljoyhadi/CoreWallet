@@ -80,7 +80,7 @@
                         android:orientation="vertical"
                         android:background="@drawable/background_blue_shape">
 
-                        <!-- Title & Date Row -->
+                        <!-- Title, Date, and Option Button Row -->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -115,8 +115,6 @@
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:src="@drawable/menu_vertical"
-
-                                android:contentDescription="More options"
                                 android:padding="4dp"
                                 android:scaleType="centerInside"/>
 
@@ -126,17 +124,16 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:padding="20dp"
-                            android:background="@drawable/background_light_blue_shape">
+                            android:background="@drawable/background_light_blue_shape_connector">
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Shopping"
-                                android:textStyle="bold"
-                                android:layout_marginTop="16dp" />
+                                android:textStyle="bold" />
 
                             <TextView
                                 android:id="@+id/tvShoppingAmount"
@@ -147,7 +144,7 @@
                                 android:layout_marginBottom="4dp" />
 
                             <ProgressBar
-                                android:id="@+id/progressBar"
+                                android:id="@+id/progressBar1"
                                 style="?android:attr/progressBarStyleHorizontal"
                                 android:layout_width="match_parent"
                                 android:layout_height="12dp"
@@ -164,7 +161,6 @@
                                 android:layout_marginTop="16dp" />
 
                             <TextView
-
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="500.000 / 400.000"
@@ -184,6 +180,7 @@
                         </LinearLayout>
                     </LinearLayout>
 
+<!--                    Add budget Button-->
                     <Button
                         android:id="@+id/btnAddBudget"
                         android:layout_width="match_parent"
@@ -195,8 +192,8 @@
                         android:background="@drawable/background_light_blue_shape"
                         android:gravity="center"
                         android:layout_marginTop="20dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp" />
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp" />
                 </LinearLayout>
             </ScrollView>
         </LinearLayout>

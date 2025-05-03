@@ -42,10 +42,18 @@ object RetrofitInstance {
 
 
 class CoreSavings : ComponentActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.core_savings)
         window.statusBarColor = Color.parseColor("#0d5892")
+
+        val btnCoreBudget: Button = findViewById(R.id.btn_core_budget)
+        btnCoreBudget.setOnClickListener {
+            val moveIntent = Intent(this@CoreSavings, CoreBudget::class.java)
+            startActivity(moveIntent)
+        }
 
         val btnCoreGoal: Button = findViewById(R.id.btn_core_goal)
         btnCoreGoal.setOnClickListener {
@@ -75,12 +83,6 @@ class CoreSavings : ComponentActivity() {
                     Toast.makeText(this@CoreSavings, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
                 }
             })
-        }
-
-        val btnCoreBudget: Button = findViewById(R.id.btn_core_budget)
-        btnCoreBudget.setOnClickListener {
-            val moveIntent = Intent(this@CoreSavings, CoreBudget::class.java)
-            startActivity(moveIntent)
         }
 
     }
