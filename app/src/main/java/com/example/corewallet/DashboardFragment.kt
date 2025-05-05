@@ -30,7 +30,7 @@ class DashboardFragment : Fragment() {
 
 //  TODO: Replace with actual data from the API
         binding.balanceAmount.text = "Rp. 100.000"
-        // Set up click listener for the Transfer button
+        // Set up click listener for the transfer button
         binding.btnTransfer.setOnClickListener {
             val mCategoryFragment = TransferFragment()
             val mFragmentManager = parentFragmentManager as FragmentManager
