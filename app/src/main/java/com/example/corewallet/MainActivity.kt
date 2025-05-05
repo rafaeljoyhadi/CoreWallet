@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity() {
         // This code is temporary just to redirect
         val btnMoveActivity: Button = findViewById(R.id.btn_core_savings)
         btnMoveActivity.setOnClickListener {
-            val moveIntent = Intent(this@MainActivity, CoreSavings::class.java)
+            val moveIntent = Intent(this@MainActivity, CoreBudgetForm::class.java)
             startActivity(moveIntent)
         }
 

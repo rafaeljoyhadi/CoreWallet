@@ -42,8 +42,6 @@ object RetrofitInstance {
 
 
 class CoreSavings : ComponentActivity() {
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.core_savings)
