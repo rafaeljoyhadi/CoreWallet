@@ -59,7 +59,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
+            android:padding="18dp"
             android:layout_margin="12dp">
             <!--    AMOUNT OF MONEY -->
             <TextView
@@ -74,7 +74,7 @@
             <EditText
                 android:id="@+id/amount_input"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:padding="8dp"
                 android:hint="Enter Amount"
                 android:inputType="number"/>
@@ -89,14 +89,19 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/transfer_decs_input"
+                android:id="@+id/transfer_desc_input"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:layout_marginBottom="32dp"
                 android:hint="Enter Description (optional)"/>
 
-
+            <Spinner
+                android:id="@+id/spinnerTransactionCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:layout_marginBottom="32dp"
+                android:prompt="@string/transaction_category" />
 
             <Button
                 android:layout_width="match_parent"
