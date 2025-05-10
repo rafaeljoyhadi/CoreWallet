@@ -78,7 +78,7 @@
             android:id="@+id/iconBg"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@drawable/bg_rounded_icon"
+            android:background="@drawable/rectangle_111"
             android:layout_marginEnd="8dp"
             android:gravity="center">
 
@@ -86,7 +86,8 @@
                 android:id="@+id/icon"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/ic_income"/>
+                android:layout_gravity="center"
+                android:src="@drawable/ic_income" />
         </FrameLayout>
     </LinearLayout>
 

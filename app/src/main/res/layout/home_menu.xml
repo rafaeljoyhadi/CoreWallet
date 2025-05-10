@@ -47,7 +47,7 @@
                 android:id="@+id/settingsIcon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_preferences"
+                android:src="@drawable/ic_settings_custom"
                 app:tint="@android:color/white"
                 android:layout_marginEnd="8dp" />
 
@@ -55,7 +55,7 @@
                 android:id="@+id/logoutIcon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@android:drawable/ic_dialog_email"
+                android:src="@drawable/ic_settings_custom"
                 app:tint="@android:color/white" />
         </LinearLayout>
 
@@ -92,7 +92,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginStart="8dp"
-                    android:src="@android:drawable/ic_menu_copy"
+                    android:src="@drawable/ic_menu_copy"
                     app:layout_constraintStart_toEndOf="@id/accountNumberLabel"
                     app:layout_constraintTop_toTopOf="@id/accountNumberLabel" />
 
@@ -124,7 +124,7 @@
                     android:id="@+id/eyeIcon"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@android:drawable/ic_menu_view"
+                    android:src="@drawable/ic_menu_view"
                     app:layout_constraintBottom_toBottomOf="@id/balanceAmount"
                     app:layout_constraintEnd_toEndOf="parent" />
 
@@ -163,7 +163,6 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
             <!-- Quick Access -->
-            <!-- Quick Access Grid -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/quickAccessButtons"
                 android:layout_width="0dp"
@@ -176,11 +175,10 @@
                 <!-- Button Transfer -->
                 <LinearLayout
                     android:id="@+id/btnTransfer"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="85dp"
+                    android:layout_height="70dp"
                     android:layout_margin="4dp"
-                    android:background="@drawable/bg_rounded_corner"
-                    android:backgroundTint="#E3F2FD"
+                    android:background="@drawable/rectangle_98"
                     android:elevation="2dp"
                     android:gravity="center"
                     android:orientation="vertical"
@@ -189,29 +187,20 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/btnTopUp">
 
-                    <!-- Icon dan Label -->
                     <ImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:src="@drawable/ic_transfer"
                         app:tint="#1976D2" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Transfer"
-                        android:textSize="12sp"
-                        android:layout_marginTop="4dp"
-                        android:textColor="#000" />
                 </LinearLayout>
 
                 <!-- Button Top Up -->
                 <LinearLayout
                     android:id="@+id/btnTopUp"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="85dp"
+                    android:layout_height="70dp"
                     android:layout_margin="4dp"
-                    android:background="@drawable/bg_rounded_corner"
-                    android:backgroundTint="#E3F2FD"
+                    android:background="@drawable/rectangle_101"
                     android:elevation="2dp"
                     android:gravity="center"
                     android:orientation="vertical"
@@ -225,23 +214,15 @@
                         android:layout_height="40dp"
                         android:src="@drawable/ic_topup"
                         app:tint="#1976D2" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Top Up"
-                        android:textSize="12sp"
-                        android:layout_marginTop="4dp"
-                        android:textColor="#000" />
                 </LinearLayout>
 
                 <!-- Button Withdraw -->
                 <LinearLayout
                     android:id="@+id/btnWithdraw"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="85dp"
+                    android:layout_height="70dp"
                     android:layout_margin="4dp"
-                    android:background="@drawable/bg_rounded_corner"
-                    android:backgroundTint="#E3F2FD"
+                    android:background="@drawable/rectangle_100"
                     android:elevation="2dp"
                     android:gravity="center"
                     android:orientation="vertical"
@@ -255,23 +236,15 @@
                         android:layout_height="40dp"
                         android:src="@drawable/ic_withdraw"
                         app:tint="#1976D2" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Withdraw"
-                        android:textSize="12sp"
-                        android:layout_marginTop="4dp"
-                        android:textColor="#000" />
                 </LinearLayout>
 
                 <!-- Button Profile -->
                 <LinearLayout
                     android:id="@+id/btnProfile"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="85dp"
+                    android:layout_height="70dp"
                     android:layout_margin="4dp"
-                    android:background="@drawable/bg_rounded_corner"
-                    android:backgroundTint="#E3F2FD"
+                    android:background="@drawable/rectangle_99"
                     android:elevation="2dp"
                     android:gravity="center"
                     android:orientation="vertical"
@@ -285,14 +258,62 @@
                         android:layout_height="40dp"
                         android:src="@drawable/ic_profile"
                         app:tint="#1976D2" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Profile"
-                        android:textSize="12sp"
-                        android:layout_marginTop="4dp"
-                        android:textColor="#000" />
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/labelTransfer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Transfer"
+                    android:textColor="#000"
+                    android:textSize="12sp"
+                    app:layout_constraintTop_toBottomOf="@id/btnTransfer"
+                    app:layout_constraintStart_toStartOf="@id/btnTransfer"
+                    app:layout_constraintEnd_toEndOf="@id/btnTransfer"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center" />
+
+                <TextView
+                    android:id="@+id/labelTopUp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Top Up"
+                    android:textColor="#000"
+                    android:textSize="12sp"
+                    app:layout_constraintTop_toBottomOf="@id/btnTopUp"
+                    app:layout_constraintStart_toStartOf="@id/btnTopUp"
+                    app:layout_constraintEnd_toEndOf="@id/btnTopUp"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center" />
+
+
+                <TextView
+                    android:id="@+id/labelWithdraw"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Withdraw"
+                    android:textColor="#000"
+                    android:textSize="12sp"
+                    app:layout_constraintTop_toBottomOf="@id/btnWithdraw"
+                    app:layout_constraintStart_toStartOf="@id/btnWithdraw"
+                    app:layout_constraintEnd_toEndOf="@id/btnWithdraw"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center" />
+
+
+                <TextView
+                    android:id="@+id/labelProfile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Profile"
+                    android:textColor="#000"
+                    android:textSize="12sp"
+                    app:layout_constraintTop_toBottomOf="@id/btnProfile"
+                    app:layout_constraintStart_toStartOf="@id/btnProfile"
+                    app:layout_constraintEnd_toEndOf="@id/btnProfile"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
