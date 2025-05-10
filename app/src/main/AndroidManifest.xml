@@ -1,27 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
     <uses-permission android:name="android.permission.INTERNET" />
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_core_wallet_logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_core_wallet_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.CoreWallet"
         tools:targetApi="31">
         <activity
-            android:name=".CoreBudgetForm"
+            android:name=".CoreSavings"
             android:exported="true" />
         <activity
             android:name=".CoreBudget"
             android:exported="true" />
         <activity
-            android:name=".CoreSavings"
+            android:name=".CoreBudgetInput"
+            android:exported="true" />
+        <activity
+            android:name=".CoreBudgetEdit"
+            android:exported="true" />
+        <activity
+            android:name=".CoreBudgetDetail"
+            android:exported="true" />
+        <activity
+            android:name=".CoreGoal"
+            android:exported="true" />
+        <activity
+            android:name=".CoreGoalInput"
+            android:exported="true" />
+        <activity
+            android:name=".CoreGoalEdit"
+            android:exported="true" />
+        <activity
+            android:name=".CoreGoalDetail"
             android:exported="true" />
         <activity
             android:name=".MainActivity"

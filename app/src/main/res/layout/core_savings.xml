@@ -43,8 +43,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="25sp"
-                    android:layout_marginTop="10sp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="10dp"
                     android:text="coreSavings"
                     android:textSize="15sp"
                     android:textColor="@android:color/background_dark"
@@ -80,7 +80,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="25dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="15dp"
                         android:layout_marginEnd="10dp"
                         android:text="coreBudget"
                         android:textColor="@android:color/background_dark"
@@ -92,7 +92,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="25dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="10dp"
                         android:text="Set your budget to make sure you do not overspend and stay in control of your finances. Track you expenses, plan ahead, and make smarter financial decisions effrortlessly."
                         android:textColor="@android:color/background_dark"
                         android:textSize="9sp"/>
@@ -134,19 +134,18 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="25dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="15dp"
                         android:layout_marginEnd="10dp"
                         android:text="coreGoal"
                         android:textColor="@android:color/background_dark"
                         android:textSize="25sp"
                         android:textStyle="bold"/>
 
-
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="25dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="10dp"
                         android:text="Set a goal to motivate you to save for what matters most. Whether it's a dream vacation, a new gadget or an emergency fund, track your progress and stay on course toward achieving your financial goals"
                         android:textColor="@android:color/background_dark"
                         android:textSize="9sp"/>

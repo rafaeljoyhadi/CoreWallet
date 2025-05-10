@@ -8,9 +8,9 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Spinner
 import androidx.activity.ComponentActivity
-import androidx.appcompat.app.AppCompatActivity
 
-class CoreBudgetEdit : AppCompatActivity() {
+class CoreBudgetInput : ComponentActivity() {
+
     private lateinit var container: LinearLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,7 +42,7 @@ class CoreBudgetEdit : AppCompatActivity() {
                 setPadding(12,12,12,12)
             }
             adapter = ArrayAdapter.createFromResource(
-                this@CoreBudgetEdit,
+                this@CoreBudgetInput,
                 R.array.categories_cb_form,
                 android.R.layout.simple_spinner_item
             ).also { adapter ->
@@ -80,5 +80,4 @@ class CoreBudgetEdit : AppCompatActivity() {
     private fun Int.dpToPx(): Int {
         return (this * resources.displayMetrics.density).toInt()
     }
-
 }
