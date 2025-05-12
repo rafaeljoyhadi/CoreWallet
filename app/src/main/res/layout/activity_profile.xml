@@ -75,15 +75,24 @@
                     android:textSize="14sp"/>
             </FrameLayout>
 
-
             <!-- Display Name -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
                 android:text="Display Name"
                 android:textColor="@android:color/black"
                 android:textSize="14sp"
                 android:paddingBottom="8dp"/>
+
+            <EditText
+                android:id="@+id/editDisplayName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:background="@android:color/transparent"
+                android:textColor="@android:color/black"
+                android:text="Your Name"/>
 
             <View
                 android:layout_width="match_parent"
@@ -95,10 +104,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Password (Hide dulu sampe di edit)"
+                android:text="Password"
                 android:textColor="@android:color/black"
                 android:textSize="14sp"
                 android:paddingBottom="8dp"/>
+
+            <EditText
+                android:id="@+id/editPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:enabled="false"
+                android:background="@android:color/transparent"
+                android:textColor="@android:color/black"
+                android:text="******"/>
 
             <View
                 android:layout_width="match_parent"
@@ -115,6 +134,16 @@
                 android:textSize="14sp"
                 android:paddingBottom="8dp"/>
 
+            <EditText
+                android:id="@+id/editEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:enabled="false"
+                android:background="@android:color/transparent"
+                android:textColor="@android:color/black"
+                android:text="youremail@example.com"/>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -125,10 +154,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="PIN (Hide dulu sampe di edit)"
+                android:text="PIN"
                 android:textColor="@android:color/black"
                 android:textSize="14sp"
                 android:paddingBottom="8dp"/>
+
+            <EditText
+                android:id="@+id/editPin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberPassword"
+                android:enabled="false"
+                android:background="@android:color/transparent"
+                android:textColor="@android:color/black"
+                android:text="****"/>
 
             <View
                 android:layout_width="match_parent"
@@ -137,6 +176,7 @@
 
             <!-- Edit Profile Button -->
             <Button
+                android:id="@+id/btnEditProfile"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="70dp"
@@ -146,9 +186,6 @@
                 android:textColor="@android:color/white"
                 android:gravity="center"
                 android:textStyle="bold"/>
-
-
         </LinearLayout>
     </ScrollView>
-
 </LinearLayout>

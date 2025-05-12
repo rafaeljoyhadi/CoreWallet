@@ -34,12 +34,10 @@ class LoginActivity : AppCompatActivity() {
         passwordInput = findViewById(R.id.loginPasswordInput)
         loginButton = findViewById(R.id.loginButton)
         goToRegister = findViewById(R.id.goToRegister)
-        topUpTestButton = findViewById(R.id.topUpTestButton)
     }
 
     private fun setupListeners() {
         loginButton.setOnClickListener { performLogin() }
-//        topUpTestButton.setOnClickListener { performTopUp() }
         goToRegister.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
             finish()
@@ -86,30 +84,6 @@ class LoginActivity : AppCompatActivity() {
         })
 
     }
-
-//    private fun performTopUp() {
-//        val topUpRequest = TopupRequest(500.0)
-//
-//        ApiClient.apiService.topUp(topUpRequest).enqueue(object : Callback<TopupResponse> {
-//            override fun onResponse(call: Call<TopupResponse>, response: Response<TopupResponse>) {
-//                if (response.isSuccessful) {
-//                    val topupMessage = response.body()?.message
-//                    Toast.makeText(
-//                        this@LoginActivity,
-//                        "Topup Success: $topupMessage",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                } else {
-//                    showToast("Topup failed or unauthorized")
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<TopupResponse>, t: Throwable) {
-//                showToast("Topup error: ${t.message}")
-//            }
-//        })
-//
-//    }
 
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
