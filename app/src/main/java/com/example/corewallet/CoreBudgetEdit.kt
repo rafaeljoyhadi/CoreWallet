@@ -6,7 +6,9 @@ import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.Spinner
+import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.appcompat.app.AppCompatActivity
 
@@ -22,12 +24,27 @@ class CoreBudgetEdit : AppCompatActivity() {
         container = findViewById(R.id.container)
 
         // Mengakses ImageView sebagai tombol
-        val btnAddMoreCategories = findViewById<ImageView>(R.id.btnAddMoreCategories)
 
         // Menangani klik pada tombol
-        btnAddMoreCategories.setOnClickListener {
-            addNewSection()
-        }
+
+
+        // Terima data dari Intent
+        val shoppingCategory = intent.getStringExtra("shoppingCategory")
+        val shoppingAmount = intent.getStringExtra("shoppingAmount")
+        val shoppingProgress = intent.getIntExtra("shoppingProgress", 0)
+
+        val transportationCategory = intent.getStringExtra("transportationCategory")
+        val transportationAmount = intent.getStringExtra("transportationAmount")
+        val transportationProgress = intent.getIntExtra("transportationProgress", 0)
+
+        // Isi data ke TextView dan ProgressBar
+        val tvShoppingCategory = findViewById<TextView>(R.id.etBudgetName)
+        val tvShoppingAmount = findViewById<TextView>(R.id.etBudgetAmount)
+
+        // Set nilai untuk Shopping
+        tvShoppingCategory.text = shoppingCategory
+        tvShoppingAmount.text = shoppingAmount
+
 
     }
 

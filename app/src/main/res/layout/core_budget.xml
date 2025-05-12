@@ -74,7 +74,7 @@
                     android:gravity="center_horizontal">
 
                     <LinearLayout
-                        android:id="@+id/budgetSection"
+                        android:id="@+id/budget1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"

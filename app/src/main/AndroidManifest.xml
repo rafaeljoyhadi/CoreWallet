@@ -16,7 +16,6 @@
         <activity
             android:name=".RegisterActivity"
             android:exported="true"
-            android:label="@string/title_activity_register"
             android:theme="@style/Theme.CoreWallet" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

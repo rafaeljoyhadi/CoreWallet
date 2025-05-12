@@ -2,6 +2,7 @@ package com.example.corewallet
 
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -22,8 +23,82 @@ import androidx.appcompat.app.AppCompatActivity
 import java.text.NumberFormat
 import java.util.Locale
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
 
 class CoreBudget : AppCompatActivity() {
+
+     fun showCustomPopup(anchorView: View) {
+        val inflater = LayoutInflater.from(this)
+        val popupView = inflater.inflate(R.layout.popup_menu_core_budget, null, false)
+        val popupWindow = PopupWindow(
+            popupView,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            true
+        )
+
+        // Setting option button
+        popupWindow.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        popupWindow.elevation = 30f
+        popupWindow.showAsDropDown(anchorView, -178, -5, Gravity.START)
+
+        // Fungsi Edit Button
+        popupView.findViewById<View>(R.id.itemEdit).setOnClickListener {
+
+            val shoppingCategory = "Shopping"
+            val shoppingAmount = "Rp. 400.000"
+            val shoppingProgress = 40
+
+            val transportationCategory = "Transportation"
+            val transportationAmount = "Rp. 600.000"
+            val transportationProgress = 60
+
+            //Membawa Value ke CoreBudgetEdit
+            findViewById<View>(R.id.budget1).setOnClickListener {
+                // Siapkan data dalam HashMap
+                val data = HashMap<String, Any>()
+                data["shoppingCategory"] = shoppingCategory
+                data["shoppingAmount"] = shoppingAmount
+                data["shoppingProgress"] = shoppingProgress
+
+                data["transportationCategory"] = transportationCategory
+                data["transportationAmount"] = transportationAmount
+                data["transportationProgress"] = transportationProgress
+
+                // Panggil fungsi untuk membuka halaman berikutnya
+                navigateToCoreBudgetEdit(this, CoreBudgetEdit::class.java, data)
+            }
+//            val moveIntent = Intent(this@CoreBudget, CoreBudgetEdit::class.java)
+//            startActivity(moveIntent)
+        }
+
+        // Fungsi Delete Button
+        popupView.findViewById<View>(R.id.itemDelete).setOnClickListener {
+            Toast.makeText(this, "Delete clicked", Toast.LENGTH_SHORT).show()
+            popupWindow.dismiss()
+        }
+    }
+
+    private fun navigateToCoreBudgetEdit(activity: AppCompatActivity, nextActivityClass: Class<*>, data: HashMap<String, Any>) {
+        // Membuat Intent untuk membuka aktivitas berikutnya
+        val intent = Intent(activity, nextActivityClass)
+
+        // Menambahkan data ke Intent
+        for ((key, value) in data) {
+            when (value) {
+                is String -> intent.putExtra(key, value)
+                is Int -> intent.putExtra(key, value)
+                is Boolean -> intent.putExtra(key, value)
+                is Float -> intent.putExtra(key, value)
+                is Double -> intent.putExtra(key, value)
+                else -> throw IllegalArgumentException("Unsupported data type for key: $key")
+            }
+        }
+
+        // Memulai aktivitas baru
+        activity.startActivity(intent)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.core_budget)
@@ -33,6 +108,12 @@ class CoreBudget : AppCompatActivity() {
         val btnOverflow = findViewById<View>(R.id.btnOverflow)
         btnOverflow.setOnClickListener {
             showCustomPopup(it)
+        }
+
+        val list1 = findViewById<View>(R.id.budget1)
+        list1.setOnClickListener {
+            val moveIntent = Intent(this@CoreBudget, CoreBudgetDetail::class.java)
+            startActivity(moveIntent)
         }
 
         //Data Dummy
@@ -49,6 +130,25 @@ class CoreBudget : AppCompatActivity() {
 
         val tvShoppingAmount = findViewById<TextView>(R.id.tvShoppingAmount)
         tvShoppingAmount.text = "${formatter.format(savedAmount)} / ${formatter.format(targetAmount)}"
+
+        if (savedAmount > targetAmount) {
+            // Ganti drawable progress bar dengan progress_bar_full.xml
+            progressBar.progressDrawable = ContextCompat.getDrawable(this, R.drawable.progress_bar_full)
+
+            // Ubah warna teks menjadi merah (#FF0000)
+            tvShoppingAmount.setTextColor(Color.parseColor("#FF0000"))
+
+            // Tambahkan boldness ke teks
+            tvShoppingAmount.setTypeface(null, Typeface.BOLD)
+        } else {
+            // Kembalikan warna teks ke default (misalnya hitam)
+            tvShoppingAmount.setTextColor(Color.BLACK)
+
+            // Hapus boldness (kembalikan ke normal)
+            tvShoppingAmount.setTypeface(null, Typeface.NORMAL)
+        }
+
+
 
 
         // Button Add Budget
@@ -104,31 +204,5 @@ class CoreBudget : AppCompatActivity() {
 //        popupMenu.show()
 //    }
 
-    private fun showCustomPopup(anchorView: View) {
-        val inflater = LayoutInflater.from(this)
-        val popupView = inflater.inflate(R.layout.popup_menu_core_budget, null, false)
-        val popupWindow = PopupWindow(
-            popupView,
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            true
-        )
 
-        // Setting option button
-        popupWindow.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        popupWindow.elevation = 30f
-        popupWindow.showAsDropDown(anchorView, -178, -5, Gravity.START)
-
-        // Fungsi Edit Button
-        popupView.findViewById<View>(R.id.itemEdit).setOnClickListener {
-            val moveIntent = Intent(this@CoreBudget, CoreBudgetEdit::class.java)
-            startActivity(moveIntent)
-        }
-
-        // Fungsi Delete Button
-        popupView.findViewById<View>(R.id.itemDelete).setOnClickListener {
-            Toast.makeText(this, "Delete clicked", Toast.LENGTH_SHORT).show()
-            popupWindow.dismiss()
-        }
-    }
 }

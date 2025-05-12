@@ -73,15 +73,13 @@
                     android:inputType="text"
                     android:padding="12dp" />
 
-                <!-- Input Field: Valid from -->
-                <EditText
-                    android:id="@+id/etValidFrom"
+                <CalendarView
+                    android:id="@+id/calendarView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:hint="Valid from"
-                    android:inputType="date"
-                    android:padding="12dp" />
+                    android:firstDayOfWeek="2"
+                    android:minDate="1672531200000"
+                    android:maxDate="1704067200000"  />
 
                 <!-- Input Field: Valid until -->
                 <EditText
@@ -106,15 +104,6 @@
                         android:text="Categories"
                         android:textColor="@android:color/black"
                         android:textStyle="bold" />
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1" />
-                    <ImageView
-                        android:id="@+id/btnAddMoreCategories"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_add" />
                 </LinearLayout>
 
                 <ScrollView
