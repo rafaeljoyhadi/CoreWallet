@@ -1,7 +1,9 @@
 package com.example.corewallet
 
+import android.app.DatePickerDialog
 import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ImageView
@@ -11,6 +13,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.appcompat.app.AppCompatActivity
+import java.util.Calendar
 
 class CoreBudgetEdit : AppCompatActivity() {
     private lateinit var container: LinearLayout
@@ -24,6 +27,30 @@ class CoreBudgetEdit : AppCompatActivity() {
         container = findViewById(R.id.container)
 
         // Mengakses ImageView sebagai tombol
+        val buttonPickDate = findViewById<View>(R.id.buttonPickDate)
+
+        // Listener untuk membuka DatePickerDialog
+        buttonPickDate.setOnClickListener {
+            // Ambil tanggal saat ini sebagai default
+            val calendar = Calendar.getInstance()
+            val year = calendar.get(Calendar.YEAR)
+            val month = calendar.get(Calendar.MONTH)
+            val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+            // Tampilkan DatePickerDialog
+            val datePickerDialog = DatePickerDialog(
+                this,
+                { _, selectedYear, selectedMonth, selectedDay ->
+                    // Format tanggal ke string
+                    val selectedDate = "$selectedDay/${selectedMonth + 1}/$selectedYear"
+                    println("Tanggal yang dipilih: $selectedDate")
+                },
+                year,
+                month,
+                day
+            )
+            datePickerDialog.show()
+        }
 
         // Menangani klik pada tombol
 

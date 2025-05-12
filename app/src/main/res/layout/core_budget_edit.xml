@@ -51,6 +51,7 @@
             </LinearLayout>
         </LinearLayout>
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -73,13 +74,11 @@
                     android:inputType="text"
                     android:padding="12dp" />
 
-                <CalendarView
-                    android:id="@+id/calendarView"
+                <Button
+                    android:id="@+id/buttonPickDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:firstDayOfWeek="2"
-                    android:minDate="1672531200000"
-                    android:maxDate="1704067200000"  />
+                    android:text=" " />
 
                 <!-- Input Field: Valid until -->
                 <EditText
