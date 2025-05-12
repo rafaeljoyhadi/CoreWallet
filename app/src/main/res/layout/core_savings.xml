@@ -22,7 +22,7 @@
             <ImageView
                 android:layout_width="110dp"
                 android:layout_height="20dp"
-                android:src="@drawable/corewallet_icon_raw" />
+                android:src="@drawable/img_corewallet_icon_raw" />
 
         </LinearLayout>
     </LinearLayout>
@@ -101,7 +101,7 @@
                 android:layout_gravity="center_vertical"
                 android:paddingEnd="19dp">
                 <Button
-                    android:background="@drawable/arrow_forward"
+                    android:background="@drawable/ic_arrow_forward"
                     android:layout_width="40dp"
                     android:layout_height="37dp"
                     android:layout_gravity="center_vertical"/>
@@ -154,7 +154,7 @@
                 android:layout_gravity="center_vertical"
                 android:paddingEnd="19dp">
                 <Button
-                    android:background="@drawable/arrow_forward"
+                    android:background="@drawable/ic_arrow_forward"
                     android:layout_width="40dp"
                     android:layout_height="37dp"
                     android:layout_gravity="center_vertical"/>

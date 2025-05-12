@@ -28,7 +28,7 @@
                 <ImageView
                     android:layout_width="110dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/corewallet_icon_raw" />
+                    android:src="@drawable/img_corewallet_icon_raw" />
             </LinearLayout>
         </LinearLayout>
 
@@ -80,7 +80,7 @@
                     android:layout_width="370dp"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:background="@drawable/background_blue_shape">
+                    android:background="@drawable/rounded_corners_rectangle_tb">
 
                     <!-- Title, Date, and Option Button Row -->
                     <LinearLayout
@@ -89,7 +89,7 @@
                         android:orientation="horizontal"
                         android:padding="10dp"
 
-                        android:background="@drawable/background_blue_shape">
+                        android:background="@drawable/background_light_blue_shape_connector">
 
                         <!-- Title Section -->
                         <TextView
@@ -116,7 +116,7 @@
                             android:id="@+id/btnOverflow"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
-                            android:src="@drawable/menu_vertical"
+                            android:src="@drawable/ic_menu_vertical"
                             android:padding="4dp"
                             android:scaleType="centerInside"/>
 
@@ -164,7 +164,7 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:background="@drawable/background_light_blue_shape"
+                    android:background="@drawable/rounded_corners_rectangle_pb"
                     android:layout_marginTop="20dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp">
