@@ -1,8 +1,11 @@
 package com.example.corewallet.api
 
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Path
 
 data class LoginRequest(val username: String, val password: String)
 
@@ -35,4 +38,8 @@ interface AuthService {
 
     @POST("/users/logout")
     fun logout(): Call<UserResponse>
+
+    @PUT("/api/users/profile")
+    fun updateProfile(@Body request: UpdateProfileRequest): Call<ResponseBody>
+
 }

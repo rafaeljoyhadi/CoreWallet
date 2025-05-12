@@ -42,7 +42,9 @@
         android:exported="true"
         android:label="Home"
         android:theme="@style/Theme.CoreWallet"/>
-
+    <activity
+        android:name=".ProfileActivity"
+        android:exported="true" />
     <activity
         android:name=".CoreBudgetForm"
         android:exported="true" />
