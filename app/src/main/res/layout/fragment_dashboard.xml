@@ -83,11 +83,22 @@
                     android:id="@+id/accountNumberLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Account Number - 251 230 5088"
+                    android:text="Account Number - "
                     android:textSize="14sp"
                     android:textColor="#000000"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/accountNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="251 230 5088"
+                    android:textSize="14sp"
+                    android:textColor="#000000"
+                    app:layout_constraintStart_toEndOf="@id/accountNumberLabel"
+                    app:layout_constraintTop_toTopOf="parent" />
+
 
 <!--                <ImageView-->
 <!--                    android:id="@+id/copyIcon"-->

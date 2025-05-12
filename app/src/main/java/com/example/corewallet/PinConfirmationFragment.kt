@@ -31,7 +31,6 @@ class PinConfirmationFragment : Fragment() {
 
         pinInput = StringBuilder()
 
-        // Reference to dots
         dots = listOf(
             view.findViewById(R.id.dot_1),
             view.findViewById(R.id.dot_2),
@@ -41,43 +40,30 @@ class PinConfirmationFragment : Fragment() {
             view.findViewById(R.id.dot_6)
         )
 
-        // Show number pad
-        showKeyboard(view)
+        val hiddenEditText = view.findViewById<EditText>(R.id.hiddenEditText)
+        setupKeyboard(hiddenEditText)
     }
 
-    private fun showKeyboard(parentView: View) {
-        val inputField = EditText(requireContext())
-        inputField.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_PASSWORD
-        inputField.imeOptions = EditorInfo.IME_FLAG_NO_EXTRACT_UI
-        inputField.isFocusableInTouchMode = true
-        inputField.visibility = View.INVISIBLE
-        (parentView as ViewGroup).addView(inputField)
-        inputField.requestFocus()
-
+    private fun setupKeyboard(editText: EditText) {
+        editText.requestFocus()
         val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.showSoftInput(inputField, InputMethodManager.SHOW_IMPLICIT)
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
 
-        inputField.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                // Do nothing
-            }
+        editText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {}
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 s?.let {
-                    if (it.length > pinInput.length) {
-                        if (pinInput.length < 6) {
-                            pinInput.append(it[it.length - 1])
-                            updateDots()
-                        }
-                    } else if (it.length < pinInput.length) {
+                    if (it.length > pinInput.length && pinInput.length < 6) {
+                        pinInput.append(it.last())
+                    } else if (it.length < pinInput.length && pinInput.isNotEmpty()) {
                         pinInput.deleteAt(pinInput.length - 1)
-                        updateDots()
                     }
 
-                    // Clear input field content to allow continuous input
-                    inputField.text?.clear()
+                    editText.text?.clear() // Reset to keep capturing single digit
+                    updateDots()
 
                     if (pinInput.length == 6) {
                         onPinEntered(pinInput.toString())
