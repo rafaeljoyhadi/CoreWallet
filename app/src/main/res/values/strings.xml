@@ -2,13 +2,6 @@
     <string name="app_name">coreWallet</string>
     <string name="core_savings">Core Savings</string>
     <string name="title_activity_register">RegisterActivity</string>
-
-    <string-array name="categories_cb_form">
-        <item>Lifestyle</item>
-        <item>Traveling</item>
-        <item>Shopping</item>
-    </string-array>
-
     <string name="title_activity_transfer">TransferActivity</string>
 
     <string name="transfer">TRANSFER</string>
@@ -22,4 +15,9 @@
     <string name="coresaving">coreSavings</string>
     <string name="user_account">Account</string>
 
+    <string-array name="categories_cb_form">
+        <item>Lifestyle</item>
+        <item>Traveling</item>
+        <item>Shopping</item>
+    </string-array>
 </resources>

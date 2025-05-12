@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#01579B">
+    android:background="#01579B"
+    android:fitsSystemWindows="true">
 
     <!-- Header -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,7 +20,8 @@
             android:id="@+id/appName"
             android:layout_width="110dp"
             android:layout_height="20dp"
-            android:src="@drawable/corewallet_icon_raw"
+            android:contentDescription="Icon"
+            android:src="@drawable/img_corewallet_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,36 +29,37 @@
             android:id="@+id/helloText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:text="HELLO, JOY"
             android:textColor="@android:color/white"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@id/appName"
-            app:layout_constraintTop_toBottomOf="@id/appName"
-            android:layout_marginTop="4dp" />
+            app:layout_constraintTop_toBottomOf="@id/appName" />
 
         <LinearLayout
             android:id="@+id/topIconsContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:gravity="end"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/settingsIcon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_preferences"
-                app:tint="@android:color/white"
-                android:layout_marginEnd="8dp" />
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_settings"
+                app:tint="@android:color/white" />
 
             <ImageView
                 android:id="@+id/logoutIcon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@android:drawable/ic_dialog_email"
+                android:src="@drawable/ic_logout"
                 app:tint="@android:color/white" />
+
         </LinearLayout>
 
 
@@ -64,13 +67,13 @@
         <androidx.cardview.widget.CardView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardBackgroundColor="@android:color/white"
             app:cardCornerRadius="16dp"
             app:cardElevation="6dp"
-            app:cardBackgroundColor="@android:color/white"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@id/helloText"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/helloText">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -82,8 +85,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Account Number - 251 230 5088"
-                    android:textSize="14sp"
                     android:textColor="#000000"
+                    android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -92,7 +95,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginStart="8dp"
-                    android:src="@android:drawable/ic_menu_copy"
+                    android:src="@drawable/ic_copy"
                     app:layout_constraintStart_toEndOf="@id/accountNumberLabel"
                     app:layout_constraintTop_toTopOf="@id/accountNumberLabel" />
 
@@ -100,31 +103,31 @@
                     android:id="@+id/activeBalanceLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:text="Active Balance"
-                    android:textSize="12sp"
                     android:textColor="#999999"
-                    app:layout_constraintTop_toBottomOf="@id/accountNumberLabel"
+                    android:textSize="12sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginTop="8dp" />
+                    app:layout_constraintTop_toBottomOf="@id/accountNumberLabel" />
 
                 <TextView
                     android:id="@+id/balanceAmount"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="IDR ●●●●●●"
-                    android:textSize="18sp"
-                    android:textColor="#000000"
-                    android:textStyle="bold"
                     android:layout_marginTop="8dp"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="IDR ●●●●●●"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
                     app:layout_constraintEnd_toStartOf="@id/eyeIcon"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/activeBalanceLabel" />
 
                 <ImageView
                     android:id="@+id/eyeIcon"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@android:drawable/ic_menu_view"
+                    android:src="@drawable/ic_menu_view"
                     app:layout_constraintBottom_toBottomOf="@id/balanceAmount"
                     app:layout_constraintEnd_toEndOf="parent" />
 
@@ -136,13 +139,13 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/header"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:cardCornerRadius="32dp"
         app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="32dp"
         app:cardElevation="0dp"
         app:cardPreventCornerOverlap="false"
-        app:cardUseCompatPadding="false">
+        app:cardUseCompatPadding="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/bodyContainer"
@@ -156,34 +159,37 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Quick Access"
-                android:textStyle="bold"
-                android:textSize="16sp"
                 android:textColor="#000000"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <!-- Quick Access Grid (gunakan GridLayout atau RecyclerView di tahap berikutnya) -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/quickAccessButtons"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                app:layout_constraintTop_toBottomOf="@id/quickAccessLabel"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:layout_constraintTop_toBottomOf="@id/quickAccessLabel">
 
-                <!-- Button Transfer -->
+                <!-- First Button: Transfer -->
                 <LinearLayout
+                    android:id="@+id/transferButton"
                     android:layout_width="71dp"
                     android:layout_height="76dp"
                     android:layout_margin="4dp"
-                    android:layout_weight="1"
                     android:background="@drawable/bg_rounded_corner"
                     android:backgroundTint="#E3F2FD"
                     android:elevation="2dp"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:padding="8dp">
+                    android:padding="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/topUpButton"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
                         android:layout_width="40dp"
@@ -200,25 +206,22 @@
                         android:textSize="12sp" />
                 </LinearLayout>
 
-                <!-- Button Top Up -->
-
-                <!-- Button Withdraw -->
-
-                <!-- Button Profile -->
-
+                <!-- Second Button: Top Up -->
                 <LinearLayout
+                    android:id="@+id/topUpButton"
                     android:layout_width="71dp"
                     android:layout_height="76dp"
                     android:layout_margin="4dp"
-                    android:layout_weight="1"
                     android:background="@drawable/bg_rounded_corner"
                     android:backgroundTint="#E3F2FD"
                     android:elevation="2dp"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="8dp"
-                    tools:layout_editor_absoluteX="102dp"
-                    tools:layout_editor_absoluteY="0dp">
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/withdrawButton"
+                    app:layout_constraintStart_toEndOf="@id/transferButton"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
                         android:layout_width="40dp"
@@ -236,18 +239,20 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/withdrawButton"
                     android:layout_width="71dp"
                     android:layout_height="76dp"
                     android:layout_margin="4dp"
-                    android:layout_weight="1"
                     android:background="@drawable/bg_rounded_corner"
                     android:backgroundTint="#E3F2FD"
                     android:elevation="2dp"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="8dp"
-                    tools:layout_editor_absoluteX="205dp"
-                    tools:layout_editor_absoluteY="0dp">
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/profileButton"
+                    app:layout_constraintStart_toEndOf="@id/topUpButton"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
                         android:layout_width="40dp"
@@ -264,24 +269,27 @@
                         android:textSize="12sp" />
                 </LinearLayout>
 
+                <!-- Fourth Button: Profile -->
                 <LinearLayout
+                    android:id="@+id/profileButton"
                     android:layout_width="71dp"
                     android:layout_height="76dp"
                     android:layout_margin="4dp"
-                    android:layout_weight="1"
                     android:background="@drawable/bg_rounded_corner"
                     android:backgroundTint="#E3F2FD"
                     android:elevation="2dp"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="8dp"
-                    tools:layout_editor_absoluteX="307dp"
-                    tools:layout_editor_absoluteY="0dp">
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/withdrawButton"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:src="@drawable/ic_history"
+                        android:src="@drawable/ic_account"
                         app:tint="#1976D2" />
 
                     <TextView
@@ -292,8 +300,6 @@
                         android:textColor="#000"
                         android:textSize="12sp" />
                 </LinearLayout>
-
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!-- Notification Title -->
@@ -301,13 +307,13 @@
                 android:id="@+id/notificationLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
                 android:text="Notification"
+                android:textColor="#000000"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="#000000"
-                android:layout_marginTop="32dp"
-                app:layout_constraintTop_toBottomOf="@id/quickAccessButtons"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/quickAccessButtons" />
 
             <!-- Notification Box -->
             <com.google.android.material.card.MaterialCardView

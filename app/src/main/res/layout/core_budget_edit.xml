@@ -113,15 +113,11 @@
                         android:textColor="@android:color/black" />
 
                     <!-- Add Button -->
-                    <ImageButton
+                    <ImageView
                         android:id="@+id/btnAddCategory"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/baseline_arrow_drop_down_circle_24"
-
-                        android:contentDescription="Add Category"
-                        android:padding="8dp"
-                        android:layout_gravity="end" />
+                        android:src="@drawable/ic_add" />
                 </LinearLayout>
 
                 <!-- Spinner: Select Category -->
@@ -129,7 +125,6 @@
                     android:id="@+id/spinnerCategory"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:padding="12dp"
                     android:entries="@array/categories_cb_form"
                     android:layout_marginBottom="16dp" />
