@@ -28,6 +28,7 @@
             </intent-filter>
         </activity>
 
+
         <activity
             android:name=".CoreBudgetForm"
             android:exported="true" />

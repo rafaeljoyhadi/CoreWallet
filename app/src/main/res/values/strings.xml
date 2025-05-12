@@ -2,27 +2,23 @@
     <string name="app_name">coreWallet</string>
     <string name="core_savings">Core Savings</string>
 
-    <string name="transaction_category">Transaction Category</string>
     <string-array name="categories_cb_form">
         <item>Lifestyle</item>
         <item>Traveling</item>
         <item>Shopping</item>
     </string-array>
     <string name="title_activity_register">RegisterActivity</string>
-    <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_transfer">TransferActivity</string>
 
-    <!--    TRANSFER MENU   -->
     <string name="transfer">TRANSFER</string>
     <string name="contact">CONTACTS</string>
     <string name="search_ca">SEARCH CORE ACCOUNT</string>
-    <string name="new_beneficiary">ADD NEW BENEFICIARY</string>
 
-    <!--    NAV BAR     -->
+<!--    NAV BAR     -->
     <string name="home">Home</string>
     <string name="history">History</string>
     <string name="qr">QRIS</string>
-    <string name="coresavings">coreSavings</string>
+    <string name="coresaving">coreSavings</string>
     <string name="user_account">Account</string>
 
     <!--    CONFIRMATIONS  & QUESTIONS   -->
