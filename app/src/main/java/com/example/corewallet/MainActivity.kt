@@ -1,11 +1,7 @@
 package com.example.corewallet
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import android.graphics.Color
-import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,15 +16,32 @@ import com.example.corewallet.ui.theme.CoreWalletTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        window.statusBarColor = Color.parseColor("#0d5892")
-
-        val transferButton = findViewById<View>(R.id.transfer_btn)
-
-        // Set a click listener to navigate to TransferActivity
-        transferButton.setOnClickListener {
-            val intent = Intent(this, TransferActivity::class.java)
-            startActivity(intent) // Start the TransferActivity
+        enableEdgeToEdge()
+        setContent {
+            CoreWalletTheme {
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    Greeting(
+                        name = "Android",
+                        modifier = Modifier.padding(innerPadding)
+                    )
+                }
+            }
         }
+    }
+}
+
+@Composable
+fun Greeting(name: String, modifier: Modifier = Modifier) {
+    Text(
+        text = "Hello $name!",
+        modifier = modifier
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun GreetingPreview() {
+    CoreWalletTheme {
+        Greeting("Android")
     }
 }

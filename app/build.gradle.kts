@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    id("org.jetbrains.kotlin.plugin.parcelize")
 }
 
 android {
@@ -43,11 +42,6 @@ android {
 
 dependencies {
     // Core Android Libraries
-    implementation(libs.androidx.recyclerview)
-    implementation(libs.androidx.cardview)
-    implementation(libs.circleimageview)
-    implementation(libs.glide)
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.ktx.legacy) // if you still need this older version
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -66,10 +60,6 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.material)
-    implementation(libs.androidx.activity)
-    implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.navigation.fragment.ktx)
-    implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.material.legacy) // remove if not needed
 
     // Retrofit

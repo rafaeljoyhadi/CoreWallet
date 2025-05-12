@@ -40,15 +40,11 @@ object RetrofitInstance {
     }
 }
 
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 
 class CoreSavings : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.core_savings)
+        setContentView(R.layout.activity_core_savings)
         window.statusBarColor = Color.parseColor("#0d5892")
 
         val btnCoreGoal: Button = findViewById(R.id.btn_core_goal)
