@@ -13,7 +13,7 @@ import androidx.activity.ComponentActivity
 class CoreGoalDetail : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.core_goal_edit)
+        setContentView(R.layout.core_goal_detail)
         window.statusBarColor = Color.parseColor("#0d5892")
 
     }

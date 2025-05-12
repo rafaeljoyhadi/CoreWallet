@@ -60,72 +60,102 @@
             android:layout_marginTop="-60dp"
             android:background="@color/white">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
                 android:padding="16dp">
 
-                <!-- Section 1: Title -->
+                <!-- Input Field: Valid until -->
                 <EditText
-                    android:id="@+id/etGoalName"
-                    android:layout_width="0dp"
+                    android:id="@+id/etGoalPlanName"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Enter title"
-                    android:inputType="textPersonName"
-                    android:textSize="18sp"
-                    android:textColor="@android:color/black"
-                    android:padding="12dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginBottom="16dp" />
+                    android:layout_marginBottom="16dp"
+                    android:hint="Plan Name"
+                    android:inputType="text"
+                    android:padding="12dp" />
 
-                <!-- Section 2: Date -->
-                <EditText
-                    android:id="@+id/etDate"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:hint="Enter date (e.g., 25 December 2025)"
-                    android:inputType="date"
-                    android:textSize="16sp"
-                    android:textColor="@android:color/black"
-                    android:padding="12dp"
-                    app:layout_constraintTop_toBottomOf="@id/etGoalName"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginBottom="16dp" />
-
-                <!-- Section 3: Amount -->
-                <EditText
-                    android:id="@+id/etAmount"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:hint="Enter amount"
-                    android:inputType="numberDecimal"
-                    android:textSize="18sp"
-                    android:textColor="@android:color/black"
-                    android:padding="12dp"
-                    app:layout_constraintTop_toBottomOf="@id/etDate"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginBottom="24dp" />
-
-                <!-- Section 4: Buttons -->
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <!-- Wrapper untuk Label dan Tanggal -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <!-- Kolom Kiri (Label dan Tanggal) -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <!-- Label -->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Target Date"
+                                android:textStyle="bold"
+                                android:textSize="18sp" />
+
+                            <!-- TextView untuk Menampilkan Tanggal yang Dipilih -->
+                            <TextView
+                                android:id="@+id/tvSelectedDateStart"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Tanggal belum dipilih"
+                                android:textColor="#FF0000"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+
+                        <ImageButton
+                            android:id="@+id/buttonPickDateStart"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:src="@drawable/ic_calendar"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:contentDescription="Pilih Tanggal"
+                            android:layout_marginStart="16dp"
+                            android:padding="8dp"
+                            android:scaleType="fitCenter"
+                            android:adjustViewBounds="true" />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+
+                <!-- Input Field: Valid until -->
+                <EditText
+                    android:id="@+id/etGoalAmount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:hint="Enter Amount"
+                    android:inputType="text"
+                    android:padding="12dp" />
+
+                <!-- Save Button -->
+
+                <LinearLayout
+                    android:id="@+id/actionButtons"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="20dp"
                     android:gravity="center"
-                    app:layout_constraintTop_toBottomOf="@id/etAmount"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/headerSection"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent">
 
-                    <!-- Delete Button -->
+                    <!-- Add Money Button -->
                     <Button
-                        android:id="@+id/btnDelete"
+                        android:id="@+id/btnAddMoney"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -135,9 +165,9 @@
                         android:padding="12dp"
                         android:layout_marginEnd="8dp" />
 
-                    <!-- Confirm Button -->
+                    <!-- Withdraw Button -->
                     <Button
-                        android:id="@+id/btnConfirm"
+                        android:id="@+id/btnWithdraw"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -147,7 +177,9 @@
                         android:padding="12dp"
                         android:layout_marginStart="8dp" />
                 </LinearLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </LinearLayout>
+
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

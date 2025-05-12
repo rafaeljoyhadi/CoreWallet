@@ -65,7 +65,6 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
             android:background="@color/white"
             android:fillViewport="true">
 
@@ -76,9 +75,12 @@
                 android:gravity="center_horizontal">
 
                 <LinearLayout
-                    android:id="@+id/budgetSection"
-                    android:layout_width="370dp"
+                    android:id="@+id/goal1"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
                     android:orientation="vertical"
                     android:background="@drawable/background_blue_shape">
 
@@ -93,10 +95,11 @@
 
                         <!-- Title Section -->
                         <TextView
+                            android:id="@+id/tvTitle1"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="MARCH SPENDINGS"
+                            android:text="VACATION"
                             android:paddingTop="5dp"
                             android:textStyle="bold"
                             android:textSize="14sp"
@@ -116,13 +119,10 @@
                             android:id="@+id/btnOverflow"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
+                            android:background="?attr/selectableItemBackground"
                             android:src="@drawable/menu_vertical"
-                            android:padding="4dp"
                             android:scaleType="centerInside"/>
-
                     </LinearLayout>
-
-
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -130,65 +130,38 @@
                         android:orientation="vertical"
                         android:padding="20dp"
                         android:background="@drawable/background_light_blue_shape_connector">
-
                         <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="VACATION"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/tvShoppingAmount"
+                            android:id="@+id/amount1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="12.000.000 / 15.000.000"
                             android:gravity="start"
                             android:textStyle="bold"
-                            android:layout_marginBottom="4dp" />
-
+                            android:layout_marginBottom="20dp" />
                         <ProgressBar
                             android:id="@+id/progressBar1"
                             style="?android:attr/progressBarStyleHorizontal"
                             android:layout_width="match_parent"
                             android:layout_height="12dp"
+                            android:layout_marginBottom="30dp"
                             android:progress="80"
                             android:max="100"
                             android:progressDrawable="@drawable/progress_bar"/>
-
-
                     </LinearLayout>
                 </LinearLayout>
-
-                <!--                    Add budget Button-->
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@drawable/background_light_blue_shape"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp">
-
-                    <!-- ImageButton -->
-                    <ImageButton
+                    <Button
                         android:id="@+id/btnAddGoal"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@null"
-                        android:elevation="0dp"
-                        android:scaleType="center" />
-
-                    <!-- TextView untuk teks -->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="ADD GOAL"
+                        android:layout_height="50dp"
+                        android:text="Add Goal"
                         android:textColor="@android:color/black"
                         android:textSize="16sp"
                         android:textStyle="bold"
+                        android:background="@drawable/background_light_blue_shape"
                         android:gravity="center"
-                        android:layout_gravity="center" />
-                </FrameLayout>
+                        android:layout_marginTop="20dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp" />
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

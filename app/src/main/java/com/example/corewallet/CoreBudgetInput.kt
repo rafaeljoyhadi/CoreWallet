@@ -1,15 +1,20 @@
 package com.example.corewallet
 
+import android.app.DatePickerDialog
 import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Spinner
+import android.widget.TextView
 import androidx.activity.ComponentActivity
+import androidx.appcompat.app.AppCompatActivity
+import java.util.Calendar
 
-class CoreBudgetInput : ComponentActivity() {
+class CoreBudgetInput : AppCompatActivity() {
 
     private lateinit var container: LinearLayout
 
@@ -21,63 +26,66 @@ class CoreBudgetInput : ComponentActivity() {
         // Mengakses container utama
         container = findViewById(R.id.container)
 
-        // Mengakses ImageView sebagai tombol
-        val btnAddMoreCategories = findViewById<ImageView>(R.id.btnAddMoreCategories)
+        // Inisialisasi kalender untuk tanggal default
+        val calendar = Calendar.getInstance()
+        var selectedYear = calendar.get(Calendar.YEAR)
+        var selectedMonth = calendar.get(Calendar.MONTH)
+        var selectedDay = calendar.get(Calendar.DAY_OF_MONTH)
 
-        // Menangani klik pada tombol
-        btnAddMoreCategories.setOnClickListener {
-            addNewSection()
-        }
+        // Mengakses elemen UI
+        val buttonPickDateStart = findViewById<View>(R.id.buttonPickDateStart)
+        val buttonPickDateEnd = findViewById<View>(R.id.buttonPickDateEnd)
+        val tvSelectedDateStart = findViewById<TextView>(R.id.tvSelectedDateStart)
+        val tvSelectedDateEnd = findViewById<TextView>(R.id.tvSelectedDateEnd)
 
-    }
+        // Listener Start Date
+        buttonPickDateStart.setOnClickListener {
+            // Tampilkan DatePickerDialog
+            val datePickerDialog = DatePickerDialog(
+                this,
+                { _, year, month, dayOfMonth ->
+                    // Simpan tanggal yang dipilih
+                    selectedYear = year
+                    selectedMonth = month
+                    selectedDay = dayOfMonth
 
-    private fun addNewSection() {
-        // Membuat Spinner
-        val spinner = Spinner(this).apply {
-            layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            ).apply {
-                setMargins(0, 0, 0, 5.dpToPx()) // Margin bottom 5dp
-                setPadding(12,12,12,12)
-            }
-            adapter = ArrayAdapter.createFromResource(
-                this@CoreBudgetInput,
-                R.array.categories_cb_form,
-                android.R.layout.simple_spinner_item
-            ).also { adapter ->
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            }
+                    // Format tanggal ke string
+                    val formattedDate = "$dayOfMonth/${month + 1}/$year"
 
-        }
-
-        val editText = EditText(this).apply {
-            layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            ).apply {
-                setMargins(0, 0, 0, 16.dpToPx()) // Margin bottom 16dp
-            }
-            hint = "Enter the budget amount"
-            inputType = android.text.InputType.TYPE_CLASS_NUMBER or android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL
-        }
-
-        // Wrapper untuk Spinner dan EditText
-        val wrapper = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
+                    // Tampilkan tanggal di TextView
+                    tvSelectedDateStart.text = "Tanggal terpilih: $formattedDate"
+                    tvSelectedDateStart.setTextColor(resources.getColor(android.R.color.holo_green_dark))
+                },
+                selectedYear,
+                selectedMonth,
+                selectedDay
             )
+            datePickerDialog.show()
         }
 
-        wrapper.addView(spinner)
-        wrapper.addView(editText)
-        container.addView(wrapper)
-    }
+        // Listener End Date
+        buttonPickDateEnd.setOnClickListener {
+            // Tampilkan DatePickerDialog
+            val datePickerDialog = DatePickerDialog(
+                this,
+                { _, year, month, dayOfMonth ->
+                    // Simpan tanggal yang dipilih
+                    selectedYear = year
+                    selectedMonth = month
+                    selectedDay = dayOfMonth
 
-    // Helper function untuk mengonversi dp ke px
-    private fun Int.dpToPx(): Int {
-        return (this * resources.displayMetrics.density).toInt()
+                    // Format tanggal ke string
+                    val formattedDate = "$dayOfMonth/${month + 1}/$year"
+
+                    // Tampilkan tanggal di TextView
+                    tvSelectedDateEnd.text = "Tanggal terpilih: $formattedDate"
+                    tvSelectedDateEnd.setTextColor(resources.getColor(android.R.color.holo_green_dark))
+                },
+                selectedYear,
+                selectedMonth,
+                selectedDay
+            )
+            datePickerDialog.show()
+        }
     }
 }

@@ -16,6 +16,8 @@ class CoreGoalEdit : ComponentActivity() {
         setContentView(R.layout.core_goal_edit)
         window.statusBarColor = Color.parseColor("#0d5892")
 
+
+
     }
 
 }

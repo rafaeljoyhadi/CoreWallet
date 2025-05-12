@@ -78,8 +78,8 @@
                     android:minHeight="0dp"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
-                    android:scaleX="0.7"
-                    android:scaleY="0.7"
+                    android:scaleX="0.6"
+                    android:scaleY="0.6"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -203,7 +203,7 @@
 
                             <!-- Progress Bar -->
                             <ProgressBar
-                                android:id="@+id/progressBarShopping"
+                                android:id="@+id/progressBar"
                                 style="?android:attr/progressBarStyleHorizontal"
                                 android:layout_width="0dp"
                                 android:layout_height="12dp"
@@ -214,93 +214,11 @@
 
                             <!-- Budget Text -->
                             <TextView
-
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-
                                 android:textSize="12sp"
                                 android:textColor="#666666"
                                 android:layout_marginStart="8dp" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <!-- Transportation Category -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginBottom="16dp">
-
-                        <!-- Category Name -->
-                        <TextView
-                            android:id="@+id/tvTransportationCategory"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="TRANSPORTATION"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:textColor="#666666"
-                            android:layout_marginBottom="4dp" />
-
-                        <!-- Spending Amount -->
-                        <TextView
-                            android:id="@+id/tvTransportationAmount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="IDR 500.000"
-                            android:textStyle="bold"
-                            android:textSize="20sp"
-                            android:textColor="@android:color/black"
-                            android:layout_marginBottom="8dp" />
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="BUDGET"
-                                android:textStyle="bold"
-                                android:textSize="14sp"
-                                android:textColor="#666666"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintBottom_toBottomOf="parent" />
-
-                            <!-- Budget Text -->
-                            <TextView
-                                android:id="@+id/tvTransportationBudget"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="IDR 400.000"
-                                android:textSize="12sp"
-                                android:textColor="#666666"
-                                android:layout_marginEnd="8dp"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintBottom_toBottomOf="parent" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        <!-- Progress Bar Section -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center">
-
-                            <!-- Progress Bar -->
-                            <ProgressBar
-                                android:id="@+id/progressBarTransportation"
-                                style="?android:attr/progressBarStyleHorizontal"
-                                android:layout_width="0dp"
-                                android:layout_height="12dp"
-                                android:layout_weight="1"
-                                android:progress="125"
-                                android:max="100"
-                                android:progressDrawable="@drawable/progress_bar_full" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>

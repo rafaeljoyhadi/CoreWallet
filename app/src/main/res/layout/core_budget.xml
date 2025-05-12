@@ -63,7 +63,6 @@
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="20dp"
                 android:background="@color/white"
                 android:fillViewport="true">
 
@@ -77,6 +76,7 @@
                         android:id="@+id/budget1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="20dp"
                         android:orientation="vertical"
@@ -151,40 +151,16 @@
                                 android:max="100"
                                 android:progressDrawable="@drawable/progress_bar"/>
 
-                            <!-- Transportation Budget -->
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Transportation"
-                                android:textStyle="bold"
-                                android:layout_marginTop="16dp" />
 
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="500.000 / 400.000"
-                                android:gravity="end"
-                                android:textColor="#FF0000"
-                                android:textStyle="bold"
-                                android:layout_marginBottom="4dp" />
-
-                            <ProgressBar
-                                android:id="@+id/progressBar2"
-                                style="@android:style/Widget.ProgressBar.Horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="12dp"
-                                android:progress="100"
-                                android:max="100"
-                                android:progressDrawable="@drawable/progress_bar_full"/>
                         </LinearLayout>
                     </LinearLayout>
 
 <!--                    Add budget Button-->
                     <Button
-                        android:id="@+id/btnAddBudget"
+                        android:id="@+id/btnAddGoal"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:text="Add Budget"
+                        android:text="Add Goal"
                         android:textColor="@android:color/black"
                         android:textSize="16sp"
                         android:textStyle="bold"

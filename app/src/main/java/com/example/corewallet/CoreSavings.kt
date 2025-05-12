@@ -55,6 +55,8 @@ class CoreSavings : ComponentActivity() {
 
         val btnCoreGoal: Button = findViewById(R.id.btn_core_goal)
         btnCoreGoal.setOnClickListener {
+            val moveIntent = Intent(this@CoreSavings, CoreGoal::class.java)
+            startActivity(moveIntent)
             RetrofitInstance.api.getCoreSavings().enqueue(object : Callback<SavingsResponse> {
                 override fun onResponse(
                     call: Call<SavingsResponse>,

@@ -27,6 +27,8 @@ import androidx.core.content.ContextCompat
 
 class CoreBudget : AppCompatActivity() {
 
+
+    //Pop Up Setings
      fun showCustomPopup(anchorView: View) {
         val inflater = LayoutInflater.from(this)
         val popupView = inflater.inflate(R.layout.popup_menu_core_budget, null, false)
@@ -53,21 +55,18 @@ class CoreBudget : AppCompatActivity() {
             val transportationAmount = "Rp. 600.000"
             val transportationProgress = 60
 
-            //Membawa Value ke CoreBudgetEdit
-            findViewById<View>(R.id.budget1).setOnClickListener {
-                // Siapkan data dalam HashMap
-                val data = HashMap<String, Any>()
-                data["shoppingCategory"] = shoppingCategory
-                data["shoppingAmount"] = shoppingAmount
-                data["shoppingProgress"] = shoppingProgress
+            val data = HashMap<String, Any>()
+            data["shoppingCategory"] = shoppingCategory
+            data["shoppingAmount"] = shoppingAmount
+            data["shoppingProgress"] = shoppingProgress
 
-                data["transportationCategory"] = transportationCategory
-                data["transportationAmount"] = transportationAmount
-                data["transportationProgress"] = transportationProgress
+            data["transportationCategory"] = transportationCategory
+            data["transportationAmount"] = transportationAmount
+            data["transportationProgress"] = transportationProgress
 
-                // Panggil fungsi untuk membuka halaman berikutnya
-                navigateToCoreBudgetEdit(this, CoreBudgetEdit::class.java, data)
-            }
+            // Panggil fungsi untuk membuka halaman berikutnya
+            navigateToCoreBudgetEdit(this, CoreBudgetEdit::class.java, data)
+
 //            val moveIntent = Intent(this@CoreBudget, CoreBudgetEdit::class.java)
 //            startActivity(moveIntent)
         }
@@ -94,8 +93,6 @@ class CoreBudget : AppCompatActivity() {
                 else -> throw IllegalArgumentException("Unsupported data type for key: $key")
             }
         }
-
-        // Memulai aktivitas baru
         activity.startActivity(intent)
     }
 
@@ -126,83 +123,27 @@ class CoreBudget : AppCompatActivity() {
 
         val progress = ((savedAmount.toDouble() / targetAmount) * 100).toInt()
 
-        progressBar.progress = progress.coerceAtMost(100) // Pastikan tidak lebih dari 100
+        progressBar.progress = progress.coerceAtMost(100)
 
         val tvShoppingAmount = findViewById<TextView>(R.id.tvShoppingAmount)
-        tvShoppingAmount.text = "${formatter.format(savedAmount)} / ${formatter.format(targetAmount)}"
+        tvShoppingAmount.text =
+            "${formatter.format(savedAmount)} / ${formatter.format(targetAmount)}"
 
         if (savedAmount > targetAmount) {
-            // Ganti drawable progress bar dengan progress_bar_full.xml
-            progressBar.progressDrawable = ContextCompat.getDrawable(this, R.drawable.progress_bar_full)
-
-            // Ubah warna teks menjadi merah (#FF0000)
+            progressBar.progressDrawable =
+                ContextCompat.getDrawable(this, R.drawable.progress_bar_full)
             tvShoppingAmount.setTextColor(Color.parseColor("#FF0000"))
-
-            // Tambahkan boldness ke teks
             tvShoppingAmount.setTypeface(null, Typeface.BOLD)
         } else {
-            // Kembalikan warna teks ke default (misalnya hitam)
             tvShoppingAmount.setTextColor(Color.BLACK)
-
-            // Hapus boldness (kembalikan ke normal)
             tvShoppingAmount.setTypeface(null, Typeface.NORMAL)
         }
 
-
-
-
         // Button Add Budget
-        val btnCoreGoal: Button = findViewById(R.id.btnAddBudget)
+        val btnCoreGoal: Button = findViewById(R.id.btnAddGoal)
         btnCoreGoal.setOnClickListener {
             val moveIntent = Intent(this@CoreBudget, CoreBudgetInput::class.java)
             startActivity(moveIntent)
         }
-
-//        val progressBar: ProgressBar = findViewById(R.id.progressBar)
-//        val currentProgress = 10
-//        progressBar.progress = currentProgress
-//
-//        if (currentProgress >= 100) {
-//            progressBar.progressDrawable = ContextCompat.getDrawable(this, R.drawable.progress_bar)
-//        } else {
-//            progressBar.progressDrawable = ContextCompat.getDrawable(this, R.drawable.progress_bar_full)
-//        }
-
     }
-
-// This is the button if smth crash
-//    private fun showPopupMenu(view: View) {
-//        // Membuat Menu
-//        val popupMenu = PopupMenu(this, view)
-//
-//        // Menambahkan item ke menu
-//        popupMenu.menu.add(Menu.NONE, 1, Menu.NONE, "Edit")
-//        popupMenu.menu.add(Menu.NONE, 2, Menu.NONE, "Delete")
-//
-//        // Mengatur ikon untuk setiap item
-//        popupMenu.menu.getItem(0).icon = AppCompatResources.getDrawable(this, R.drawable.ic_edit)
-//        popupMenu.menu.getItem(1).icon = AppCompatResources.getDrawable(this, R.drawable.ic_delete)
-//
-//        // Menangani pilihan menu
-//        popupMenu.setOnMenuItemClickListener { menuItem ->
-//            when (menuItem.itemId) {
-//                1 -> {
-//                    // Tangani aksi Edit
-//                    Toast.makeText(this, "Edit clicked", Toast.LENGTH_SHORT).show()
-//                    true
-//                }
-//                2 -> {
-//                    // Tangani aksi Delete
-//                    Toast.makeText(this, "Delete clicked", Toast.LENGTH_SHORT).show()
-//                    true
-//                }
-//                else -> false
-//            }
-//        }
-//
-//        // Menampilkan popup menu
-//        popupMenu.show()
-//    }
-
-
 }

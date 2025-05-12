@@ -51,6 +51,7 @@
             </LinearLayout>
         </LinearLayout>
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -63,35 +64,121 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <!-- Input Field: Enter the budget plan name -->
+                <!-- Input Field: Valid until -->
                 <EditText
-                    android:id="@+id/etBudgetName"
+                    android:id="@+id/etGoalPlanName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:hint="Enter the budget plan name"
+                    android:hint="Plan Name"
                     android:inputType="text"
                     android:padding="12dp" />
 
-                <!-- Input Field: Valid from -->
-                <EditText
-                    android:id="@+id/etValidFrom"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:hint="Valid from"
-                    android:inputType="date"
-                    android:padding="12dp" />
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                <!-- Input Field: Valid until -->
-                <EditText
-                    android:id="@+id/etValidUntil"
+                    <!-- Wrapper untuk Label dan Tanggal -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <!-- Kolom Kiri (Label dan Tanggal) -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <!-- Label -->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Valid From"
+                                android:textStyle="bold"
+                                android:textSize="18sp" />
+
+                            <!-- TextView untuk Menampilkan Tanggal yang Dipilih -->
+                            <TextView
+                                android:id="@+id/tvSelectedDateStart"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Tanggal belum dipilih"
+                                android:textColor="#FF0000"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+
+                        <ImageButton
+                            android:id="@+id/buttonPickDateStart"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:src="@drawable/ic_calendar"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:contentDescription="Pilih Tanggal"
+                            android:layout_marginStart="16dp"
+                            android:padding="8dp"
+                            android:scaleType="fitCenter"
+                            android:adjustViewBounds="true" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:hint="Valid until"
-                    android:inputType="date"
-                    android:padding="12dp" />
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <!-- Wrapper untuk Label dan Tanggal -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <!-- Kolom Kiri (Label dan Tanggal) -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <!-- Label -->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Valid Until"
+                                android:textStyle="bold"
+                                android:textSize="18sp" />
+
+                            <!-- TextView untuk Menampilkan Tanggal yang Dipilih -->
+                            <TextView
+                                android:id="@+id/tvSelectedDateEnd"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Tanggal belum dipilih"
+                                android:textColor="#FF0000"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+
+                        <!-- Kolom Kanan (Tombol Pilih Tanggal) -->
+                        <ImageButton
+                            android:id="@+id/buttonPickDateEnd"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:src="@drawable/ic_calendar"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:contentDescription="Pilih Tanggal"
+                            android:layout_marginStart="16dp"
+                            android:padding="8dp"
+                            android:scaleType="fitCenter"
+                            android:adjustViewBounds="true" />
+                    </LinearLayout>
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -106,15 +193,6 @@
                         android:text="Categories"
                         android:textColor="@android:color/black"
                         android:textStyle="bold" />
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1" />
-                    <ImageView
-                        android:id="@+id/btnAddMoreCategories"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_add" />
                 </LinearLayout>
 
                 <ScrollView
