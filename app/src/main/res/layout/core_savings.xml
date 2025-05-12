@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_marginTop="-70dp"
-        android:background="@drawable/half_rounded_corners">
+        android:background="@drawable/rounded_corners">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -61,7 +61,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="15dp"
-            android:background="@drawable/half_rounded_corners"
+            android:background="@drawable/rounded_corners"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -114,7 +114,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="15dp"
-            android:background="@drawable/half_rounded_corners"
+            android:background="@drawable/rounded_corners"
             android:orientation="horizontal">
 
             <LinearLayout
