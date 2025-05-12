@@ -194,7 +194,7 @@
                     <ImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:src="@drawable/ic_transfer"
+                        android:src="@drawable/ic_transfer_white"
                         app:tint="#1976D2" />
 
                     <TextView
@@ -226,7 +226,7 @@
                     <ImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:src="@drawable/ic_topup"
+                        android:src="@drawable/ic_topup_white"
                         app:tint="#1976D2" />
 
                     <TextView
@@ -257,7 +257,7 @@
                     <ImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:src="@drawable/ic_withdraw"
+                        android:src="@drawable/ic_withdraw_white"
                         app:tint="#1976D2" />
 
                     <TextView

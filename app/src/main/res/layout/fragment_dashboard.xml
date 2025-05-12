@@ -21,7 +21,7 @@
             android:id="@+id/appName"
             android:layout_width="110dp"
             android:layout_height="20dp"
-            android:src="@drawable/corewallet_icon_raw"
+            android:src="@drawable/img_corewallet_icon_raw"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -196,7 +196,7 @@
                     <ImageView
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        android:src="@drawable/ic_transfer"/>
+                        android:src="@drawable/ic_transfer_white"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -225,7 +225,7 @@
                     <ImageView
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        android:src="@drawable/ic_topup" />
+                        android:src="@drawable/ic_topup_white" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -254,7 +254,7 @@
                     <ImageView
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        android:src="@drawable/ic_withdraw"/>
+                        android:src="@drawable/ic_withdraw_white"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
