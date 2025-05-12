@@ -5,25 +5,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-
-    <Button
-        android:id="@+id/transfer_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:layout_margin="64dp"
-        android:text="Transfer"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
-
-    android:orientation="vertical"
-    android:padding="16dp">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
         <Button
             android:id="@+id/btn_core_savings"
             android:layout_width="match_parent"
@@ -31,5 +12,4 @@
             android:layout_marginBottom="16dp"
             android:text="@string/core_savings" />
 
-    </LinearLayout>
 </LinearLayout>

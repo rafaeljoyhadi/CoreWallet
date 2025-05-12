@@ -9,7 +9,6 @@
         <item>Shopping</item>
     </string-array>
 
-    <string name="title_activity_register">RegisterActivity</string>
     <string name="title_activity_transfer">TransferActivity</string>
 
     <string name="transfer">TRANSFER</string>
