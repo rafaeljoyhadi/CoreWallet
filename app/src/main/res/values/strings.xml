@@ -2,6 +2,7 @@
     <string name="app_name">coreWallet</string>
     <string name="core_savings">Core Savings</string>
 
+    <string name="transaction_category">Transaction Category</string>
     <string-array name="categories_cb_form">
         <item>Lifestyle</item>
         <item>Traveling</item>

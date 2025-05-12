@@ -34,7 +34,7 @@ class TransactionHistoryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_transaction_history, container, false)
+        return inflater.inflate(R.layout.history_menu, container, false)
     }
 
     companion object {
