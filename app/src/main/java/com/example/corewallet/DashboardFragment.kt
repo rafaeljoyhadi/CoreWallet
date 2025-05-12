@@ -35,7 +35,7 @@ class DashboardFragment : Fragment() {
             val mCategoryFragment = TransferFragment()
             val mFragmentManager = parentFragmentManager as FragmentManager
             mFragmentManager.beginTransaction()
-                .replace(R.id.nav_host_fragment, mCategoryFragment, TransferFragment::class.java.simpleName)
+                .replace(R.id.fragment_container, mCategoryFragment, TransferFragment::class.java.simpleName)
                 .addToBackStack(null)
                 .commit()
         }
