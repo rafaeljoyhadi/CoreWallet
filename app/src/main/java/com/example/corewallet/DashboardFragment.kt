@@ -16,6 +16,7 @@ class DashboardFragment : Fragment() {
     private var _binding: FragmentDashboardBinding? = null
     private val binding get() = _binding!!
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,15 +33,22 @@ class DashboardFragment : Fragment() {
         binding.balanceAmount.text = "Rp. 100.000"
         // Set up click listener for the transfer button
         binding.btnTransfer.setOnClickListener {
-            val mCategoryFragment = TransferFragment()
+            val mTFFragment = TransferFragment()
             val mFragmentManager = parentFragmentManager as FragmentManager
             mFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, mCategoryFragment, TransferFragment::class.java.simpleName)
+                .replace(R.id.fragment_container, mTFFragment, TransferFragment::class.java.simpleName)
                 .addToBackStack(null)
                 .commit()
         }
 
-
+        binding.btnTopUp.setOnClickListener {
+            val mPin = PinConfirmationFragment()
+            val mFragmentManager = parentFragmentManager as FragmentManager
+            mFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, mPin, PinConfirmationFragment::class.java.simpleName)
+                .addToBackStack(null)
+                .commit()
+        }
     }
 
     override fun onDestroyView() {
