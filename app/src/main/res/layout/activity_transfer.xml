@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+tools:context=".MainActivity">
+
+<LinearLayout
+    android:id="@+id/logo_header"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:background="@color/primary_blue">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="110dp"
+            android:layout_height="20dp"
+            android:src="@drawable/corewallet_icon_raw" />
+
+    </LinearLayout>
+</LinearLayout>
+
+
+<LinearLayout
+    android:id="@+id/menu_header"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/logo_header"
+    android:layout_marginTop="-14dp"
+    android:padding="6dp"
+    android:background="@drawable/half_rounded_corners"
+    app:layout_constraintEnd_toEndOf="@id/logo_header"
+    app:layout_constraintStart_toStartOf="@id/logo_header"
+    app:layout_constraintTop_toBottomOf="@id/logo_header">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_marginStart="28dp"
+        android:layout_gravity="center"
+        android:text="@string/transfer"
+        android:textColor="@android:color/background_dark"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+</LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/nav_host_fragment_transfer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/menu_header"
+        android:layout_marginTop="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/menu_header" />
+
+    <!-- Transfer to New Beneficiary Button -->
+<!--<Button-->
+<!--    android:id="@+id/btn_add_new_beneficiary"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:layout_below="@+id/menu_header"-->
+<!--    android:layout_alignParentStart="true"-->
+<!--    android:layout_alignParentEnd="true"-->
+<!--    android:layout_marginStart="32dp"-->
+<!--    android:layout_marginTop="32dp"-->
+<!--    android:layout_marginEnd="32dp"-->
+<!--    android:gravity="center"-->
+<!--    android:background="@drawable/rounded_corners_rectangle_pb"-->
+<!--    android:padding="16dp"-->
+<!--    android:text="Transfer to New Beneficiary"-->
+<!--    android:textColor="@android:color/white"-->
+<!--    app:layout_constraintTop_toBottomOf="@id/menu_header" />-->
+
+<!--<TextView-->
+<!--    android:id="@+id/tv_contacts_title"-->
+<!--    android:layout_width="wrap_content"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:layout_below="@+id/btn_add_new_beneficiary"-->
+<!--    android:layout_alignParentStart="true"-->
+<!--    android:layout_marginStart="32dp"-->
+<!--    android:layout_marginTop="32dp"-->
+<!--    android:text="@string/contact"-->
+<!--    android:textStyle="bold"-->
+<!--    android:textSize="18sp"-->
+<!--    android:textColor="@color/primary_gray"-->
+<!--    app:layout_constraintTop_toBottomOf="@id/btn_add_new_beneficiary" />-->
+
+<!--&lt;!&ndash;    search bar      &ndash;&gt;-->
+<!--<LinearLayout-->
+<!--    android:id="@+id/Search_bar"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="40dp"-->
+<!--    android:layout_below="@+id/tv_contacts_title"-->
+<!--    android:layout_alignParentStart="true"-->
+<!--    android:layout_alignParentEnd="true"-->
+<!--    android:layout_marginStart="32dp"-->
+<!--    android:layout_marginTop="32dp"-->
+<!--    android:layout_marginEnd="32dp"-->
+<!--    android:background="@drawable/rounded_corners_rectangle_tb"-->
+<!--    app:layout_constraintTop_toBottomOf="@id/tv_contacts_title">-->
+
+<!--    <TextView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="22dp"-->
+<!--        android:text="@string/search_ca"-->
+<!--        android:layout_gravity="center_vertical"/>-->
+<!--</LinearLayout>-->
+
+<!--&lt;!&ndash;    linear line     &ndash;&gt;-->
+<!--<View-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="2dp"-->
+<!--    android:layout_below="@+id/Search_bar"-->
+<!--    android:layout_alignStart="@+id/Search_bar"-->
+<!--    android:layout_alignEnd="@+id/Search_bar"-->
+<!--    android:layout_marginStart="-32dp"-->
+<!--    android:layout_marginTop="12dp"-->
+<!--    android:layout_marginEnd="-32dp"-->
+<!--    android:layout_marginBottom="8dp"-->
+<!--    android:background="@drawable/line_sg"-->
+<!--    app:layout_constraintTop_toBottomOf="@id/Search_bar" />-->
+
+<!--&lt;!&ndash; RecyclerView for Contacts List &ndash;&gt;-->
+<!--<androidx.recyclerview.widget.RecyclerView-->
+<!--    android:id="@+id/recycler_contacts"-->
+<!--    android:layout_width="346dp"-->
+<!--    android:layout_height="54dp"-->
+<!--    android:layout_below="@+id/Search_bar"-->
+<!--    android:layout_alignParentStart="true"-->
+<!--    android:layout_marginStart="32dp"-->
+<!--    android:layout_marginTop="28dp"-->
+<!--    android:background="@color/secondary_blue"-->
+<!--    android:paddingStart="16dp"-->
+<!--    android:paddingEnd="16dp"-->
+<!--    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+<!--    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--    app:layout_constraintEnd_toEndOf="parent"-->
+<!--    app:layout_constraintStart_toStartOf="parent"-->
+<!--    app:layout_constraintTop_toBottomOf="@id/Search_bar" />-->
+</RelativeLayout>
+

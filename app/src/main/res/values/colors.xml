@@ -8,6 +8,16 @@
     <color name="blue">#0d5892</color>
     <color name="light_blue">#deedfd</color>
     <color name="light_blue2">#edf5fe</color>
+    <!--    color palette    -->
     <color name="white">#FFFFFFFF</color>
     <color name="black">#121212</color>
+    <color name="primary_blue">#0E5993</color>
+    <color name="secondary_blue">#DFEEFE</color>
+    <color name="trans_blue">#0E5993</color>
+    <color name="primary_red">#B50303</color>
+    <color name="secondary_red">#FEDFDF</color>
+    <color name="primary_green">#03B529</color>
+    <color name="secondary_green">#E6FEDF</color>
+    <color name="primary_gray">#323232</color>
+    <color name="secondary_gray">#9F9F9F</color>
 </resources>
