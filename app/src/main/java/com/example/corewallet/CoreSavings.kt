@@ -40,6 +40,10 @@ object RetrofitInstance {
     }
 }
 
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 
 class CoreSavings : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
