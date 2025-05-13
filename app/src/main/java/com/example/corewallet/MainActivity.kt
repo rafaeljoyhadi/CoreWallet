@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import android.graphics.Color
 import android.widget.Button
+import com.example.corewallet.coresavings.CoreSavings
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

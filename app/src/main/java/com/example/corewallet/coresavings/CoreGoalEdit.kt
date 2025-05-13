@@ -1,15 +1,12 @@
-package com.example.corewallet
+package com.example.corewallet.coresavings
 
 import android.app.DatePickerDialog
 import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.ComponentActivity
+import com.example.corewallet.R
 import java.util.Calendar
 
 class CoreGoalEdit : ComponentActivity() {

@@ -1,20 +1,15 @@
-package com.example.corewallet
+package com.example.corewallet.coresavings
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
-import android.util.AttributeSet
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.activity.ComponentActivity
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.example.corewallet.R
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -82,7 +77,9 @@ class CoreBudgetDetail : AppCompatActivity() {
         tvShoppingAmount.text = "${formatter.format(savedAmount)} / ${formatter.format(targetAmount)}"
 
         if (savedAmount > targetAmount) {
-            progressBar.progressDrawable = ContextCompat.getDrawable(this, R.drawable.progress_bar_full)
+            progressBar.progressDrawable = ContextCompat.getDrawable(this,
+                R.drawable.progress_bar_full
+            )
             tvShoppingAmount.setTextColor(Color.parseColor("#FF0000"))
             tvShoppingAmount.setTypeface(null, Typeface.BOLD)
         } else {

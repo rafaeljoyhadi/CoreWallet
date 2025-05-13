@@ -1,4 +1,4 @@
-package com.example.corewallet
+package com.example.corewallet.coresavings
 
 import android.content.Intent
 import android.graphics.Color
@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.corewallet.R
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET

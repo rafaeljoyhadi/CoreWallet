@@ -1,4 +1,4 @@
-package com.example.corewallet
+package com.example.corewallet.coresavings
 
 import android.content.Intent
 import android.graphics.Color
@@ -6,25 +6,25 @@ import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Gravity
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.ComponentActivity
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import java.text.NumberFormat
 import java.util.Locale
+import androidx.core.content.ContextCompat
+import com.example.corewallet.R
+
+class CoreBudget : AppCompatActivity() {
 
 
-class CoreGoal : AppCompatActivity() {
-
-    fun showCustomPopup(anchorView: View) {
+    //Pop Up Settings
+     private fun showCustomPopup(anchorView: View) {
         val inflater = LayoutInflater.from(this)
         val popupView = inflater.inflate(R.layout.popup_menu_core_budget, null, false)
         val popupWindow = PopupWindow(
@@ -46,24 +46,13 @@ class CoreGoal : AppCompatActivity() {
             val shoppingAmount = "Rp. 400.000"
             val shoppingProgress = 40
 
-            val transportationCategory = "Transportation"
-            val transportationAmount = "Rp. 600.000"
-            val transportationProgress = 60
-
             val data = HashMap<String, Any>()
             data["shoppingCategory"] = shoppingCategory
             data["shoppingAmount"] = shoppingAmount
             data["shoppingProgress"] = shoppingProgress
 
-            data["transportationCategory"] = transportationCategory
-            data["transportationAmount"] = transportationAmount
-            data["transportationProgress"] = transportationProgress
-
             // Panggil fungsi untuk membuka halaman berikutnya
-            navigateToCoreGoalEdit(this, CoreGoalEdit::class.java, data)
-
-//            val moveIntent = Intent(this@CoreBudget, CoreBudgetEdit::class.java)
-//            startActivity(moveIntent)
+            navigateToCoreBudgetEdit(this, CoreBudgetEdit::class.java, data)
         }
 
         // Fungsi Delete Button
@@ -73,7 +62,7 @@ class CoreGoal : AppCompatActivity() {
         }
     }
 
-    private fun navigateToCoreGoalEdit(activity: AppCompatActivity, nextActivityClass: Class<*>, data: HashMap<String, Any>) {
+    private fun navigateToCoreBudgetEdit(activity: AppCompatActivity, nextActivityClass: Class<*>, data: HashMap<String, Any>) {
         // Membuat Intent untuk membuka aktivitas berikutnya
         val intent = Intent(activity, nextActivityClass)
 
@@ -93,54 +82,51 @@ class CoreGoal : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.core_goal)
+        setContentView(R.layout.core_budget)
         window.statusBarColor = Color.parseColor("#0d5892")
 
-        // Akses Option per Goal
+        // Akses ImageButton Option
         val btnOverflow = findViewById<View>(R.id.btnOverflow)
         btnOverflow.setOnClickListener {
             showCustomPopup(it)
         }
 
-        val list1 = findViewById<View>(R.id.goal1)
+        val list1 = findViewById<View>(R.id.budget1)
         list1.setOnClickListener {
-            val moveIntent = Intent(this@CoreGoal, CoreGoalDetail::class.java)
+            val moveIntent = Intent(this@CoreBudget, CoreBudgetDetail::class.java)
             startActivity(moveIntent)
         }
 
-        val titleGoal = "Vacation Gaming"
+        //Data Dummy
         val savedAmount = 400000
         val targetAmount = 1000000
 
         val formatter = NumberFormat.getNumberInstance(Locale("id", "ID")) // Locale Indonesia
 
-        val tvTitleGoal = findViewById<TextView>(R.id.tvTitle1)
-        
         val progressBar = findViewById<ProgressBar>(R.id.progressBar1)
 
         val progress = ((savedAmount.toDouble() / targetAmount) * 100).toInt()
 
         progressBar.progress = progress.coerceAtMost(100)
 
-        val goalAmount1 = findViewById<TextView>(R.id.amount1)
-        goalAmount1.text = "${formatter.format(savedAmount)} / ${formatter.format(targetAmount)}"
-        tvTitleGoal.text = titleGoal
+        val tvShoppingAmount = findViewById<TextView>(R.id.tvShoppingAmount)
+        tvShoppingAmount.text = "${formatter.format(savedAmount)} / ${formatter.format(targetAmount)}"
 
         if (savedAmount > targetAmount) {
-            progressBar.progressDrawable = ContextCompat.getDrawable(this, R.drawable.progress_bar_full)
-            goalAmount1.setTextColor(Color.parseColor("#FF0000"))
-            goalAmount1.setTypeface(null, Typeface.BOLD)
+            progressBar.progressDrawable =
+                ContextCompat.getDrawable(this, R.drawable.progress_bar_full)
+            tvShoppingAmount.setTextColor(Color.parseColor("#FF0000"))
+            tvShoppingAmount.setTypeface(null, Typeface.BOLD)
         } else {
-            goalAmount1.setTextColor(Color.BLACK)
-            goalAmount1.setTypeface(null, Typeface.NORMAL)
+            tvShoppingAmount.setTextColor(Color.BLACK)
+            tvShoppingAmount.setTypeface(null, Typeface.NORMAL)
         }
 
-        // Button Add Goal
-        val btnCoreGoal: TextView = findViewById(R.id.btnAddGoal)
+        // Button Add Budget
+        val btnCoreGoal: Button = findViewById(R.id.btnAddGoal)
         btnCoreGoal.setOnClickListener {
-            val moveIntent = Intent(this@CoreGoal, CoreGoalInput::class.java)
+            val moveIntent = Intent(this@CoreBudget, CoreBudgetInput::class.java)
             startActivity(moveIntent)
         }
     }
-
 }

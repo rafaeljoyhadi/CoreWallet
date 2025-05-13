@@ -1,17 +1,13 @@
-package com.example.corewallet
+package com.example.corewallet.coresavings
 
 import android.app.DatePickerDialog
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.Spinner
 import android.widget.TextView
-import androidx.activity.ComponentActivity
 import androidx.appcompat.app.AppCompatActivity
+import com.example.corewallet.R
 import java.util.Calendar
 
 class CoreBudgetInput : AppCompatActivity() {
