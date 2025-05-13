@@ -17,9 +17,32 @@
         android:theme="@style/Theme.CoreWallet"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <!--    CORE SAVINGS    -->
         <activity
-            android:name=".CoreSavingsActivity"
+            android:name=".coresavings.CoreSavings"
             android:exported="true" />
+        <activity
+            android:name=".coresavings.CoreBudget"
+            android:exported="true" />
+        <activity
+            android:name=".coresavings.CoreBudgetDetail"
+            android:exported="true" />
+        <activity
+            android:name=".coresavings.CoreBudgetEdit"
+            android:exported="true" />
+        <activity
+            android:name=".coresavings.CoreBudgetInput"
+            android:exported="true" />
+        <activity android:name=".coresavings.CoreGoal"
+            android:exported="true" />
+        <activity android:name=".coresavings.CoreGoalDetail"
+            android:exported="true" />
+        <activity android:name=".coresavings.CoreGoalEdit"
+            android:exported="true" />
+        <activity android:name=".coresavings.CoreGoalInput"
+            android:exported="true" />
+
+
         <!-- LoginActivity as launcher -->
         <activity
             android:name=".LoginActivity"
