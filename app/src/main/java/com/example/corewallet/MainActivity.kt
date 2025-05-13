@@ -5,12 +5,14 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import com.example.corewallet.coresavings.CoreSavingsActivity
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.findNavController
+import com.example.corewallet.CoreSavingsActivity
+import com.example.corewallet.coresavings.CoreSavingsFragment
 import com.example.corewallet.databinding.FragmentTransferBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
-
     private var _binding: FragmentTransferBinding? = null
     private val binding get() = _binding!!
 
@@ -18,31 +20,43 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Retrieve user details from LoginActivity
+        // Retrieve user details from Intent
         val userId = intent.getIntExtra("userId", -1)
         val username = intent.getStringExtra("username") ?: ""
         val accountNumber = intent.getStringExtra("accountNumber") ?: ""
         val balance = intent.getDoubleExtra("balance", 0.0)
 
-        // Create DashboardFragment with user details
-        val dashboardFragment = DashboardFragment.newInstance(userId, username, accountNumber, balance)
+        // Check for fragment selection flags
+        val showTransactionHistory = intent.getBooleanExtra("showTransactionHistory", false)
+        val showQris = intent.getBooleanExtra("showQris", false)
 
-        // Load DashboardFragment if no fragment is currently displayed
+        // Create initial fragment
+        val initialFragment = when {
+            showTransactionHistory -> TransactionHistoryFragment()
+            showQris -> QrisFragment()
+            else -> DashboardFragment.newInstance(userId, username, accountNumber, balance)
+        }
+
+        // Load initial fragment if no fragment is currently displayed
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
-                replace(R.id.fragment_container, dashboardFragment)
+                replace(R.id.fragment_container, initialFragment)
                 setReorderingAllowed(true)
             }
         }
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        // Set selected item based on initial fragment
+        bottomNavigationView.selectedItemId = when {
+            showTransactionHistory -> R.id.nav_transaction_history
+            showQris -> R.id.nav_qris
+            else -> R.id.nav_home
+        }
 
         bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> {
-                    val dashboardFrag = DashboardFragment.newInstance(userId, username, accountNumber, balance)
-
-                    replaceFragment(dashboardFrag)
+                    replaceFragment(DashboardFragment.newInstance(userId, username, accountNumber, balance))
                     true
                 }
                 R.id.nav_transaction_history -> {
@@ -53,17 +67,17 @@ class MainActivity : AppCompatActivity() {
                     replaceFragment(QrisFragment())
                     true
                 }
-                // pindah activity 
                 R.id.nav_coresavings -> {
-                    val intent = Intent(this, CoreSavingsActivity::class.java)
-                    startActivity(intent)
+                    replaceFragment(CoreSavingsFragment.newInstance(userId, username, accountNumber, balance))
                     true
                 }
-
+                R.id.nav_account -> {
+                    replaceFragment(AccountFragment())
+                    true
+                }
                 else -> false
             }
         }
-
     }
 
     private fun replaceFragment(fragment: Fragment) {
