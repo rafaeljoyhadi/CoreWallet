@@ -109,7 +109,7 @@ class CoreGoal : AppCompatActivity() {
         }
 
         val titleGoal = "Vacation Gaming"
-        val savedAmount = 4000000
+        val savedAmount = 400000
         val targetAmount = 1000000
 
         val formatter = NumberFormat.getNumberInstance(Locale("id", "ID")) // Locale Indonesia

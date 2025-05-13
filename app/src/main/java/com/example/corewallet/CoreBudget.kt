@@ -4,32 +4,26 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
-import android.view.Menu
 import android.view.View
 import android.widget.Button
-import android.widget.ImageButton
 import android.widget.LinearLayout
-import android.widget.PopupMenu
 import android.widget.PopupWindow
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.ComponentActivity
 import androidx.appcompat.app.AppCompatActivity
 import java.text.NumberFormat
 import java.util.Locale
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 
 class CoreBudget : AppCompatActivity() {
 
 
-    //Pop Up Setings
-     fun showCustomPopup(anchorView: View) {
+    //Pop Up Settings
+     private fun showCustomPopup(anchorView: View) {
         val inflater = LayoutInflater.from(this)
         val popupView = inflater.inflate(R.layout.popup_menu_core_budget, null, false)
         val popupWindow = PopupWindow(
@@ -51,24 +45,13 @@ class CoreBudget : AppCompatActivity() {
             val shoppingAmount = "Rp. 400.000"
             val shoppingProgress = 40
 
-            val transportationCategory = "Transportation"
-            val transportationAmount = "Rp. 600.000"
-            val transportationProgress = 60
-
             val data = HashMap<String, Any>()
             data["shoppingCategory"] = shoppingCategory
             data["shoppingAmount"] = shoppingAmount
             data["shoppingProgress"] = shoppingProgress
 
-            data["transportationCategory"] = transportationCategory
-            data["transportationAmount"] = transportationAmount
-            data["transportationProgress"] = transportationProgress
-
             // Panggil fungsi untuk membuka halaman berikutnya
             navigateToCoreBudgetEdit(this, CoreBudgetEdit::class.java, data)
-
-//            val moveIntent = Intent(this@CoreBudget, CoreBudgetEdit::class.java)
-//            startActivity(moveIntent)
         }
 
         // Fungsi Delete Button
@@ -126,8 +109,7 @@ class CoreBudget : AppCompatActivity() {
         progressBar.progress = progress.coerceAtMost(100)
 
         val tvShoppingAmount = findViewById<TextView>(R.id.tvShoppingAmount)
-        tvShoppingAmount.text =
-            "${formatter.format(savedAmount)} / ${formatter.format(targetAmount)}"
+        tvShoppingAmount.text = "${formatter.format(savedAmount)} / ${formatter.format(targetAmount)}"
 
         if (savedAmount > targetAmount) {
             progressBar.progressDrawable =

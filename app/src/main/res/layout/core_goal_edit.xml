@@ -4,7 +4,7 @@
     android:id="@+id/coreGoal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CoreGoal">
+    tools:context=".CoreGoalEdit">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -106,7 +106,7 @@
 
                             <!-- TextView untuk Menampilkan Tanggal yang Dipilih -->
                             <TextView
-                                android:id="@+id/tvSelectedDateStart"
+                                android:id="@+id/tvTargetEditDate"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Tanggal belum dipilih"
@@ -115,7 +115,7 @@
                         </LinearLayout>
 
                         <ImageButton
-                            android:id="@+id/buttonPickDateStart"
+                            android:id="@+id/buttonTargetEditDate"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:src="@drawable/ic_calendar"
@@ -127,8 +127,6 @@
                             android:adjustViewBounds="true" />
                     </LinearLayout>
                 </LinearLayout>
-
-
 
                 <!-- Input Field: Valid until -->
                 <EditText
@@ -177,9 +175,7 @@
                         android:padding="12dp"
                         android:layout_marginStart="8dp" />
                 </LinearLayout>
-
-                </LinearLayout>
-
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

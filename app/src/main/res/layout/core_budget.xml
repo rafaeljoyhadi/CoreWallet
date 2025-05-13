@@ -150,10 +150,10 @@
                                 android:progress="60"
                                 android:max="100"
                                 android:progressDrawable="@drawable/progress_bar"/>
-
-
                         </LinearLayout>
                     </LinearLayout>
+
+
 
 <!--                    Add budget Button-->
                     <Button

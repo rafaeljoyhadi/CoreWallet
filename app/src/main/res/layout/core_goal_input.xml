@@ -106,7 +106,7 @@
 
                             <!-- TextView untuk Menampilkan Tanggal yang Dipilih -->
                             <TextView
-                                android:id="@+id/tvSelectedDateStart"
+                                android:id="@+id/tvTargetInputDate"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Tanggal belum dipilih"
@@ -115,7 +115,7 @@
                         </LinearLayout>
 
                         <ImageButton
-                            android:id="@+id/buttonPickDateStart"
+                            android:id="@+id/buttonTargetInputDate"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:src="@drawable/ic_calendar"
@@ -127,6 +127,7 @@
                             android:adjustViewBounds="true" />
                     </LinearLayout>
                 </LinearLayout>
+
                 <!-- Input Field: Valid until -->
                 <EditText
                     android:id="@+id/etGoalAmount"
