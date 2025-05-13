@@ -14,7 +14,7 @@ import java.util.Locale
 class CoreBudget : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.core_budget)
+        setContentView(R.layout.activity_core_budget)
         window.statusBarColor = Color.parseColor("#0d5892")
 
         //Data Dummy

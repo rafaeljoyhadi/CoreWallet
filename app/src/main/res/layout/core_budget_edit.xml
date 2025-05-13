@@ -27,7 +27,7 @@
                 <ImageView
                     android:layout_width="110dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/corewallet_icon_raw" />
+                    android:src="@drawable/img_corewallet_icon_raw" />
             </LinearLayout>
         </LinearLayout>
 
@@ -146,7 +146,7 @@
                     android:layout_height="wrap_content"
                     android:text="SAVE"
                     android:textColor="@android:color/white"
-                    android:background="@drawable/save_button_form"
+                    android:background="@drawable/btn_save_form"
                     android:layout_marginStart="50dp"
                     android:layout_marginEnd="50dp"
                     android:paddingVertical="12dp"

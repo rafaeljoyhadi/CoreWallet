@@ -1,11 +1,6 @@
 package com.example.corewallet
 
-import android.content.Intent
 import android.os.Bundle
-import androidx.activity.ComponentActivity
-import android.graphics.Color
-import android.util.Log
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
@@ -21,10 +16,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Retrieve user details from LoginActivity
+        val userId = intent.getIntExtra("userId", -1)
+        val username = intent.getStringExtra("username") ?: ""
+        val accountNumber = intent.getStringExtra("accountNumber") ?: ""
+        val balance = intent.getDoubleExtra("balance", 0.0)
+
+        // Create DashboardFragment with user details
+        val dashboardFragment = DashboardFragment.newInstance(userId, username, accountNumber, balance)
+
         // Load DashboardFragment if no fragment is currently displayed
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
-                replace(R.id.fragment_container, DashboardFragment())
+                replace(R.id.fragment_container, dashboardFragment)
                 setReorderingAllowed(true)
             }
         }
@@ -34,7 +38,9 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> {
-                    replaceFragment(DashboardFragment())
+                    val dashboardFrag = DashboardFragment.newInstance(userId, username, accountNumber, balance)
+
+                    replaceFragment(dashboardFrag)
                     true
                 }
                 R.id.nav_transaction_history -> {

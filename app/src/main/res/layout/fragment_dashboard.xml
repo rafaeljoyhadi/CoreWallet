@@ -21,7 +21,7 @@
             android:id="@+id/appName"
             android:layout_width="110dp"
             android:layout_height="20dp"
-            android:src="@drawable/corewallet_icon_raw"
+            android:src="@drawable/img_corewallet_icon_raw"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,37 +29,38 @@
             android:id="@+id/helloText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="HELLO, JOY"
+            android:text="HELLO, User"
             android:textColor="@android:color/white"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@id/appName"
             app:layout_constraintTop_toBottomOf="@id/appName"
-            android:layout_marginTop="4dp" />
+            android:layout_marginTop="4dp"
+            android:textStyle="bold"/>
 
-<!--        <LinearLayout-->
-<!--            android:id="@+id/topIconsContainer"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="horizontal"-->
-<!--            android:gravity="end"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent">-->
+        <LinearLayout
+            android:id="@+id/topIconsContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
-<!--            <ImageView-->
-<!--                android:id="@+id/settingsIcon"-->
-<!--                android:layout_width="24dp"-->
-<!--                android:layout_height="24dp"-->
-<!--                android:src="@android:drawable/ic_menu_preferences"-->
-<!--                app:tint="@android:color/white"-->
-<!--                android:layout_marginEnd="8dp" />-->
+            <ImageView
+                android:id="@+id/settingsIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_settings"
+                app:tint="@android:color/white"
+                android:layout_marginEnd="8dp" />
 
-<!--            <ImageView-->
-<!--                android:id="@+id/logoutIcon"-->
-<!--                android:layout_width="24dp"-->
-<!--                android:layout_height="24dp"-->
-<!--                android:src="@android:drawable/ic_dialog_email"-->
-<!--                app:tint="@android:color/white" />-->
-<!--        </LinearLayout>-->
+            <ImageView
+                android:id="@+id/logoutIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_logout"
+                app:tint="@android:color/white" />
+        </LinearLayout>
 
 
         <!-- CardView for Balance Info -->
@@ -99,15 +100,15 @@
                     app:layout_constraintStart_toEndOf="@id/accountNumberLabel"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <ImageView
+                    android:id="@+id/copyIcon"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="8dp"
+                    android:src="@drawable/ic_copy"
+                    app:layout_constraintStart_toEndOf="@id/accountNumberLabel"
+                    app:layout_constraintTop_toTopOf="@id/accountNumberLabel" />
 
-<!--                <ImageView-->
-<!--                    android:id="@+id/copyIcon"-->
-<!--                    android:layout_width="20dp"-->
-<!--                    android:layout_height="20dp"-->
-<!--                    android:layout_marginStart="8dp"-->
-<!--                    android:src="@android:drawable/ic_menu_copy"-->
-<!--                    app:layout_constraintStart_toEndOf="@id/accountNumberLabel"-->
-<!--                    app:layout_constraintTop_toTopOf="@id/accountNumberLabel" />-->
 
                 <TextView
                     android:id="@+id/activeBalanceLabel"
@@ -124,7 +125,7 @@
                     android:id="@+id/balanceAmount"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="IDR ●●●●●●"
+                    android:text="RP ●●●●●●"
                     android:textSize="18sp"
                     android:textColor="#000000"
                     android:textStyle="bold"
@@ -132,13 +133,13 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/activeBalanceLabel" />
 
-<!--                <ImageView-->
-<!--                    android:id="@+id/eyeIcon"-->
-<!--                    android:layout_width="24dp"-->
-<!--                    android:layout_height="24dp"-->
-<!--                    android:src="@android:drawable/ic_menu_view"-->
-<!--                    app:layout_constraintBottom_toBottomOf="@id/balanceAmount"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent" />-->
+                <ImageView
+                    android:id="@+id/eyeIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_menu_view"
+                    app:layout_constraintBottom_toBottomOf="@id/balanceAmount"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
@@ -207,7 +208,7 @@
                     <ImageView
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        android:src="@drawable/ic_transfer"/>
+                        android:src="@drawable/ic_transfer_white"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -236,7 +237,7 @@
                     <ImageView
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        android:src="@drawable/ic_topup" />
+                        android:src="@drawable/ic_topup_white" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -265,7 +266,7 @@
                     <ImageView
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        android:src="@drawable/ic_withdraw"/>
+                        android:src="@drawable/ic_withdraw_white"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

@@ -37,9 +37,9 @@ android {
     }
     buildFeatures {
         compose = true
+        dataBinding = true
         viewBinding = true
     }
-
 }
 
 dependencies {
@@ -57,19 +57,36 @@ dependencies {
 
     implementation(platform("androidx.compose:compose-bom:2023.05.01"))
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.core.ktx.legacy) // if you still need this older version
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.lifecycle.runtime.ktx.legacy) // if legacy code requires it
+    implementation(libs.androidx.activity)
+
+    // Compose
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.activity.compose)
+
+    // View-based UI
     implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.constraintlayout)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.material.legacy) // remove if not needed
+
+    // Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+
+    // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

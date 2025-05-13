@@ -13,7 +13,7 @@ class TransactionHistoryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.history_menu, container, false)
+        return inflater.inflate(R.layout.activity_history_menu, container, false)
     }
 
 }
