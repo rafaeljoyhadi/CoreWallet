@@ -68,20 +68,32 @@ class LoginActivity : AppCompatActivity() {
                             Toast.LENGTH_SHORT
                         ).show()
 
-                        val intent = Intent(this@LoginActivity, HomeActivity::class.java)
+                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                        intent.putExtra("userId", user.id_user)
+                        intent.putExtra("accountNumber", user.account_number)
+                        intent.putExtra("balance", user.balance)
                         intent.putExtra("username", user.name)
                         startActivity(intent)
                         finish()
+                    } else {
+                        showToast("Login failed: Empty user data")
+                        Log.e("LoginDebug", "Login failed: Empty user object")
                     }
                 } else {
-                    showToast("Login failed")
+                    val errorBody = response.errorBody()?.string()
+                    Log.e("LoginDebug", "Login failed with code ${response.code()}")
+                    Log.e("LoginDebug", "Error body: $errorBody")
+                    showToast("Login failed: ${response.code()} - ${errorBody ?: "Unknown error"}")
                 }
             }
+
 
             override fun onFailure(call: Call<UserResponse>, t: Throwable) {
                 showToast("Network error: ${t.message}")
             }
-        })
+        }
+
+        )
 
     }
 

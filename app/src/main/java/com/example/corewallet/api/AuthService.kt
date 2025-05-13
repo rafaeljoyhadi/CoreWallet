@@ -3,6 +3,7 @@ package com.example.corewallet.api
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
@@ -26,7 +27,10 @@ data class User(
     val id_user: Int,
     val username: String,
     val name: String,
-    val account_number: String
+    val account_number: String,
+    // added
+    val balance: Int,
+    val email: String
 )
 
 interface AuthService {
@@ -41,5 +45,8 @@ interface AuthService {
 
     @PUT("/api/users/profile")
     fun updateProfile(@Body request: UpdateProfileRequest): Call<ResponseBody>
+
+    @GET("user/{id}")
+    fun getUserById(@Path("id") userId: Int): Call<User>
 
 }
