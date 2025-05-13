@@ -2,7 +2,6 @@ package com.example.corewallet
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,12 +9,15 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.corewallet.api.ApiClient
-import com.example.corewallet.api.User
 import com.example.corewallet.api.UserResponse
 import com.example.corewallet.databinding.FragmentDashboardBinding
+import com.example.corewallet.transfer.TransferFragment
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 
 class DashboardFragment : Fragment() {
 
@@ -68,6 +70,12 @@ class DashboardFragment : Fragment() {
             Toast.makeText(requireContext(), "Settings Clicked", Toast.LENGTH_SHORT).show()
         }
 
+        binding.copyIcon.setOnClickListener {
+            copyToClipboard(binding.accountNumber.text.toString())
+            Toast.makeText(requireContext(), "Account number copied to clipboard", Toast.LENGTH_SHORT).show()
+        }
+
+        // logout
         binding.logoutIcon.setOnClickListener {
             ApiClient.authService.logout().enqueue(object : Callback<UserResponse> {
                 override fun onResponse(
@@ -152,6 +160,14 @@ class DashboardFragment : Fragment() {
             }
         }
     }
+
+    // copy account number
+    private fun copyToClipboard(text: String) {
+        val clipboardManager = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clipData = ClipData.newPlainText("Account Number", text)
+        clipboardManager.setPrimaryClip(clipData)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

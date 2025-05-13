@@ -1,4 +1,4 @@
-package com.example.corewallet
+package com.example.corewallet.models
 
 import android.os.Parcel
 import android.os.Parcelable

@@ -1,4 +1,4 @@
-package com.example.corewallet
+package com.example.corewallet.transfer
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import com.example.corewallet.R
 import com.example.corewallet.databinding.FragmentTransferBinding
 
 class TransferFragment : Fragment() {

@@ -1,6 +1,5 @@
-package com.example.corewallet
+package com.example.corewallet.transfer
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
