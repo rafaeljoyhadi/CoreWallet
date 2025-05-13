@@ -54,7 +54,7 @@ class DashboardFragment : Fragment() {
 
         // Display user details
         binding.helloText.text = "Hello, $username"
-        binding.accountNumberLabel.text = "Account Number - $accountNumber"
+        binding.accountNumber.text = accountNumber
         binding.balanceAmount.text = "Rp. ${String.format("%.2f", balance)}"
 
         // copy account number
@@ -70,13 +70,21 @@ class DashboardFragment : Fragment() {
 
         binding.logoutIcon.setOnClickListener {
             ApiClient.authService.logout().enqueue(object : Callback<UserResponse> {
-                override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
+                override fun onResponse(
+                    call: Call<UserResponse>,
+                    response: Response<UserResponse>
+                ) {
                     if (response.isSuccessful) {
                         ApiClient.getCookieJar().clearCookies()
-                        Toast.makeText(requireContext(), "Logged out successfully", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            requireContext(),
+                            "Logged out successfully",
+                            Toast.LENGTH_SHORT
+                        ).show()
 
                         val intent = Intent(requireContext(), LoginActivity::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        intent.flags =
+                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
                         requireActivity().finish()
                     } else {
@@ -85,7 +93,11 @@ class DashboardFragment : Fragment() {
                 }
 
                 override fun onFailure(call: Call<UserResponse>, t: Throwable) {
-                    Toast.makeText(requireContext(), "Network error: ${t.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "Network error: ${t.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             })
         }
@@ -93,7 +105,11 @@ class DashboardFragment : Fragment() {
         // Handle transfer button click
         binding.btnTransfer.setOnClickListener {
             parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, TransferFragment(), TransferFragment::class.java.simpleName)
+                .replace(
+                    R.id.fragment_container,
+                    TransferFragment(),
+                    TransferFragment::class.java.simpleName
+                )
                 .addToBackStack(null)
                 .commit()
         }
@@ -103,31 +119,39 @@ class DashboardFragment : Fragment() {
             val mProfileFragment = AccountFragment()
             val mFragmentManager = parentFragmentManager as FragmentManager
             mFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, mProfileFragment, AccountFragment::class.java.simpleName)
+                .replace(
+                    R.id.fragment_container,
+                    mProfileFragment,
+                    AccountFragment::class.java.simpleName
+                )
                 .addToBackStack(null)
                 .commit()
         }
-        
+
         binding.btnTopUp.setOnClickListener {
             val mPin = PinConfirmationFragment()
             val mFragmentManager = parentFragmentManager as FragmentManager
             mFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, mPin, PinConfirmationFragment::class.java.simpleName)
+                .replace(
+                    R.id.fragment_container,
+                    mPin,
+                    PinConfirmationFragment::class.java.simpleName
+                )
                 .addToBackStack(null)
                 .commit()
 
-        //Handle withdraw button click
-        binding.btnWithdraw.setOnClickListener {
-            Toast.makeText(requireContext(), "Withdraw clicked", Toast.LENGTH_SHORT).show()
-        }
+            //Handle withdraw button click
+            binding.btnWithdraw.setOnClickListener {
+                Toast.makeText(requireContext(), "Withdraw clicked", Toast.LENGTH_SHORT).show()
+            }
 
-        //handle profile button click
-        binding.btnProfile.setOnClickListener {
-            Toast.makeText(requireContext(), "Profile clicked", Toast.LENGTH_SHORT).show()
+            //handle profile button click
+            binding.btnProfile.setOnClickListener {
+                Toast.makeText(requireContext(), "Profile clicked", Toast.LENGTH_SHORT).show()
 
+            }
         }
     }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

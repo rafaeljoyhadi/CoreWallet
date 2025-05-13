@@ -1,5 +1,6 @@
 package com.example.corewallet
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -51,14 +52,13 @@ class MainActivity : AppCompatActivity() {
                     replaceFragment(QrisFragment())
                     true
                 }
+                // pindah activity 
                 R.id.nav_coresavings -> {
-                    replaceFragment(CoreSavingsFragment())
+                    val intent = Intent(this, CoreSavingsActivity::class.java)
+                    startActivity(intent)
                     true
                 }
-                R.id.nav_account -> {
-                    replaceFragment(AccountFragment())
-                    true
-                }
+
                 else -> false
             }
         }
