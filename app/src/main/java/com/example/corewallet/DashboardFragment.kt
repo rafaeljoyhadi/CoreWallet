@@ -2,6 +2,7 @@ package com.example.corewallet
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,7 +35,6 @@ class DashboardFragment : Fragment() {
         }
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,6 +42,7 @@ class DashboardFragment : Fragment() {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         return binding.root
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -97,10 +98,23 @@ class DashboardFragment : Fragment() {
                 .commit()
         }
 
-        // Handle top up button click
-        binding.btnTopUp.setOnClickListener {
-            Toast.makeText(requireContext(), "Top Up clicked", Toast.LENGTH_SHORT).show()
+        //  onclick listener for profile menu
+        binding.btnProfile.setOnClickListener {
+            val mProfileFragment = AccountFragment()
+            val mFragmentManager = parentFragmentManager as FragmentManager
+            mFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, mProfileFragment, AccountFragment::class.java.simpleName)
+                .addToBackStack(null)
+                .commit()
         }
+        
+        binding.btnTopUp.setOnClickListener {
+            val mPin = PinConfirmationFragment()
+            val mFragmentManager = parentFragmentManager as FragmentManager
+            mFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, mPin, PinConfirmationFragment::class.java.simpleName)
+                .addToBackStack(null)
+                .commit()
 
         //Handle withdraw button click
         binding.btnWithdraw.setOnClickListener {
@@ -110,6 +124,7 @@ class DashboardFragment : Fragment() {
         //handle profile button click
         binding.btnProfile.setOnClickListener {
             Toast.makeText(requireContext(), "Profile clicked", Toast.LENGTH_SHORT).show()
+
         }
     }
 
