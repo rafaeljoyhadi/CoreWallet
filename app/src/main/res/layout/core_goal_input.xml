@@ -28,7 +28,7 @@
                 <ImageView
                     android:layout_width="110dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/corewallet_icon_raw" />
+                    android:src="@drawable/img_corewallet_icon_raw" />
             </LinearLayout>
         </LinearLayout>
 

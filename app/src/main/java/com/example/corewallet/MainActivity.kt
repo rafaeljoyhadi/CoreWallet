@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import com.example.corewallet.coresavings.CoreSavingsActivity
 import com.example.corewallet.databinding.FragmentTransferBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 

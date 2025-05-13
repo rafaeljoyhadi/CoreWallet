@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".coresavings.CoreSavings">
+    tools:context=".coresavings.CoreSavingsActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
                 <ImageView
                     android:layout_width="110dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/corewallet_icon_raw" />
+                    android:src="@drawable/img_corewallet_icon_raw" />
             </LinearLayout>
         </LinearLayout>
 
@@ -168,5 +168,13 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/windowBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/bottom_nav_menu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
