@@ -7,15 +7,21 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.ImageView
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import com.example.corewallet.R
+import com.example.corewallet.api.RetrofitClient
+import com.example.corewallet.models.Budget
 import www.sanju.motiontoast.MotionToast
 import www.sanju.motiontoast.MotionToastStyle
 import java.util.Calendar
+import com.example.corewallet.api.ApiService
 
 class CoreBudgetEdit : AppCompatActivity() {
     // Variabel untuk menyimpan Start Date
@@ -45,6 +51,7 @@ class CoreBudgetEdit : AppCompatActivity() {
         }
     }
 
+    //Fungsi pendek untuk memastikan tanggal tidak ber value 0
     fun Int.ifZero(defaultValue: () -> Int): Int {
         return if (this == 0) defaultValue() else this
     }
@@ -85,7 +92,7 @@ class CoreBudgetEdit : AppCompatActivity() {
             datePickerDialog.show()
         }
 
-// Listener untuk End Date
+        // Listener untuk End Date
         buttonPickDateEnd.setOnClickListener {
             // Tampilkan DatePickerDialog untuk End Date
             val datePickerDialog = DatePickerDialog(
@@ -128,32 +135,156 @@ class CoreBudgetEdit : AppCompatActivity() {
         }
 
         // Terima data dari Server
-        val shoppingCategory = intent.getStringExtra("shoppingCategory")
-        val shoppingAmount = intent.getStringExtra("shoppingAmount")
-        val shoppingProgress = intent.getIntExtra("shoppingProgress", 0)
+        val id = intent.getIntExtra("id_budget", 0)
+        val planName = intent.getStringExtra("planName")
+        val category = intent.getIntExtra("category", 0)
+        val amount = intent.getStringExtra("amount")
+        val startDateString = intent.getStringExtra("startDate")
+        val endDateString = intent.getStringExtra("endDate")
 
-        // Isi data ke TextView dan ProgressBar
-        val tvGoalPlanName = findViewById<TextView>(R.id.etGoalPlanName)
-        val tvShoppingAmount = findViewById<TextView>(R.id.etBudgetAmount)
+        // Isi data ke TextView
+        val tvGoalPlanName = findViewById<TextView>(R.id.etBudgetPlanNameEdit)
+        val spinnerCategory = findViewById<Spinner>(R.id.spinnerCategory)
+        val tvAmount = findViewById<TextView>(R.id.etBudgetAmountEdit)
 
-        // Set nilai untuk Shopping
-        tvGoalPlanName.text = shoppingCategory
-        tvShoppingAmount.text = shoppingAmount
+        // Set nilai untuk TextView
+        tvGoalPlanName.text = planName
+        tvAmount.text = amount
+        tvSelectedDateStart.text = startDateString
+        tvSelectedDateEnd.text = endDateString
 
-        //Button Save dan Kembali ke CoreBudget
+        val categoryIndex = category
+
+        val categories = listOf(
+            "Top-Up",
+            "Food",
+            "Shopping",
+            "Entertainment",
+            "Bills",
+            "Transfer",
+            "Other/Miscellaneous"
+        )
+
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categories)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerCategory.adapter = adapter
+
+        if (categoryIndex in 0 until categories.size) {
+            spinnerCategory.setSelection(categoryIndex)
+        } else {
+            spinnerCategory.setSelection(0)
+        }
+
+        //Parsing Tanggal
+        startDateString?.let {
+            val parts = it.split("-") // Format: YYYY-MM-DD
+            if (parts.size == 3) {
+                startDateYear = parts[0].toInt()
+                startDateMonth = parts[1].toInt() - 1
+                startDateDay = parts[2].toInt()
+                tvSelectedDateStart.text = "Tanggal Awal: ${startDateDay}/${startDateMonth + 1}/$startDateYear"
+                tvSelectedDateStart.setTextColor(resources.getColor(android.R.color.holo_green_dark))
+            }
+        }
+
+        endDateString?.let {
+            val parts = it.split("-")
+            if (parts.size == 3) {
+                endDateYear = parts[0].toInt()
+                endDateMonth = parts[1].toInt() - 1
+                endDateDay = parts[2].toInt()
+                tvSelectedDateEnd.text = "Tanggal Akhir: ${endDateDay}/${endDateMonth + 1}/$endDateYear"
+                tvSelectedDateEnd.setTextColor(resources.getColor(android.R.color.holo_green_dark))
+            }
+        }
+
+        // Tombol back
+        val btnBack = findViewById<ImageView>(R.id.btnBack)
+        btnBack.setOnClickListener {
+            onBackPressed() // Simulasikan tombol back
+            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+        }
+
         val btnSave = findViewById<Button>(R.id.btnSave_CoreBudgetEdit)
         btnSave.setOnClickListener {
-            MotionToast.createColorToast(this, "Upload Berhasil!", "Data berhasil disimpan",
-                MotionToastStyle.SUCCESS,
-                MotionToast.GRAVITY_BOTTOM,
-                MotionToast.LONG_DURATION,
-                ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular)
-            )
+            // Ambil nilai dari input user
+            val updatedPlanName = tvGoalPlanName.text.toString()
+            val selectedCategoryIndex = spinnerCategory.selectedItemPosition
+            val updatedAmount = tvAmount.text.toString().toLongOrNull() ?: 0L
 
-            Handler(Looper.getMainLooper()).postDelayed({
-                val intent = Intent(this, CoreBudget::class.java)
-                startActivity(intent)
-            }, 2000)
+            // Parsing tanggal awal dan akhir
+            val updatedStartDate = "$startDateYear-${String.format("%02d", startDateMonth + 1)}-${String.format("%02d", startDateDay)}"
+            val updatedEndDate = "$endDateYear-${String.format("%02d", endDateMonth + 1)}-${String.format("%02d", endDateDay)}"
+
+            // Panggil fungsi PUT API
+            updateBudgetToServer(
+                id = id,
+                planName = updatedPlanName,
+                category = selectedCategoryIndex,
+                amount = updatedAmount,
+                startDate = updatedStartDate,
+                endDate = updatedEndDate
+            )
         }
+    }
+
+
+    // Fungsi untuk nembak API PUT setelah Save Button
+    private fun updateBudgetToServer(id: Int, planName: String, category: Int, amount: Long, startDate: String, endDate: String) {
+        val budgetUpdateRequest = Budget(
+            id_budget = id,
+            plan_name = planName,
+            category_number = category,
+            amount_limit = amount,
+            spent_amount = 0, // Silahkan diganti pas ngambil dr DB untuk jumlah yang udah dipake user
+            start_date = startDate,
+            end_date = endDate
+        )
+
+        RetrofitClient.instance.updateBudget(id, budgetUpdateRequest).enqueue(object : retrofit2.Callback<Void> {
+            override fun onResponse(call: retrofit2.Call<Void>, response: retrofit2.Response<Void>) {
+                if (response.isSuccessful) {
+                    // Jika berhasil
+                    MotionToast.createColorToast(
+                        this@CoreBudgetEdit,
+                        "Upload Berhasil!",
+                        "Data berhasil disimpan",
+                        MotionToastStyle.SUCCESS,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(this@CoreBudgetEdit, www.sanju.motiontoast.R.font.helvetica_regular)
+                    )
+
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        val intent = Intent(this@CoreBudgetEdit, CoreBudget::class.java)
+                        startActivity(intent)
+                    }, 2000)
+                } else {
+                    // Jika gagal
+                    MotionToast.createColorToast(
+                        this@CoreBudgetEdit,
+                        "Gagal!",
+                        "Gagal menyimpan data",
+                        MotionToastStyle.ERROR,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(this@CoreBudgetEdit, www.sanju.motiontoast.R.font.helvetica_regular)
+                    )
+                }
+            }
+
+            override fun onFailure(call: retrofit2.Call<Void>, t: Throwable) {
+                // Handle failure
+                MotionToast.createColorToast(
+                    this@CoreBudgetEdit,
+                    "Error!",
+                    "Terjadi kesalahan: ${t.message}",
+                    MotionToastStyle.ERROR,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(this@CoreBudgetEdit, www.sanju.motiontoast.R.font.helvetica_regular)
+                )
+            }
+        })
     }
 }

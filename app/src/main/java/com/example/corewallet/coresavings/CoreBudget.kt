@@ -5,10 +5,12 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.ProgressBar
@@ -18,15 +20,29 @@ import androidx.appcompat.app.AppCompatActivity
 import java.text.NumberFormat
 import java.util.Locale
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.corewallet.R
+import com.example.corewallet.api.ApiClient
+import com.example.corewallet.api.RetrofitClient
+import com.example.corewallet.models.BudgetAdapter
+import com.example.corewallet.models.Budget
+import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class CoreBudget : AppCompatActivity() {
 
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var BudgetAdapter: BudgetAdapter
+    private lateinit var budgetList: List<Budget>
 
-    //Pop Up Settings
-     private fun showCustomPopup(anchorView: View) {
+
+    private fun showCustomPopup(anchorView: View, plan: Budget) {
         val inflater = LayoutInflater.from(this)
-        val popupView = inflater.inflate(R.layout.popup_menu_core_budget, null, false)
+        val popupView = inflater.inflate(R.layout.popup_menu_core_budget, null)
         val popupWindow = PopupWindow(
             popupView,
             LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -34,39 +50,38 @@ class CoreBudget : AppCompatActivity() {
             true
         )
 
-        // Setting option button
         popupWindow.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         popupWindow.elevation = 30f
         popupWindow.showAsDropDown(anchorView, -178, -5, Gravity.START)
 
-        // Fungsi Edit Button
         popupView.findViewById<View>(R.id.itemEdit).setOnClickListener {
-
-            val shoppingCategory = "Shopping"
-            val shoppingAmount = "Rp. 400.000"
-            val shoppingProgress = 40
-
             val data = HashMap<String, Any>()
-            data["shoppingCategory"] = shoppingCategory
-            data["shoppingAmount"] = shoppingAmount
-            data["shoppingProgress"] = shoppingProgress
+            data["id_budget"] = plan.id_budget
+            data["planName"] = plan.plan_name
+            data["category"] = plan.category_number
+            data["amount"] = "Rp. ${plan.amount_limit}"
+            data["progress"] = ((plan.spent_amount.toFloat() / plan.amount_limit) * 100).toInt()
 
-            // Panggil fungsi untuk membuka halaman berikutnya
+            // Kirim tanggal mulai dan akhir ke halaman edit
+            data["startDate"] = plan.start_date
+            data["endDate"] = plan.end_date
+
             navigateToCoreBudgetEdit(this, CoreBudgetEdit::class.java, data)
         }
 
-        // Fungsi Delete Button
         popupView.findViewById<View>(R.id.itemDelete).setOnClickListener {
             Toast.makeText(this, "Delete clicked", Toast.LENGTH_SHORT).show()
             popupWindow.dismiss()
         }
     }
 
-    private fun navigateToCoreBudgetEdit(activity: AppCompatActivity, nextActivityClass: Class<*>, data: HashMap<String, Any>) {
-        // Membuat Intent untuk membuka aktivitas berikutnya
+    //Delete ini setelah menggunakan API
+    private fun navigateToCoreBudgetEdit(
+        activity: AppCompatActivity,
+        nextActivityClass: Class<*>,
+        data: HashMap<String, Any>
+    ) {
         val intent = Intent(activity, nextActivityClass)
-
-        // Menambahkan data ke Intent
         for ((key, value) in data) {
             when (value) {
                 is String -> intent.putExtra(key, value)
@@ -80,46 +95,147 @@ class CoreBudget : AppCompatActivity() {
         activity.startActivity(intent)
     }
 
+    private fun navigateToCoreBudgetDetail(budget: Budget) {
+        val intent = Intent(this, CoreBudgetDetail::class.java)
+        intent.putExtra("id_budget", budget.id_budget)
+        intent.putExtra("planName", budget.plan_name)
+        intent.putExtra("category", budget.category_number)
+        intent.putExtra("amount", budget.amount_limit)
+        intent.putExtra("spentAmount", budget.spent_amount)
+        intent.putExtra("startDate", budget.start_date)
+        intent.putExtra("endDate", budget.end_date)
+        startActivity(intent)
+    }
+
+    private fun getBudgetPlans() {
+        val apiService = ApiClient.getApiService()
+        val userId = 1 // Ganti dengan singleton user jika sudah tersedia
+
+        lifecycleScope.launch {
+            try {
+                val response = apiService.getBudgetPlans(userId)
+                if (response.isSuccessful && response.body() != null) {
+                    // Ambil daftar budget langsung dari respons body
+                    val budgetList = response.body()!!.map { budget ->
+                        Budget(
+                            id_budget = budget.id_budget,
+                            plan_name = budget.plan_name,
+                            amount_limit = budget.amount_limit,
+                            spent_amount = budget.spent_amount,
+                            start_date = budget.start_date,
+                            end_date = budget.end_date,
+                            category_number = budget.category_number // Mapping dari id_category
+                        )
+                    }
+
+                    // Log data untuk debugging
+                    Log.d("API_RESPONSE", "Data diterima: $budgetList")
+
+                    // Inisialisasi adapter dengan callback untuk popup dan navigasi
+                    BudgetAdapter = BudgetAdapter(
+                        budgetPlans = budgetList,
+                        onMoreOptionsClick = { anchorView, plan ->
+                            showCustomPopup(anchorView, plan)
+                        },
+                        onItemClicked = { plan ->
+                            navigateToCoreBudgetDetail(plan)
+                        }
+                    )
+
+                    recyclerView.adapter = BudgetAdapter
+                } else {
+                    Toast.makeText(this@CoreBudget, "Gagal mengambil data", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            } catch (e: Exception) {
+                Log.e("API_ERROR", "Exception: ${e.message}")
+                Toast.makeText(this@CoreBudget, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.core_budget)
         window.statusBarColor = Color.parseColor("#0d5892")
 
-        // Akses ImageButton Option
-        val btnOverflow = findViewById<View>(R.id.btnOverflow)
-        btnOverflow.setOnClickListener {
-            showCustomPopup(it)
-        }
+        // Inisialisasi RecyclerView
+        recyclerView = findViewById(R.id.recyclerViewCoreBudget)
+        recyclerView.layoutManager = LinearLayoutManager(this)
 
-        val list1 = findViewById<View>(R.id.budget1)
-        list1.setOnClickListener {
-            val moveIntent = Intent(this@CoreBudget, CoreBudgetDetail::class.java)
-            startActivity(moveIntent)
-        }
+        // Dummy Data untuk testing tampilan
+        val dummyList = listOf(
+            Budget(
+                id_budget = 1,
+                plan_name = "March Spendings",
+                amount_limit = 1000000,
+                spent_amount = 600000,
+                start_date = "2025-03-01",
+                end_date = "2025-03-31",
+                category_number = 1
+            ),
+            Budget(
+                id_budget = 2,
+                plan_name = "April Fun",
+                amount_limit = 500000,
+                spent_amount = 200000,
+                start_date = "2025-04-01",
+                end_date = "2025-04-30",
+                category_number = 2
+            ),
+            Budget(
+                id_budget = 3,
+                plan_name = "May Savings",
+                amount_limit = 2000000,
+                spent_amount = 1500000,
+                start_date = "2025-05-01",
+                end_date = "2025-05-31",
+                category_number = 3
+            ),
+            Budget(
+                id_budget = 4,
+                plan_name = "June Vacation",
+                amount_limit = 3000000,
+                spent_amount = 2500000,
+                start_date = "2025-06-01",
+                end_date = "2025-06-30",
+                category_number = 4
+            ),
+            Budget(
+                id_budget = 5,
+                plan_name = "July Investments",
+                amount_limit = 1500000,
+                spent_amount = 1000000,
+                start_date = "2025-07-01",
+                end_date = "2025-07-31",
+                category_number = 5
+            )
+        )
 
-        //Data Dummy
-        val savedAmount = 400000
-        val targetAmount = 1000000
+        // Inisialisasi adapter dengan dummyList
+        BudgetAdapter = BudgetAdapter(
+            budgetPlans = dummyList, // Gunakan dummyList sebagai sumber data
+            onMoreOptionsClick = { view, budget ->
+                showCustomPopup(view, budget) // Callback untuk popup menu
+            },
+            onItemClicked = { budget ->
+                navigateToCoreBudgetDetail(budget) // Callback untuk navigasi ke detail
+            }
+        )
 
-        val formatter = NumberFormat.getNumberInstance(Locale("id", "ID")) // Locale Indonesia
+        // Set adapter ke RecyclerView
+        recyclerView.adapter = BudgetAdapter
 
-        val progressBar = findViewById<ProgressBar>(R.id.progressBar1)
 
-        val progress = ((savedAmount.toDouble() / targetAmount) * 100).toInt()
 
-        progressBar.progress = progress.coerceAtMost(100)
+////         NOTE: Sementara ini jangan panggil API
+//         getBudgetPlans()
 
-        val tvShoppingAmount = findViewById<TextView>(R.id.tvShoppingAmount)
-        tvShoppingAmount.text = "${formatter.format(savedAmount)} / ${formatter.format(targetAmount)}"
-
-        if (savedAmount > targetAmount) {
-            progressBar.progressDrawable =
-                ContextCompat.getDrawable(this, R.drawable.progress_bar_full)
-            tvShoppingAmount.setTextColor(Color.parseColor("#FF0000"))
-            tvShoppingAmount.setTypeface(null, Typeface.BOLD)
-        } else {
-            tvShoppingAmount.setTextColor(Color.BLACK)
-            tvShoppingAmount.setTypeface(null, Typeface.NORMAL)
+        // Tombol back
+        val btnBack = findViewById<ImageView>(R.id.btnBack)
+        btnBack.setOnClickListener {
+            onBackPressed() // Simulasikan tombol back
+            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
         }
 
         // Button Add Budget

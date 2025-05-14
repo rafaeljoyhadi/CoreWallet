@@ -22,13 +22,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="15dp"
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="110dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/img_corewallet_icon_raw" />
+                    android:id="@+id/btnBack"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:rotation="180"
+                    android:src="@drawable/ic_back_button" />
             </LinearLayout>
         </LinearLayout>
 
@@ -81,8 +83,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
-                    android:orientation="vertical"
-                    android:background="@drawable/background_light_blue_shape_connector">
+                    android:orientation="vertical">
 
                     <!-- Title, Date, and Option Button Row -->
                     <LinearLayout
@@ -90,8 +91,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:padding="10dp"
-
-                        android:background="@drawable/background_light_blue_shape_connector">
+                        android:background="@drawable/half_rounded_corners">
 
                         <!-- Title Section -->
                         <TextView
@@ -121,7 +121,9 @@
                             android:layout_height="30dp"
                             android:background="?attr/selectableItemBackground"
                             android:src="@drawable/ic_menu_vertical"
-                            android:scaleType="centerInside"/>
+                            android:scaleX="1.5"
+                            android:scaleY="1.5"
+                            android:scaleType="fitXY" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -154,10 +156,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:text="Add Goal"
-                        android:textColor="@android:color/black"
+                        android:textColor="@android:color/white"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        android:background="@drawable/background_light_blue_shape_connector"
+                        android:background="@drawable/rounded_button"
                         android:gravity="center"
                         android:layout_marginTop="20dp"
                         android:layout_marginStart="20dp"

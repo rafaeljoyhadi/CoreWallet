@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -62,31 +63,12 @@ class CoreBudgetDetail : AppCompatActivity() {
             navigateToCoreBudgetEdit(this, CoreBudgetEdit::class.java, data)
         }
 
-        val savedAmount = 400000
-        val targetAmount = 1000000
-
-        val formatter = NumberFormat.getNumberInstance(Locale("id", "ID")) // Locale Indonesia
-
-        val progressBar = findViewById<ProgressBar>(R.id.progressBar)
-
-        val progress = ((savedAmount.toDouble() / targetAmount) * 100).toInt()
-
-        progressBar.progress = progress.coerceAtMost(100)
-
-        val tvShoppingAmount = findViewById<TextView>(R.id.tvShoppingAmount)
-        tvShoppingAmount.text = "${formatter.format(savedAmount)} / ${formatter.format(targetAmount)}"
-
-        if (savedAmount > targetAmount) {
-            progressBar.progressDrawable = ContextCompat.getDrawable(this,
-                R.drawable.progress_bar_full
-            )
-            tvShoppingAmount.setTextColor(Color.parseColor("#FF0000"))
-            tvShoppingAmount.setTypeface(null, Typeface.BOLD)
-        } else {
-            tvShoppingAmount.setTextColor(Color.BLACK)
-            tvShoppingAmount.setTypeface(null, Typeface.NORMAL)
+        // Tombol back
+        val btnBack = findViewById<ImageView>(R.id.btnBack)
+        btnBack.setOnClickListener {
+            onBackPressed() // Simulasikan tombol back
+            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
         }
-
     }
 
 }

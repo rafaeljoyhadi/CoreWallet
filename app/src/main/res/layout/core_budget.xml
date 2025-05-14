@@ -21,13 +21,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="15dp"
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="110dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/img_corewallet_icon_raw" />
+                    android:id="@+id/btnBack"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:rotation="180"
+                    android:src="@drawable/ic_back_button" />
             </LinearLayout>
         </LinearLayout>
 
@@ -53,126 +55,39 @@
             </LinearLayout>
         </LinearLayout>
 
+
 <!--Jangan ganggu atas-->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="680dp"
             android:layout_marginTop="-60dp"
             android:background="@color/white">
 
-            <ScrollView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                android:fillViewport="true">
-
-                <LinearLayout
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewCoreBudget"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center_horizontal">
-
-                    <LinearLayout
-                        android:id="@+id/budget1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="20dp"
-                        android:orientation="vertical"
-                        android:background="@drawable/rounded_corners_rectangle_tb">
-
-                        <!-- Title, Date, and Option Button Row -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:padding="10dp"
-
-                            android:background="@drawable/half_rounded_corners">
-
-                            <!-- Title Section -->
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="MARCH SPENDINGS"
-                                android:paddingTop="5dp"
-                                android:textStyle="bold"
-                                android:textSize="14sp"
-                                android:textColor="@android:color/black" />
-
-                            <!-- Date Section -->
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="31 MAR 2025"
-                                android:textSize="14sp"
-                                android:textColor="@android:color/black"
-                                android:layout_marginEnd="8dp" />
-
-                            <!-- Overflow Button (Three Dots) -->
-                            <ImageButton
-                                android:id="@+id/btnOverflow"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:background="?attr/selectableItemBackground"
-                                android:src="@drawable/ic_menu_vertical"
-                                android:scaleType="centerInside"/>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="20dp"
-                            android:background="@drawable/background_light_blue_shape_connector">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Shopping"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/tvShoppingAmount"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="600.000 / 1.000.000"
-                                android:gravity="end"
-                                android:layout_marginBottom="4dp" />
-
-                            <ProgressBar
-                                android:id="@+id/progressBar1"
-                                style="?android:attr/progressBarStyleHorizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="12dp"
-                                android:progress="60"
-                                android:max="100"
-                                android:progressDrawable="@drawable/progress_bar"/>
-                        </LinearLayout>
-                    </LinearLayout>
-
-
-
-<!--                    Add budget Button-->
-                    <Button
-                        android:id="@+id/btnAddGoal"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:text="Add Goal"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:background="@drawable/rounded_corners_rectangle_tb"
-                        android:gravity="center"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="20dp" />
-                </LinearLayout>
-            </ScrollView>
+                    android:layout_height="match_parent">
+                </androidx.recyclerview.widget.RecyclerView>
+            </LinearLayout>
         </LinearLayout>
 
+        <Button
+            android:id="@+id/btnAddGoal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Add Budget"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:background="@drawable/rounded_button"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
 

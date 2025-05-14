@@ -35,4 +35,11 @@ object ApiClient {
     }
 
     fun getCookieJar(): SessionCookieJar = cookieJar
+
+    private val retrofit = Retrofit.Builder()
+        .baseUrl("https://yourapi.com/api/") // Ganti sesuai domain
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+    fun getApiService(): ApiService = retrofit.create(ApiService::class.java)
 }

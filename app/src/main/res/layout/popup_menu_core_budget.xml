@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/background_light_blue_shape_connector"
+        android:background="@drawable/bg_light_blue"
         android:padding="9dp"
         android:layout_margin="2px">
 
