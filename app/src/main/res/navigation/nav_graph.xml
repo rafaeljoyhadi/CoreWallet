@@ -19,12 +19,15 @@
         android:label="QRIS" />
 
     <fragment
-        android:id="@+id/coresavingsFragment"
-        android:name="com.example.corewallet.CoreSavingsFragment"
+        android:id="@+id/coresavingsfragment"
+        android:name="com.example.corewallet.coresavings.CoreSavingsFragment"
         android:label="CoreSavings" />
+
 
     <fragment
         android:id="@+id/accountFragment"
         android:name="com.example.corewallet.AccountFragment"
         android:label="Account" />
+
+
 </navigation>

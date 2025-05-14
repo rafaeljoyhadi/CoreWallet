@@ -71,6 +71,30 @@
         <activity
             android:name=".MainActivity"
             android:exported="true" />
+        <!--    CORE SAVINGS    -->
+        <activity
+            android:name=".coresavings.CoreSavings"
+            android:exported="true" />
+        <activity
+            android:name=".coresavings.CoreBudget"
+            android:exported="true" />
+        <activity
+            android:name=".coresavings.CoreBudgetDetail"
+            android:exported="true" />
+        <activity
+            android:name=".coresavings.CoreBudgetEdit"
+            android:exported="true" />
+        <activity
+            android:name=".coresavings.CoreBudgetInput"
+            android:exported="true" />
+        <activity android:name=".coresavings.CoreGoal"
+            android:exported="true" />
+        <activity android:name=".coresavings.CoreGoalDetail"
+            android:exported="true" />
+        <activity android:name=".coresavings.CoreGoalEdit"
+            android:exported="true" />
+        <activity android:name=".coresavings.CoreGoalInput"
+            android:exported="true" />
     </application>
 
 </manifest>
