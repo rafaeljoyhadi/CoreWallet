@@ -12,8 +12,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.corewallet.coresavings.CoreBudget
 import com.example.corewallet.coresavings.CoreGoal
-import com.example.corewallet.coresavings.RetrofitInstance
-import com.example.corewallet.coresavings.SavingsResponse
+import com.example.corewallet.api.RetrofitClient
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import retrofit2.Call
 import retrofit2.Callback
@@ -40,33 +39,9 @@ class CoreSavingsActivity : AppCompatActivity() {
         btnCoreGoal.setOnClickListener {
             val moveIntent = Intent(this@CoreSavingsActivity, CoreGoal::class.java)
             startActivity(moveIntent)
-            RetrofitInstance.api.getCoreSavings().enqueue(object : Callback<SavingsResponse> {
-                override fun onResponse(
-                    call: Call<SavingsResponse>,
-                    response: Response<SavingsResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        val data = response.body()
-                        data?.let {
-                            val intent = Intent(this@CoreSavingsActivity, CoreBudget::class.java).apply {
-                                putExtra("goal_name", it.goal_name)
-                                putExtra("target_amount", it.target_amount)
-                                putExtra("saved_amount", it.saved_amount)
-                                putExtra("deadline", it.deadline)
-                                putExtra("status", it.status)
-                            }
-                            startActivity(intent)
-                        }
-                    } else {
-                        Toast.makeText(this@CoreSavingsActivity, "Gagal mendapatkan data", Toast.LENGTH_SHORT).show()
-                    }
-                }
 
-                override fun onFailure(call: Call<SavingsResponse>, t: Throwable) {
-                    Toast.makeText(this@CoreSavingsActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
-                }
-            })
         }
+
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomNavigationView.setOnItemSelectedListener { item ->

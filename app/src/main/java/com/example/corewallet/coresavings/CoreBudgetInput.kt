@@ -7,9 +7,10 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.LinearLayout
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
@@ -39,19 +40,15 @@ class CoreBudgetInput : AppCompatActivity() {
 
         // Listener Start Date
         buttonPickDateStart.setOnClickListener {
-            // Tampilkan DatePickerDialog
             val datePickerDialog = DatePickerDialog(
                 this,
                 { _, year, month, dayOfMonth ->
-                    // Simpan tanggal yang dipilih
                     selectedYear = year
                     selectedMonth = month
                     selectedDay = dayOfMonth
 
-                    // Format tanggal ke string
+                    // Format tanggal ke string dan input ke TextView
                     val formattedDate = "$dayOfMonth/${month + 1}/$year"
-
-                    // Tampilkan tanggal di TextView
                     tvSelectedDateStart.text = "Tanggal terpilih: $formattedDate"
                     tvSelectedDateStart.setTextColor(resources.getColor(android.R.color.holo_green_dark))
                 },
@@ -64,19 +61,15 @@ class CoreBudgetInput : AppCompatActivity() {
 
         // Listener End Date
         buttonPickDateEnd.setOnClickListener {
-            // Tampilkan DatePickerDialog
             val datePickerDialog = DatePickerDialog(
                 this,
                 { _, year, month, dayOfMonth ->
-                    // Simpan tanggal yang dipilih
                     selectedYear = year
                     selectedMonth = month
                     selectedDay = dayOfMonth
 
-                    // Format tanggal ke string
+                    // Format tanggal ke string dan input ke TextView
                     val formattedDate = "$dayOfMonth/${month + 1}/$year"
-
-                    // Tampilkan tanggal di TextView
                     tvSelectedDateEnd.text = "Tanggal terpilih: $formattedDate"
                     tvSelectedDateEnd.setTextColor(resources.getColor(android.R.color.holo_green_dark))
                 },
@@ -86,6 +79,22 @@ class CoreBudgetInput : AppCompatActivity() {
             )
             datePickerDialog.show()
         }
+
+        //Untuk Spinner Category
+        val spinnerCategory = findViewById<Spinner>(R.id.spinnerCategory)
+        val categories = listOf(
+            "Top-Up",
+            "Food",
+            "Shopping",
+            "Entertainment",
+            "Bills",
+            "Transfer",
+            "Other/Miscellaneous"
+        )
+
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categories)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerCategory.adapter = adapter
 
         // Tombol back
         val btnBack = findViewById<ImageView>(R.id.btnBack)
@@ -103,6 +112,9 @@ class CoreBudgetInput : AppCompatActivity() {
                 MotionToast.GRAVITY_BOTTOM,
                 MotionToast.LONG_DURATION,
                 ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular)
+
+                //Tambahin API buat nembak ja
+                //Ambil id_budget, budget_name, amount_limit, start_date, end_date
             )
 
             Handler(Looper.getMainLooper()).postDelayed({

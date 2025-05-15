@@ -21,7 +21,6 @@ import com.example.corewallet.models.Budget
 import www.sanju.motiontoast.MotionToast
 import www.sanju.motiontoast.MotionToastStyle
 import java.util.Calendar
-import com.example.corewallet.api.ApiService
 
 class CoreBudgetEdit : AppCompatActivity() {
     // Variabel untuk menyimpan Start Date
@@ -69,36 +68,30 @@ class CoreBudgetEdit : AppCompatActivity() {
 
         // Listener untuk Start Date
         buttonPickDateStart.setOnClickListener {
-            // Tampilkan DatePickerDialog untuk Start Date
             val datePickerDialog = DatePickerDialog(
                 this,
                 { _, year, month, dayOfMonth ->
-                    // Simpan tanggal yang dipilih untuk Start Date
                     startDateYear = year
                     startDateMonth = month
                     startDateDay = dayOfMonth
 
-                    // Format tanggal ke string
+                    // Format tanggal ke string dan input di TextView
                     val formattedDate = "$dayOfMonth/${month + 1}/$year"
-
-                    // Tampilkan tanggal di TextView untuk Start Date
                     tvSelectedDateStart.text = "Tanggal Awal: $formattedDate"
                     tvSelectedDateStart.setTextColor(resources.getColor(android.R.color.holo_green_dark))
                 },
-                startDateYear.ifZero { Calendar.getInstance().get(Calendar.YEAR) }, // Default tahun saat ini
-                startDateMonth.ifZero { Calendar.getInstance().get(Calendar.MONTH) }, // Default bulan saat ini
-                startDateDay.ifZero { Calendar.getInstance().get(Calendar.DAY_OF_MONTH) } // Default hari saat ini
+                startDateYear.ifZero { Calendar.getInstance().get(Calendar.YEAR) },
+                startDateMonth.ifZero { Calendar.getInstance().get(Calendar.MONTH) },
+                startDateDay.ifZero { Calendar.getInstance().get(Calendar.DAY_OF_MONTH) }
             )
             datePickerDialog.show()
         }
 
         // Listener untuk End Date
         buttonPickDateEnd.setOnClickListener {
-            // Tampilkan DatePickerDialog untuk End Date
             val datePickerDialog = DatePickerDialog(
                 this,
                 { _, year, month, dayOfMonth ->
-                    // Simpan tanggal yang dipilih untuk End Date
                     endDateYear = year
                     endDateMonth = month
                     endDateDay = dayOfMonth
@@ -111,10 +104,7 @@ class CoreBudgetEdit : AppCompatActivity() {
 
                     // Bandingkan tanggal
                     if (isEndDateValid(startDateYear, startDateMonth, startDateDay, year, month, dayOfMonth)) {
-                        // Format tanggal ke string
                         val formattedDate = "$dayOfMonth/${month + 1}/$year"
-
-                        // Tampilkan tanggal di TextView untuk End Date
                         tvSelectedDateEnd.text = "Tanggal Akhir: $formattedDate"
                         tvSelectedDateEnd.setTextColor(resources.getColor(android.R.color.holo_green_dark))
                     } else {
@@ -136,7 +126,7 @@ class CoreBudgetEdit : AppCompatActivity() {
 
         // Terima data dari Server
         val id = intent.getIntExtra("id_budget", 0)
-        val planName = intent.getStringExtra("planName")
+        val budgetName = intent.getStringExtra("budgetName")
         val category = intent.getIntExtra("category", 0)
         val amount = intent.getStringExtra("amount")
         val startDateString = intent.getStringExtra("startDate")
@@ -148,7 +138,7 @@ class CoreBudgetEdit : AppCompatActivity() {
         val tvAmount = findViewById<TextView>(R.id.etBudgetAmountEdit)
 
         // Set nilai untuk TextView
-        tvGoalPlanName.text = planName
+        tvGoalPlanName.text = budgetName
         tvAmount.text = amount
         tvSelectedDateStart.text = startDateString
         tvSelectedDateEnd.text = endDateString
@@ -177,7 +167,7 @@ class CoreBudgetEdit : AppCompatActivity() {
 
         //Parsing Tanggal
         startDateString?.let {
-            val parts = it.split("-") // Format: YYYY-MM-DD
+            val parts = it.split("-")
             if (parts.size == 3) {
                 startDateYear = parts[0].toInt()
                 startDateMonth = parts[1].toInt() - 1
@@ -201,7 +191,7 @@ class CoreBudgetEdit : AppCompatActivity() {
         // Tombol back
         val btnBack = findViewById<ImageView>(R.id.btnBack)
         btnBack.setOnClickListener {
-            onBackPressed() // Simulasikan tombol back
+            onBackPressed()
             overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
         }
 
@@ -216,10 +206,10 @@ class CoreBudgetEdit : AppCompatActivity() {
             val updatedStartDate = "$startDateYear-${String.format("%02d", startDateMonth + 1)}-${String.format("%02d", startDateDay)}"
             val updatedEndDate = "$endDateYear-${String.format("%02d", endDateMonth + 1)}-${String.format("%02d", endDateDay)}"
 
-            // Panggil fungsi PUT API
+            // Panggil fungsi PUT API dengan value dibawah ini
             updateBudgetToServer(
                 id = id,
-                planName = updatedPlanName,
+                budgetName = updatedPlanName,
                 category = selectedCategoryIndex,
                 amount = updatedAmount,
                 startDate = updatedStartDate,
@@ -230,10 +220,10 @@ class CoreBudgetEdit : AppCompatActivity() {
 
 
     // Fungsi untuk nembak API PUT setelah Save Button
-    private fun updateBudgetToServer(id: Int, planName: String, category: Int, amount: Long, startDate: String, endDate: String) {
+    private fun updateBudgetToServer(id: Int, budgetName: String, category: Int, amount: Long, startDate: String, endDate: String) {
         val budgetUpdateRequest = Budget(
             id_budget = id,
-            plan_name = planName,
+            budget_name = budgetName,
             category_number = category,
             amount_limit = amount,
             spent_amount = 0, // Silahkan diganti pas ngambil dr DB untuk jumlah yang udah dipake user

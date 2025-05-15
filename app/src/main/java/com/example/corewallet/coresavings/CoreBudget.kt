@@ -2,7 +2,6 @@ package com.example.corewallet.coresavings
 
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
@@ -13,36 +12,25 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.PopupWindow
-import android.widget.ProgressBar
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import java.text.NumberFormat
-import java.util.Locale
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.corewallet.R
 import com.example.corewallet.api.ApiClient
-import com.example.corewallet.api.RetrofitClient
 import com.example.corewallet.models.BudgetAdapter
 import com.example.corewallet.models.Budget
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class CoreBudget : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var BudgetAdapter: BudgetAdapter
-    private lateinit var budgetList: List<Budget>
-
 
     private fun showCustomPopup(anchorView: View, plan: Budget) {
         val inflater = LayoutInflater.from(this)
-        val popupView = inflater.inflate(R.layout.popup_menu_core_budget, null)
+        val popupView = inflater.inflate(R.layout.popup_menu_core_savings, null)
         val popupWindow = PopupWindow(
             popupView,
             LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -57,7 +45,7 @@ class CoreBudget : AppCompatActivity() {
         popupView.findViewById<View>(R.id.itemEdit).setOnClickListener {
             val data = HashMap<String, Any>()
             data["id_budget"] = plan.id_budget
-            data["planName"] = plan.plan_name
+            data["budgetName"] = plan.budget_name
             data["category"] = plan.category_number
             data["amount"] = "Rp. ${plan.amount_limit}"
             data["progress"] = ((plan.spent_amount.toFloat() / plan.amount_limit) * 100).toInt()
@@ -75,7 +63,6 @@ class CoreBudget : AppCompatActivity() {
         }
     }
 
-    //Delete ini setelah menggunakan API
     private fun navigateToCoreBudgetEdit(
         activity: AppCompatActivity,
         nextActivityClass: Class<*>,
@@ -98,7 +85,7 @@ class CoreBudget : AppCompatActivity() {
     private fun navigateToCoreBudgetDetail(budget: Budget) {
         val intent = Intent(this, CoreBudgetDetail::class.java)
         intent.putExtra("id_budget", budget.id_budget)
-        intent.putExtra("planName", budget.plan_name)
+        intent.putExtra("budgetName", budget.budget_name)
         intent.putExtra("category", budget.category_number)
         intent.putExtra("amount", budget.amount_limit)
         intent.putExtra("spentAmount", budget.spent_amount)
@@ -109,7 +96,7 @@ class CoreBudget : AppCompatActivity() {
 
     private fun getBudgetPlans() {
         val apiService = ApiClient.getApiService()
-        val userId = 1 // Ganti dengan singleton user jika sudah tersedia
+        val userId = 1 // Ganti dengan singleton yahh
 
         lifecycleScope.launch {
             try {
@@ -119,7 +106,7 @@ class CoreBudget : AppCompatActivity() {
                     val budgetList = response.body()!!.map { budget ->
                         Budget(
                             id_budget = budget.id_budget,
-                            plan_name = budget.plan_name,
+                            budget_name = budget.budget_name,
                             amount_limit = budget.amount_limit,
                             spent_amount = budget.spent_amount,
                             start_date = budget.start_date,
@@ -167,7 +154,7 @@ class CoreBudget : AppCompatActivity() {
         val dummyList = listOf(
             Budget(
                 id_budget = 1,
-                plan_name = "March Spendings",
+                budget_name = "March Spendings",
                 amount_limit = 1000000,
                 spent_amount = 600000,
                 start_date = "2025-03-01",
@@ -176,7 +163,7 @@ class CoreBudget : AppCompatActivity() {
             ),
             Budget(
                 id_budget = 2,
-                plan_name = "April Fun",
+                budget_name = "April Fun",
                 amount_limit = 500000,
                 spent_amount = 200000,
                 start_date = "2025-04-01",
@@ -185,7 +172,7 @@ class CoreBudget : AppCompatActivity() {
             ),
             Budget(
                 id_budget = 3,
-                plan_name = "May Savings",
+                budget_name = "May Savings",
                 amount_limit = 2000000,
                 spent_amount = 1500000,
                 start_date = "2025-05-01",
@@ -194,16 +181,16 @@ class CoreBudget : AppCompatActivity() {
             ),
             Budget(
                 id_budget = 4,
-                plan_name = "June Vacation",
+                budget_name = "June Vacation",
                 amount_limit = 3000000,
-                spent_amount = 2500000,
+                spent_amount = 25000000,
                 start_date = "2025-06-01",
                 end_date = "2025-06-30",
                 category_number = 4
             ),
             Budget(
                 id_budget = 5,
-                plan_name = "July Investments",
+                budget_name = "July Investments",
                 amount_limit = 1500000,
                 spent_amount = 1000000,
                 start_date = "2025-07-01",
@@ -214,21 +201,19 @@ class CoreBudget : AppCompatActivity() {
 
         // Inisialisasi adapter dengan dummyList
         BudgetAdapter = BudgetAdapter(
-            budgetPlans = dummyList, // Gunakan dummyList sebagai sumber data
+            budgetPlans = dummyList, // Ini make Dummy
             onMoreOptionsClick = { view, budget ->
-                showCustomPopup(view, budget) // Callback untuk popup menu
+                showCustomPopup(view, budget)
             },
             onItemClicked = { budget ->
-                navigateToCoreBudgetDetail(budget) // Callback untuk navigasi ke detail
+                navigateToCoreBudgetDetail(budget)
             }
         )
 
         // Set adapter ke RecyclerView
         recyclerView.adapter = BudgetAdapter
 
-
-
-////         NOTE: Sementara ini jangan panggil API
+////         NOTE: Pakai ini  panggil API
 //         getBudgetPlans()
 
         // Tombol back

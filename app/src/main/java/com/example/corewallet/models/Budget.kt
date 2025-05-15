@@ -2,7 +2,7 @@ package com.example.corewallet.models
 
 data class Budget(
     val id_budget: Int,
-    val plan_name: String,
+    val budget_name: String,
     val amount_limit: Long,
     val spent_amount: Long,
     val start_date: String,

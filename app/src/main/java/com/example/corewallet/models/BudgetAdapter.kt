@@ -45,7 +45,7 @@ class BudgetAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val plan = budgetPlans[position]
-        holder.title.text = plan.plan_name.uppercase()
+        holder.title.text = plan.budget_name.uppercase()
         holder.endDate.text = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
             .format(SimpleDateFormat("yyyy-MM-dd").parse(plan.end_date)!!)
 
