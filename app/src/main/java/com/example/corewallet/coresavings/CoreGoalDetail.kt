@@ -71,10 +71,13 @@ class CoreGoalDetail : AppCompatActivity() {
         }
 
         // Tombol edit
-        val btnEdit = findViewById<ImageView>(R.id.btnEdit)
+        val btnEdit = findViewById<ImageView>(R.id.btnEditGoal)
         btnEdit.setOnClickListener {
             val intent = Intent(this, CoreGoalEdit::class.java)
             intent.putExtra("id_goal", idGoal)
+            intent.putExtra("goalName", goalName)
+            intent.putExtra("targetAmount", targetAmount)
+            intent.putExtra("deadline", deadline)
             startActivity(intent)
         }
     }

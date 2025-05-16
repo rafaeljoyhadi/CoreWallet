@@ -5,32 +5,13 @@
       <SelectionState runConfigName="MainActivity">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="CoreBudget (1)">
+      <SelectionState runConfigName="ProfileActivity">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-05-15T08:40:48.436591100Z">
-          <Target type="DEFAULT_BOOT">
-            <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=D:\Android Studio\.android\avd\Pixel_7_API_33.avd" />
-            </handle>
-          </Target>
-        </DropdownSelection>
-        <DialogSelection />
       </SelectionState>
       <SelectionState runConfigName="CoreGoal">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-05-15T08:41:04.865273700Z">
-          <Target type="DEFAULT_BOOT">
-            <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=D:\Android Studio\.android\avd\Pixel_7_API_33.avd" />
-            </handle>
-          </Target>
-        </DropdownSelection>
-        <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="CoreGoal (1)">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="ProfileActivity">
+      <SelectionState runConfigName="CoreBudget">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

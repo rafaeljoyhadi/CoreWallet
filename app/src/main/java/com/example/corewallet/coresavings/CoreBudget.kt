@@ -224,7 +224,7 @@ class CoreBudget : AppCompatActivity() {
         }
 
         // Button Add Budget
-        val btnCoreGoal: Button = findViewById(R.id.btnAddGoal)
+        val btnCoreGoal: Button = findViewById(R.id.btnAddBudget)
         btnCoreGoal.setOnClickListener {
             val moveIntent = Intent(this@CoreBudget, CoreBudgetInput::class.java)
             startActivity(moveIntent)

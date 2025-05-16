@@ -52,6 +52,7 @@ class CoreBudgetDetail : AppCompatActivity() {
         tvTitle.text = budgetName.uppercase()
         tvDateRange.text = "$formattedStartDate - $formattedEndDate"
 
+        //TODO : get category from DB
         // Mapping kategori
         val categories = listOf(
             "Top-Up",
@@ -96,16 +97,16 @@ class CoreBudgetDetail : AppCompatActivity() {
         }
 
         // Tombol edit
-        val btnEdit = findViewById<Button>(R.id.btnEdit)
+        val btnEdit = findViewById<ImageView>(R.id.btnEditBudget)
         btnEdit.setOnClickListener {
-            val intent = Intent(this, CoreBudgetDetail::class.java)
-            intent.putExtra("id_budget", budget.id_budget) //Id dibawa untuk di page Edit untuk bisa hit PUT API
-            intent.putExtra("budgetName", budget.budget_name)
-            intent.putExtra("category", budget.category_number)
-            intent.putExtra("amount", budget.amount_limit)
-            intent.putExtra("spentAmount", budget.spent_amount)
-            intent.putExtra("startDate", budget.start_date)
-            intent.putExtra("endDate", budget.end_date)
+            val intent = Intent(this, CoreBudgetEdit::class.java)
+            intent.putExtra("id_budget", idBudget)
+            intent.putExtra("budgetName", budgetName)
+            intent.putExtra("category", categoryName)
+            intent.putExtra("amount", amountLimit)
+            intent.putExtra("spentAmount", spentAmount)
+            intent.putExtra("startDate", startDate)
+            intent.putExtra("endDate", endDate)
             startActivity(intent)
         }
 

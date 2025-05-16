@@ -79,7 +79,7 @@
             android:id="@+id/btnAddGoal"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="Add Budget"
+            android:text="Add Goal"
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:textStyle="bold"

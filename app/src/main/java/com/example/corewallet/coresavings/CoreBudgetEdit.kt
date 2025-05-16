@@ -215,6 +215,20 @@ class CoreBudgetEdit : AppCompatActivity() {
                 startDate = updatedStartDate,
                 endDate = updatedEndDate
             )
+
+            // TODO : check if success
+            MotionToast.createColorToast(
+                this, "Upload Berhasil!", "Data berhasil disimpan",
+                MotionToastStyle.SUCCESS,
+                MotionToast.GRAVITY_BOTTOM,
+                MotionToast.LONG_DURATION,
+                ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular)
+            )
+
+            Handler(Looper.getMainLooper()).postDelayed({
+                val intent = Intent(this, CoreBudget::class.java)
+                startActivity(intent)
+            }, 2000)
         }
     }
 

@@ -76,7 +76,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/btnAddGoal"
+            android:id="@+id/btnAddBudget"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="Add Budget"

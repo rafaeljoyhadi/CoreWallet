@@ -78,7 +78,7 @@ class CoreGoalInput : AppCompatActivity() {
             )
 
             Handler(Looper.getMainLooper()).postDelayed({
-                val intent = Intent(this, CoreBudget::class.java)
+                val intent = Intent(this, CoreGoal::class.java)
                 startActivity(intent)
             }, 2000)
         }
