@@ -11,8 +11,8 @@ import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.corewallet.AddRecipientFragment
 import com.example.corewallet.R
+import com.example.corewallet.TransferFormFragment
 import com.example.corewallet.databinding.FragmentRecipientSelectionBinding
 import com.example.corewallet.models.Contact
 
@@ -83,20 +83,37 @@ class RecipientSelectionFragment : Fragment() {
         contactAdapter.updateList(filteredContacts)
     }
 
+    private fun initRecyclerView(recyclerView: RecyclerView) {
+        val userId = arguments?.getInt("userId", -1) ?: -1
+        val username = arguments?.getString("username", "") ?: ""
+        val accountNumber = arguments?.getString("accountNumber", "") ?: ""
+        val senderBalance = arguments?.getDouble("senderBalance", 0.0) ?: 0.0
+        val receiverBalance = arguments?.getDouble("receiverBalance", 0.0) ?: 0.0
 
-    private fun initRecyclerView(recyclerView: androidx.recyclerview.widget.RecyclerView) {
         contactAdapter = ContactAdapter(mutableListOf()) { contact ->
-            // Handle contact selection
+            // Update ViewModel with selected recipient
             viewModel.selectedRecipient.value = contact.accountNumber
-            // Navigate to next fragment (e.g., AccountSelectionFragment)
-            // Example: findNavController().navigate(R.id.action_recipientSelectionFragment_to_accountSelectionFragment)
+
+            // Navigate to TransferFormFragment with contact and user data
+            parentFragmentManager.commit {
+                replace(
+                    R.id.transfer_content,
+                    TransferFormFragment.newInstance(
+                        receiverName = contact.name,
+                        receiverAccountNumber = contact.accountNumber,
+                        receiverProfilePicture = contact.profilePicture,
+                        receiverBalance = contact.contactBalance
+                    )
+                )
+                addToBackStack(null)
+                setReorderingAllowed(true)
+            }
         }
         recyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = contactAdapter
         }
     }
-
 
 
 }

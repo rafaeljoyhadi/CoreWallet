@@ -1,59 +1,111 @@
-package com.example.corewallet.transfer
+package com.example.corewallet
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
-import androidx.fragment.app.Fragment
-import com.example.corewallet.R
+import android.widget.ArrayAdapter
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
+import com.example.corewallet.databinding.FragmentTransferFormBinding
+import com.example.corewallet.transfer.TransferViewModel
+import java.text.NumberFormat
+import java.util.Locale
 
 class TransferFormFragment : Fragment() {
+
+    private var _binding: FragmentTransferFormBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var viewModel: TransferViewModel
+
+    //    TODO : GET SENDER BALANCE
+    companion object {
+        fun newInstance(
+            receiverName: String,
+            receiverAccountNumber: String,
+            receiverProfilePicture: String?,
+            receiverBalance: Double
+        ): TransferFormFragment {
+            val fragment = TransferFormFragment()
+            val args = Bundle().apply {
+                putString("contactName", receiverName)
+                putString("contactAccountNumber", receiverAccountNumber)
+                putString("contactProfilePicture", receiverProfilePicture)
+                putDouble("receiverBalance", receiverBalance)
+            }
+            fragment.arguments = args
+            return fragment
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_transfer_form, container, false)
+    ): View {
+        _binding = FragmentTransferFormBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        // Reference to the Spinner
-        val spinner = view.findViewById<Spinner>(R.id.spinnerTransactionCategory)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        // Sample data
-        val categories = arrayOf("Food", "Transport", "Entertainment", "Other")
+        viewModel = ViewModelProvider(requireActivity()).get(TransferViewModel::class.java)
 
-        // Create ArrayAdapter using default layout for spinner item
-        val adapter = ArrayAdapter(
-            requireContext(),
-            R.layout.spinner_item, // Custom layout
-            R.id.category_inp,     // ID of TextView in the layout
-            categories
-        )
+        val contactName = arguments?.getString("contactName", "") ?: ""
+        val contactAccountNumber = arguments?.getString("contactAccountNumber", "") ?: ""
+        val contactProfilePicture = arguments?.getString("contactProfilePicture")
+        val userBalance = arguments?.getDouble("userBalance", 0.0) ?: 0.0
 
-        // Set adapter
-        spinner.adapter = adapter
+        println("TransferFormFragment: contactName=$contactName, contactAccountNumber=$contactAccountNumber, contactProfilePicture=$contactProfilePicture, userBalance=$userBalance")
 
-        // Handle item selection
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                Toast.makeText(
-                    requireContext(),
-                    "Selected: ${categories[position]}",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {
-                // Optional
-            }
+        binding.recipientName.text = contactName
+        binding.recipientAccNum.text = contactAccountNumber
+        if (!contactProfilePicture.isNullOrEmpty()) {
+            Glide.with(this)
+                .load(contactProfilePicture)
+                .placeholder(R.drawable.img_default_profile_pict)
+                .error(R.drawable.img_default_profile_pict)
+                .into(binding.recipientProfilePhoto)
+        } else {
+            binding.recipientProfilePhoto.setImageResource(R.drawable.img_default_profile_pict)
         }
 
-        return view
+        val categories = arrayOf("Personal", "Business", "Gift", "Other")
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categories)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spinnerTransactionCategory.adapter = adapter
+
+        binding.transferButton.setOnClickListener {
+            val amount = binding.amountInput.text.toString().toDoubleOrNull() ?: 0.0
+            val description = binding.transferDescInput.text.toString().trim()
+            val category = binding.spinnerTransactionCategory.selectedItem.toString()
+
+            if (amount <= 0) {
+                Toast.makeText(requireContext(), "Please enter a valid amount", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (amount > userBalance) {
+                Toast.makeText(requireContext(), "Insufficient balance", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            viewModel.performTransfer(
+                amount = amount,
+                recipientAccountNumber = contactAccountNumber,
+                description = description,
+                category = category
+            )
+
+            Toast.makeText(requireContext(), "Transfer initiated: $amount to $contactName", Toast.LENGTH_SHORT).show()
+            parentFragmentManager.popBackStack()
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
