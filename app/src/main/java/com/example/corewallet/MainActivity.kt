@@ -29,11 +29,13 @@ class MainActivity : AppCompatActivity() {
         // Check for fragment selection flags
         val showTransactionHistory = intent.getBooleanExtra("showTransactionHistory", false)
         val showQris = intent.getBooleanExtra("showQris", false)
+        val showAccount = intent.getBooleanExtra("showAccount", false)
 
         // Create initial fragment
         val initialFragment = when {
             showTransactionHistory -> TransactionHistoryFragment()
             showQris -> QrisFragment()
+            showAccount -> AccountFragment()
             else -> DashboardFragment.newInstance(userId, username, accountNumber, balance)
         }
 
@@ -72,7 +74,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_account -> {
-                    replaceFragment(AccountFragment())
+                    replaceFragment(AccountFragment.newInstance(userId))
                     true
                 }
                 else -> false
