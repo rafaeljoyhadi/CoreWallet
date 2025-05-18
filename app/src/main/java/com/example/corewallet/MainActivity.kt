@@ -1,45 +1,49 @@
 package com.example.corewallet
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import androidx.navigation.Navigation.findNavController
-import androidx.navigation.findNavController
-import com.example.corewallet.CoreSavingsActivity
 import com.example.corewallet.coresavings.CoreSavingsFragment
-import com.example.corewallet.databinding.FragmentTransferBinding
+import com.example.corewallet.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
-    private var _binding: FragmentTransferBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // Retrieve user details from Intent
         val userId = intent.getIntExtra("userId", -1)
-        val username = intent.getStringExtra("username") ?: ""
         val accountNumber = intent.getStringExtra("accountNumber") ?: ""
-        val balance = intent.getDoubleExtra("balance", 0.0)
+
+        // Persist the current user's account number for global access
+        getSharedPreferences("coreWalletPrefs", Context.MODE_PRIVATE)
+            .edit()
+            .putString("accountNumber", accountNumber)
+            .apply()
 
         // Check for fragment selection flags
         val showTransactionHistory = intent.getBooleanExtra("showTransactionHistory", false)
         val showQris = intent.getBooleanExtra("showQris", false)
         val showAccount = intent.getBooleanExtra("showAccount", false)
 
-        // Create initial fragment
-        val initialFragment = when {
+        // Determine initial fragment
+        val initialFragment: Fragment = when {
             showTransactionHistory -> TransactionHistoryFragment()
             showQris -> QrisFragment()
-            showAccount -> AccountFragment()
-            else -> DashboardFragment.newInstance(userId, username, accountNumber, balance)
+            showAccount -> AccountFragment.newInstance(userId)
+            else -> DashboardFragment.newInstance(userId)
         }
 
-        // Load initial fragment if no fragment is currently displayed
+        // Load initial fragment only once
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
                 replace(R.id.fragment_container, initialFragment)
@@ -47,18 +51,19 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        // Setup BottomNavigationView
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
-        // Set selected item based on initial fragment
         bottomNavigationView.selectedItemId = when {
             showTransactionHistory -> R.id.nav_transaction_history
             showQris -> R.id.nav_qris
+            showAccount -> R.id.nav_account
             else -> R.id.nav_home
         }
 
         bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> {
-                    replaceFragment(DashboardFragment.newInstance(userId, username, accountNumber, balance))
+                    replaceFragment(DashboardFragment.newInstance(userId))
                     true
                 }
                 R.id.nav_transaction_history -> {
@@ -70,7 +75,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_coresavings -> {
-                    replaceFragment(CoreSavingsFragment.newInstance(userId, username, accountNumber, balance))
+                    replaceFragment(CoreSavingsFragment())
                     true
                 }
                 R.id.nav_account -> {

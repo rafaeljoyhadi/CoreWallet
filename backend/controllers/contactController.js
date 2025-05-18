@@ -4,29 +4,37 @@ const db = require("../config/db");
 // * Add contact
 exports.addContact = (req, res) => {
   const user = req.session.user;
-  const { saved_id_user } = req.body;
+  const { account_number } = req.body;
+  if (!user)   return res.status(401).json({ message: "Unauthorized" });
+  if (!account_number) 
+               return res.status(400).json({ message: "Missing account number" });
 
-  if (!user) return res.status(401).json({ message: "Unauthorized" });
-  if (!saved_id_user) return res.status(400).json({ message: "Missing saved user ID" });
-  if (saved_id_user === user.id_user) {
-    return res.status(400).json({ message: "You cannot add yourself as a contact" });
-  }
+  db.query(
+    "SELECT id_user FROM user WHERE account_number = ?",
+    [account_number],
+    (err, rows) => {
+      if (err)      return res.status(500).json({ message: "Database error" });
+      if (rows.length === 0)
+                   return res.status(404).json({ message: "Account not found" });
 
-  const query = "INSERT INTO contact (id_user, saved_id_user) VALUES (?, ?)";
+      const targetId = rows[0].id_user;
+      if (targetId === user.id_user)
+                   return res.status(400).json({ message: "Cannot add yourself" });
 
-  db.query(query, [user.id_user, saved_id_user], (err) => {
-    if (err) {
-      if (err.code === "ER_DUP_ENTRY") {
-        return res.status(409).json({ message: "Contact already exists" });
-      }
-      console.error("Error adding contact:", err);
-      return res.status(500).json({ message: "Database error" });
+      db.query(
+        "INSERT INTO contact (id_user, saved_id_user) VALUES (?, ?)",
+        [user.id_user, targetId], 
+        (err2) => {
+          if (err2 && err2.code === "ER_DUP_ENTRY")
+            return res.status(409).json({ message: "Contact already exists" });
+          if (err2)   return res.status(500).json({ message: "Database error" });
+          res.status(201).json({ message: "Contact added" });  
+        }
+      );
     }
-
-    res.status(201).json({ message: "Contact added successfully" });
-  });
-};
-
+  );
+}; 
+ 
 // * Get contacts
 exports.getContacts = (req, res) => {
   const user = req.session.user;
@@ -39,8 +47,8 @@ exports.getContacts = (req, res) => {
     JOIN user u ON c.saved_id_user = u.id_user
     WHERE c.id_user = ?
   `;
-
-  db.query(query, [user.id_user], (err, results) => {
+  
+  db.query(query, [user.id_user], (err, results) => {  
     if (err) {
       console.error("Error fetching contacts:", err);
       return res.status(500).json({ message: "Database error" });
@@ -62,12 +70,12 @@ exports.deleteContact = (req, res) => {
   db.query(query, [user.id_user, saved_id_user], (err, result) => {
     if (err) {
       console.error("Error deleting contact:", err);
-      return res.status(500).json({ message: "Database error" });
+      return res.status(500).json({ message: "Database error" }); 
     }
-
-    if (result.affectedRows === 0) {
+ 
+    if (result.affectedRows === 0) { 
       return res.status(404).json({ message: "Contact not found" });
-    }
+    } 
 
     res.json({ message: "Contact deleted successfully" });
   });

@@ -19,6 +19,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import com.example.corewallet.api.ApiClient
+import com.example.corewallet.api.User
 
 class DashboardFragment : Fragment() {
 
@@ -26,13 +27,10 @@ class DashboardFragment : Fragment() {
     private val binding get() = _binding!!
 
     companion object {
-        fun newInstance(userId: Int, username: String, accountNumber: String, balance: Double): DashboardFragment {
+        fun newInstance(userId: Int): DashboardFragment {
             val fragment = DashboardFragment()
             val args = Bundle().apply {
                 putInt("userId", userId)
-                putString("username", username)
-                putString("accountNumber", accountNumber)
-                putDouble("balance", balance)
             }
             fragment.arguments = args
             return fragment
@@ -50,22 +48,51 @@ class DashboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Retrieve user details from arguments
         val userId = arguments?.getInt("userId", -1) ?: -1
-        val username = arguments?.getString("username", "") ?: ""
-        val accountNumber = arguments?.getString("accountNumber", "") ?: ""
-        val balance = arguments?.getDouble("balance", 0.0) ?: 0.0
-
-        // Log to verify data
-        println("DashboardFragment: userId=$userId, username=$username, accountNumber=$accountNumber, balance=$balance")
-
-        // Display user details
-        binding.helloText.text = "Hello, $username"
-        binding.accountNumber.text = accountNumber
-        binding.balanceAmount.text = "Rp. ${String.format("%.2f", balance)}"
-
-        setupListeners(userId, username, accountNumber, balance)
+        println("DashboardFragment: Loading user with ID = $userId")
+        if (userId != -1) {
+            loadUserData(userId)
+            println("DashboardFragment: Loading user with ID = $userId")
+        } else {
+            Toast.makeText(requireContext(), "User ID is missing", Toast.LENGTH_SHORT).show()
+        }
     }
+
+    private fun loadUserData(userId: Int) {
+        ApiClient.authService.getUserById(userId).enqueue(object : retrofit2.Callback<User> {
+            override fun onResponse(call: retrofit2.Call<User>, response: retrofit2.Response<User>) {
+                if (response.isSuccessful) {
+                    val user = response.body()
+                    if (user != null) {
+                        binding.helloText.text = "Hello, ${user.name}"
+                        binding.accountNumber.text = user.account_number
+                        binding.balanceAmount.text = "Rp. ${String.format("%,.2f", user.balance)}"
+
+                        // Also update listener values with live data
+                        setupListeners(
+                            userId = user.id_user,
+                            username = user.name,
+                            accountNumber = user.account_number,
+                            balance = user.balance.toDouble()
+                        )
+                    }
+                } else {
+                    // Log the actual HTTP status code and error message
+                    val errorCode = response.code()
+                    val errorBody = response.errorBody()?.string() ?: "No error body"
+
+                    println("API Error: Code $errorCode, Body: $errorBody")
+
+                    Toast.makeText(requireContext(), "Failed to load user data (Code $errorCode)", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: retrofit2.Call<User>, t: Throwable) {
+                Toast.makeText(requireContext(), "Network error: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
 
     private fun setupListeners(userId: Int, username: String, accountNumber: String, balance: Double) {
         // Settings button

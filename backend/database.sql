@@ -47,7 +47,7 @@ CREATE TABLE
         `id_category` INT (11) NOT NULL,
         `transaction_type` ENUM ('Top-Up', 'Transfer') NOT NULL,
         `status` TINYINT (1) DEFAULT 0, 
-        `amount` BIGINT (20) NOT NULL,
+        `amount` BIGINT (20) NOT NULL, 
         `note` VARCHAR(64) DEFAULT '',
         PRIMARY KEY (`id_transaction`),
         FOREIGN KEY (`source_id_user`) REFERENCES `user` (`id_user`) ON DELETE CASCADE,
@@ -71,7 +71,7 @@ CREATE TABLE
         `id_user` INT (11) NOT NULL,
         `plan_name` VARCHAR(64) NOT NULL,
         `id_category` INT (11) NOT NULL,
-        `amount_limit` BIGINT (20) NOT NULL,
+        `amount_limit` BIGINT (20) NOT NULL, 
         `spent_amount` BIGINT (20) DEFAULT 0,
         `start_date` DATE NOT NULL,
         `end_date` DATE NOT NULL,
@@ -83,7 +83,7 @@ CREATE TABLE
 
 CREATE TABLE
     `budget_goal` (
-        `id_goal` INT (11) AUTO_INCREMENT NOT NULL,
+        `id_goal` INT (11) AUTO_INCREMENT NOT NULL, 
         `id_user` INT (11) NOT NULL,
         `goal_name` VARCHAR(64) NOT NULL,
         `target_amount` BIGINT (20) NOT NULL,
@@ -108,7 +108,7 @@ CREATE TABLE
 INSERT INTO
     transaction_category (id_user, category_name)
 VALUES
-    (NULL, 'Top-Up'),
+    (NULL, 'Top-Up'), 
     (NULL, 'Food'),
     (NULL, 'Shopping'),
     (NULL, 'Entertainment'),

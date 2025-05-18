@@ -8,111 +8,152 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
+import androidx.lifecycle.lifecycleScope
 import com.example.corewallet.R
+import com.example.corewallet.api.ApiClient
+import com.example.corewallet.api.UpdateGoalRequest
 import www.sanju.motiontoast.MotionToast
 import www.sanju.motiontoast.MotionToastStyle
 import java.util.Calendar
 
 class CoreGoalEdit : AppCompatActivity() {
 
+    private var selectedYear = 0
+    private var selectedMonth = 0
+    private var selectedDay = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.core_goal_edit)
         window.statusBarColor = Color.parseColor("#0d5892")
 
-        // Inisialisasi kalender untuk tanggal default
-        val calendar = Calendar.getInstance()
-        var selectedYear = calendar.get(Calendar.YEAR)
-        var selectedMonth = calendar.get(Calendar.MONTH)
-        var selectedDay = calendar.get(Calendar.DAY_OF_MONTH)
+        // UI refs
+        val etGoalName     = findViewById<EditText>(R.id.etGoalPlanName)
+        val etTargetAmount = findViewById<EditText>(R.id.etGoalAmount)
+        val tvDeadline     = findViewById<TextView>(R.id.tvTargetEditDate)
+        val btnPickDate    = findViewById<ImageButton>(R.id.buttonTargetEditDate)
+        val btnSave        = findViewById<Button>(R.id.btnConfirmGoal)
+        val btnDelete      = findViewById<Button>(R.id.btnDeleteGoal)
+        val btnBack        = findViewById<ImageView>(R.id.btnBack)
 
-        // Mengakses elemen UI
-        val targetDate = findViewById<View>(R.id.buttonTargetEditDate)
-        val tvDeadline = findViewById<TextView>(R.id.tvTargetEditDate)
+        // Receive data from intent
+        val goalId        = intent.getIntExtra("id_goal", 0)
+        val initialName   = intent.getStringExtra("goalName") ?: ""
+        val initialTarget = intent.getLongExtra("targetAmount", 0L)
+        val initialDeadlineIso = intent.getStringExtra("deadline") ?: ""
 
-        // Listener Start Date
-        targetDate.setOnClickListener {
-            // Tampilkan DatePickerDialog
-            val datePickerDialog = DatePickerDialog(
+        // Populate initial values
+        etGoalName.setText(initialName)
+        etTargetAmount.setText(initialTarget.toString())
+        tvDeadline.text = formatDisplayDate(initialDeadlineIso)
+
+        // Parse initial deadline
+        initialDeadlineIso.substringBefore("T").split("-").let {
+            if (it.size == 3) {
+                selectedYear  = it[0].toInt()
+                selectedMonth = it[1].toInt() - 1
+                selectedDay   = it[2].toInt()
+            } else {
+                val cal = Calendar.getInstance()
+                selectedYear  = cal.get(Calendar.YEAR)
+                selectedMonth = cal.get(Calendar.MONTH)
+                selectedDay   = cal.get(Calendar.DAY_OF_MONTH)
+            }
+        }
+
+        // Date picker for deadline
+        btnPickDate.setOnClickListener {
+            DatePickerDialog(
                 this,
-                { _, year, month, dayOfMonth ->
-                    // Simpan tanggal yang dipilih
-                    selectedYear = year
-                    selectedMonth = month
-                    selectedDay = dayOfMonth
-
-                    // Format tanggal ke string
-                    val formattedDate = "$dayOfMonth/${month + 1}/$year"
-
-                    // Tampilkan tanggal di TextView
-                    tvDeadline.text = "Tanggal terpilih: $formattedDate"
-                    tvDeadline.setTextColor(resources.getColor(android.R.color.holo_green_dark))
+                { _, y, m, d ->
+                    selectedYear = y
+                    selectedMonth = m
+                    selectedDay = d
+                    tvDeadline.text = formatDisplayDate(d, m, y)
                 },
                 selectedYear,
                 selectedMonth,
                 selectedDay
-            )
-            datePickerDialog.show()
+            ).show()
         }
 
-        // Terima data dari Server
-        val id = intent.getIntExtra("id_goal", 0)
-        val goalName = intent.getStringExtra("goalName")
-        val targetAmount = intent.getStringExtra("targetAmount")
-        val deadline = intent.getStringExtra("deadline")
-
-        //Isi data ke dalam view
-        val tvGoalName = findViewById<TextView>(R.id.etGoalPlanName)
-        val tvTargetAmount = findViewById<TextView>(R.id.etGoalAmount)
-        tvGoalName.text = goalName
-        tvTargetAmount.text = targetAmount
-        tvDeadline.text = deadline
-
-        // Tombol back
-        val btnBack = findViewById<ImageView>(R.id.btnBack)
+        // Back
         btnBack.setOnClickListener {
-            onBackPressed() // Simulasikan tombol back
+            onBackPressed()
             overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
         }
 
-        //Tombol Delete
-        val btnDelete = findViewById<Button>(R.id.btnDeleteGoal)
+        // Delete
         btnDelete.setOnClickListener {
-            MotionToast.createColorToast(
-                this, "Hapus Berhasil!", "Data berhasil dihapus",
-                MotionToastStyle.ERROR,
-                MotionToast.GRAVITY_BOTTOM,
-                MotionToast.LONG_DURATION,
-                ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular)
-            )
-
-            Handler(Looper.getMainLooper()).postDelayed({
-                val intent = Intent(this, CoreBudget::class.java)
-                startActivity(intent)
-            }, 2000)
+            lifecycleScope.launchWhenStarted {
+                try {
+                    val resp = ApiClient.apiService.deleteGoal(goalId)
+                    if (resp.isSuccessful) {
+                        Toast.makeText(this@CoreGoalEdit, "Goal deleted", Toast.LENGTH_SHORT).show()
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            startActivity(Intent(this@CoreGoalEdit, CoreGoal::class.java))
+                            finish()
+                        }, 500)
+                    } else {
+                        Toast.makeText(this@CoreGoalEdit, "Delete failed", Toast.LENGTH_SHORT).show()
+                    }
+                } catch (e: Exception) {
+                    Toast.makeText(this@CoreGoalEdit, "Network error", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
-        // Tombol Simpan
-        val btnSave = findViewById<TextView>(R.id.btnConfirmGoal)
+        // Save updates
         btnSave.setOnClickListener {
-            MotionToast.createColorToast(
-                this, "Upload Berhasil!", "Data berhasil disimpan",
-                MotionToastStyle.SUCCESS,
-                MotionToast.GRAVITY_BOTTOM,
-                MotionToast.LONG_DURATION,
-                ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular)
+            val name = etGoalName.text.toString().trim()
+            val target = etTargetAmount.text.toString().toLongOrNull() ?: 0L
+
+            if (name.isBlank()) {
+                Toast.makeText(this, "Nama goal harus diisi", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            if (target <= 0L) {
+                Toast.makeText(this, "Target harus lebih dari 0", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val deadlineIso = "%04d-%02d-%02d".format(selectedYear, selectedMonth + 1, selectedDay)
+
+            val req = UpdateGoalRequest(
+                goalName = name,
+                targetAmount = target,
+                deadline = deadlineIso
             )
 
-            Handler(Looper.getMainLooper()).postDelayed({
-                val intent = Intent(this, CoreBudget::class.java)
-                startActivity(intent)
-            }, 2000)
+            lifecycleScope.launchWhenStarted {
+                try {
+                    val resp = ApiClient.apiService.updateGoal(goalId, req)
+                    if (resp.isSuccessful) {
+                        Toast.makeText(this@CoreGoalEdit, "Goal updated", Toast.LENGTH_SHORT).show()
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            startActivity(Intent(this@CoreGoalEdit, CoreGoal::class.java))
+                            finish()
+                        }, 500)
+                    } else {
+                        Toast.makeText(this@CoreGoalEdit, "Update failed", Toast.LENGTH_SHORT).show()
+                    }
+                } catch (e: Exception) {
+                    Toast.makeText(this@CoreGoalEdit, "Network error", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
-
     }
 
+    // Helpers
+    private fun formatDisplayDate(iso: String): String = iso.substringBefore("T").split("-").let {
+        if (it.size == 3) "%02d/%02d/%04d".format(it[2].toInt(), it[1].toInt(), it[0].toInt()) else iso
+    }
+    private fun formatDisplayDate(day: Int, month: Int, year: Int): String = "%02d/%02d/%04d".format(day, month+1, year)
 }

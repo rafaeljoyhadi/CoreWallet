@@ -6,31 +6,38 @@ exports.createBudgetPlan = (req, res) => {
   const user = req.session.user;
   if (!user) return res.status(401).json({ message: "Unauthorized" });
 
-  const { id_category, amount_limit, start_date, end_date } = req.body;
+  const { plan_name, id_category, amount_limit, start_date, end_date } =
+    req.body;
 
-  if (!id_category || !amount_limit || !start_date || !end_date) {
+  if (!plan_name || !id_category || !amount_limit || !start_date || !end_date) {
     return res.status(400).json({ message: "Missing required fields" });
   }
 
   const query = `
-    INSERT INTO budget_plan (id_user, id_category, amount_limit, start_date, end_date)
-    VALUES (?, ?, ?, ?, ?)
+    INSERT INTO budget_plan (id_user, plan_name, id_category, amount_limit, start_date, end_date)
+    VALUES (?, ?, ?, ?, ?, ?)
   `;
 
-  db.query(
-    query,
-    [user.id_user, id_category, amount_limit, start_date, end_date],
-    (err, result) => {
-      if (err) {
-        console.error("Error creating budget plan:", err);
-        return res.status(500).json({ message: "Database error", error: err });
-      }
-      res.status(201).json({
-        message: "Budget plan created successfully",
-        id_budget: result.insertId,
-      });
+  const params = [
+    user.id_user,
+    plan_name,
+    id_category,
+    amount_limit,
+    start_date,
+    end_date,
+  ];
+
+  db.query(query, params, (err, result) => {
+    if (err) {
+      console.error("Error creating budget plan:", err);
+      return res.status(500).json({ message: "Database error", error: err });
     }
-  );
+
+    res.status(201).json({
+      message: "Budget plan created successfully",
+      id_budget: result.insertId,
+    });
+  });
 };
 
 // * Get All Budget Plans
@@ -39,10 +46,33 @@ exports.getAllBudgetPlans = (req, res) => {
   if (!user) return res.status(401).json({ message: "Unauthorized" });
 
   const query = `
-    SELECT bp.*, tc.category_name
+    SELECT 
+      bp.id_budget, 
+      bp.plan_name       AS budget_name,
+      bp.id_category,
+      bp.amount_limit, 
+      COALESCE(
+        SUM(
+          CASE
+            WHEN DATE(t.datetime) BETWEEN bp.start_date AND bp.end_date
+              AND t.source_id_user = bp.id_user
+            THEN t.amount
+            ELSE 0
+          END
+        ),
+        0
+      ) AS spent_amount,
+      bp.start_date,
+      bp.end_date,
+      bp.status,
+      tc.category_name
     FROM budget_plan bp
-    JOIN transaction_category tc ON bp.id_category = tc.id_category
+    LEFT JOIN transaction t
+      ON t.source_id_user = bp.id_user
+    JOIN transaction_category tc
+      ON bp.id_category = tc.id_category
     WHERE bp.id_user = ?
+    GROUP BY bp.id_budget 
     ORDER BY bp.start_date DESC
   `;
 
@@ -78,7 +108,7 @@ exports.getBudgetPlanById = (req, res) => {
   if (!user) return res.status(401).json({ message: "Unauthorized" });
 
   const query = `
-    SELECT bp.*, tc.category_name
+    SELECT bp.*, tc.category_name  
     FROM budget_plan bp
     JOIN transaction_category tc ON bp.id_category = tc.id_category
     WHERE bp.id_user = ? AND bp.id_budget = ?
@@ -114,10 +144,15 @@ exports.updateBudgetPlan = (req, res) => {
   const user = req.session.user;
   if (!user) return res.status(401).json({ message: "Unauthorized" });
 
-  const { id_category, amount_limit, start_date, end_date, status } = req.body;
+  const { plan_name, id_category, amount_limit, start_date, end_date, status } =
+    req.body;
   const fields = [];
   const values = [];
 
+  if (plan_name) {
+    fields.push("plan_name = ?");
+    values.push(plan_name);
+  }
   if (id_category) {
     fields.push("id_category = ?");
     values.push(id_category);

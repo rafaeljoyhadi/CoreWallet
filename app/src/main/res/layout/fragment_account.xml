@@ -5,14 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <LinearLayout
         android:id="@+id/logo_header"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:background="@color/primary_blue">
+        android:background="@color/primary_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,8 +37,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/logo_header"
         android:layout_marginTop="-14dp"
-        android:padding="6dp"
         android:background="@drawable/half_rounded_corners"
+        android:padding="6dp"
         app:layout_constraintEnd_toEndOf="@id/logo_header"
         app:layout_constraintStart_toStartOf="@id/logo_header"
         app:layout_constraintTop_toBottomOf="@id/logo_header">
@@ -45,9 +46,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_margin="8dp"
             android:layout_marginStart="28dp"
-            android:layout_gravity="center"
             android:text="@string/profile"
             android:textColor="@android:color/background_dark"
             android:textSize="14sp"
@@ -69,17 +70,17 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="32dp"
             android:orientation="vertical"
-            android:padding="20dp"
-            android:layout_margin="32dp">
+            android:padding="20dp">
 
             <!-- Profile Picture -->
             <FrameLayout
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:background="@drawable/profile_picture_placeholder"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="20dp"
+                android:background="@drawable/profile_picture_placeholder">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -87,8 +88,8 @@
                     android:gravity="center"
                     android:text="Profile Picture"
                     android:textColor="@android:color/white"
-                    android:textStyle="bold"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
             </FrameLayout>
 
             <!-- Display Name -->
@@ -96,44 +97,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="48dp"
+                android:paddingBottom="8dp"
                 android:text="Display Name"
                 android:textColor="@android:color/black"
-                android:textSize="14sp"
-                android:paddingBottom="8dp"/>
+                android:textSize="14sp" />
+
 
             <EditText
                 android:id="@+id/editDisplayName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:enabled="false"
                 android:background="@android:color/transparent"
-                android:textColor="@android:color/black"
-                android:text="Your Name"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray" />
-
-            <!-- Password -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Password"
-                android:textColor="@android:color/black"
-                android:textSize="14sp"
-                android:paddingBottom="8dp"/>
-
-            <EditText
-                android:id="@+id/editPassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
                 android:enabled="false"
-                android:background="@android:color/transparent"
-                android:textColor="@android:color/black"
-                android:text="******"/>
+                android:importantForAutofill="no"
+                android:inputType="textNoSuggestions|textVisiblePassword"
+                android:longClickable="false"
+                android:text="Your Name"
+                android:textColor="@android:color/black" />
 
             <View
                 android:layout_width="match_parent"
@@ -145,20 +125,49 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:paddingBottom="8dp"
                 android:text="Email"
                 android:textColor="@android:color/black"
-                android:textSize="14sp"
-                android:paddingBottom="8dp"/>
+                android:textSize="14sp" />
 
             <EditText
                 android:id="@+id/editEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:enabled="false"
                 android:background="@android:color/transparent"
+                android:enabled="false"
+                android:importantForAutofill="no"
+                android:inputType="textEmailAddress"
+                android:longClickable="false"
+                android:text="youremail@example.com"
+                android:textColor="@android:color/black" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray" />
+
+            <!-- Password -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:paddingBottom="8dp"
+                android:text="Password"
                 android:textColor="@android:color/black"
-                android:text="youremail@example.com"/>
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/editPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:enabled="false"
+                android:importantForAutofill="no"
+                android:inputType="textPassword"
+                android:longClickable="false"
+                android:text="******"
+                android:textColor="@android:color/black" />
 
             <View
                 android:layout_width="match_parent"
@@ -170,20 +179,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:paddingBottom="8dp"
                 android:text="PIN"
                 android:textColor="@android:color/black"
-                android:textSize="14sp"
-                android:paddingBottom="8dp"/>
+                android:textSize="14sp" />
 
             <EditText
                 android:id="@+id/editPin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="numberPassword"
-                android:enabled="false"
                 android:background="@android:color/transparent"
-                android:textColor="@android:color/black"
-                android:text="****"/>
+                android:enabled="false"
+                android:importantForAutofill="no"
+                android:inputType="numberPassword"
+                android:longClickable="false"
+                android:text="****"
+                android:textColor="@android:color/black" />
 
             <View
                 android:layout_width="match_parent"
@@ -198,10 +209,10 @@
                 android:layout_marginTop="70dp"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/btn_rounded"
+                android:gravity="center"
                 android:text="Edit Profile"
                 android:textColor="@android:color/white"
-                android:gravity="center"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
         </LinearLayout>
     </ScrollView>
 

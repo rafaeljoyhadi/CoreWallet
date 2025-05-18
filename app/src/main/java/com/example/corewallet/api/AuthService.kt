@@ -1,12 +1,9 @@
 package com.example.corewallet.api
 
-import okhttp3.ResponseBody
+import com.google.gson.annotations.SerializedName
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.PUT
-import retrofit2.http.Path
+import retrofit2.http.*
+import com.google.gson.annotations.Expose
 
 data class LoginRequest(val username: String, val password: String)
 
@@ -24,14 +21,34 @@ data class UserResponse(
 )
 
 data class User(
-    val id_user: Int,
-    val username: String,
-    val name: String,
-    val account_number: String,
-    // added
-    val balance: Int,
-    val email: String
-)
+    @Expose
+    @SerializedName("id_user") val id_user: Int,
+
+    @Expose
+    @SerializedName("username") val username: String,
+
+    @Expose
+    @SerializedName("name") val name: String,
+
+    @Expose
+    @SerializedName("account_number") val account_number: String,
+
+    @Expose
+    @SerializedName("balance") val balance: Double,
+
+    @Expose
+    @SerializedName("email") val email: String,
+
+    @Expose
+    @SerializedName("pin") val pin: String,
+
+    @SerializedName("password") val password: String = ""
+
+) {
+    override fun toString(): String {
+        return "User(id_user=$id_user, username='$username', name='$name', account_number='$account_number', balance=$balance, email='$email', pin='*****')"
+    }
+}
 
 interface AuthService {
     @POST("/users/login")
@@ -43,10 +60,9 @@ interface AuthService {
     @POST("/users/logout")
     fun logout(): Call<UserResponse>
 
-    @PUT("/api/users/profile")
-    fun updateProfile(@Body request: UpdateProfileRequest): Call<ResponseBody>
-
-    @GET("user/{id}")
+    @GET("users/{id}")
     fun getUserById(@Path("id") userId: Int): Call<User>
 
+    @PUT("users/{id}")
+    fun updateUser(@Path("id") userId: Int, @Body request: UpdateProfileRequest): Call<User>
 }

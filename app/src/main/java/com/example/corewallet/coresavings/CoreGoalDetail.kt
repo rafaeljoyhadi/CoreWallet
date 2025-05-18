@@ -1,113 +1,174 @@
 package com.example.corewallet.coresavings
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.text.InputType
 
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.example.corewallet.R
+import com.example.corewallet.api.AmountRequest
+import com.example.corewallet.api.ApiClient
+import com.example.corewallet.models.Goal
+import kotlinx.coroutines.launch
+import retrofit2.Response
 import java.text.NumberFormat
 import java.util.Locale
 
 class CoreGoalDetail : AppCompatActivity() {
 
+    private var idGoal: Int = 0
+    private var targetAmount: Long = 0L
+    private var savedAmount: Long = 0L
+
+    private lateinit var tvSaved: TextView
+    private lateinit var progressBar: ProgressBar
+    private val formatter = NumberFormat.getNumberInstance(Locale("id", "ID"))
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.core_goal_detail) // Pastikan nama layout sesuai dengan file XML Anda
+        setContentView(R.layout.core_goal_detail)
         window.statusBarColor = Color.parseColor("#0d5892")
 
-        // Terima data dari Intent
-        val idGoal = intent.getIntExtra("id_goal", 0)
+        // Receive intent data
+        idGoal = intent.getIntExtra("id_goal", 0)
         val goalName = intent.getStringExtra("goalName").orEmpty()
-        val targetAmount = intent.getLongExtra("targetAmount", 0L)
-        val savedAmount = intent.getLongExtra("savedAmount", 0L)
+        targetAmount = intent.getLongExtra("targetAmount", 0L)
+        savedAmount = intent.getLongExtra("savedAmount", 0L)
         val deadline = intent.getStringExtra("deadline").orEmpty()
-        val status = intent.getIntExtra("status", 0)
 
-        // Inisialisasi elemen UI
+        // UI refs
         val tvTitle = findViewById<TextView>(R.id.tvTitle)
-        val tvDateRange = findViewById<TextView>(R.id.tvDeadline)
-        val tvAmount = findViewById<TextView>(R.id.tvSavedAmount)
-        val tvTargetAmount = findViewById<TextView>(R.id.tvTargetAmount)
-        val progressBar = findViewById<android.widget.ProgressBar>(R.id.progressBar)
-
-        // Format tanggal
-        val formattedDeadline = formatDate(deadline)
-
-        // Format jumlah uang
-        val formatter = NumberFormat.getNumberInstance(Locale("id", "ID"))
-        val formattedTargetAmount = formatter.format(targetAmount)
-        val formattedSavedAmount = formatter.format(savedAmount)
-
-        // Set nilai ke elemen UI
-        tvTitle.text = goalName.uppercase()
-        tvDateRange.text = "$formattedDeadline"
-
-        tvAmount.text = "IDR $formattedSavedAmount"
-        tvTargetAmount.text = "IDR $formattedTargetAmount"
-
-        // Hitung progress bar
-        val progress = if (targetAmount == 0L) 0 else
-            ((savedAmount.toDouble() / targetAmount.toDouble()) * 100).toInt()
-        progressBar.progress = progress.coerceAtMost(100)
-
-        // Ubah warna progress bar jika tujuan selesai
-        if (status == 1 || savedAmount >= targetAmount) {
-            progressBar.progressDrawable =
-                resources.getDrawable(R.drawable.progress_bar, null)
-            tvAmount.setTextColor(Color.parseColor("#008000")) // Hijau untuk selesai
-        } else {
-            tvAmount.setTextColor(Color.BLACK)
-        }
-
-        // Tombol back
+        val tvDeadline = findViewById<TextView>(R.id.tvDeadline)
+        tvSaved = findViewById(R.id.tvSavedAmount)
+        val tvTarget = findViewById<TextView>(R.id.tvTargetAmount)
+        progressBar = findViewById(R.id.progressBar)
+        val btnDeposit = findViewById<Button>(R.id.btnAddMoney)
+        val btnWithdraw = findViewById<Button>(R.id.btnWithdraw)
         val btnBack = findViewById<ImageView>(R.id.btnBack)
+        val btnEdit = findViewById<ImageView>(R.id.btnEditGoal)
+
+        // Static UI
+        tvTitle.text = goalName.uppercase(Locale.getDefault())
+        tvDeadline.text = formatDate(deadline)
+        tvTarget.text = "IDR ${formatter.format(targetAmount)}"
+
+        // Back
         btnBack.setOnClickListener {
-            onBackPressed() // Simulasikan tombol back
+            onBackPressed()
             overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
         }
-
-        // Tombol edit
-        val btnEdit = findViewById<ImageView>(R.id.btnEditGoal)
+        // Edit
         btnEdit.setOnClickListener {
-            val intent = Intent(this, CoreGoalEdit::class.java)
-            intent.putExtra("id_goal", idGoal)
-            intent.putExtra("goalName", goalName)
-            intent.putExtra("targetAmount", targetAmount)
-            intent.putExtra("deadline", deadline)
-            startActivity(intent)
+            Intent(this, CoreGoalEdit::class.java).apply {
+                putExtra("id_goal", idGoal)
+                putExtra("goalName", goalName)
+                putExtra("targetAmount", targetAmount)
+                putExtra("deadline", deadline)
+                startActivity(this)
+            }
+        }
+
+        // Initial render
+        renderUI()
+
+        // Deposit
+        btnDeposit.setOnClickListener {
+            showAmountDialog("Enter deposit amount") { amt ->
+                performTransaction(isDeposit = true, amount = amt)
+            }
+        }
+        // Withdraw
+        btnWithdraw.setOnClickListener {
+            showAmountDialog("Enter withdrawal amount") { amt ->
+                performTransaction(isDeposit = false, amount = amt)
+            }
         }
     }
 
-    // Fungsi untuk memformat tanggal
+    private fun renderUI() {
+        tvSaved.text = "IDR ${formatter.format(savedAmount)}"
+        val progress = if (targetAmount == 0L) 0 else
+            ((savedAmount.toDouble() / targetAmount.toDouble()) * 100).toInt().coerceAtMost(100)
+        progressBar.progress = progress
+        if (savedAmount >= targetAmount) {
+            progressBar.progressDrawable = ContextCompat.getDrawable(this, R.drawable.progress_bar_full)
+            tvSaved.setTextColor(Color.parseColor("#008000"))
+        } else {
+            progressBar.progressDrawable = ContextCompat.getDrawable(this, R.drawable.progress_bar)
+            tvSaved.setTextColor(Color.BLACK)
+        }
+    }
+
+    private fun performTransaction(isDeposit: Boolean, amount: Long) {
+        if (amount <= 0L) return
+        lifecycleScope.launch {
+            try {
+                val resp: Response<Goal> = if (isDeposit) {
+                    ApiClient.apiService.depositToGoal(idGoal, AmountRequest(amount))
+                } else {
+                    ApiClient.apiService.withdrawFromGoal(idGoal, AmountRequest(amount))
+                }
+                if (resp.isSuccessful) {
+                    // Fetch full updated goal to ensure consistency
+                    fetchGoalDetail()
+                }
+            } catch (_: Exception) {}
+        }
+    }
+
+    private fun fetchGoalDetail() {
+        lifecycleScope.launch {
+            try {
+                val resp: Response<List<Goal>> = ApiClient.apiService.getGoalPlans()
+                if (resp.isSuccessful) {
+                    val goal = resp.body()?.firstOrNull { it.id_goal == idGoal }
+                    goal?.let {
+                        savedAmount = it.saved_amount
+                        targetAmount = it.target_amount
+                        runOnUiThread { renderUI() }
+                    }
+                }
+            } catch (_: Exception) {}
+        }
+    }
+
+    private fun showAmountDialog(title: String, onConfirm: (Long) -> Unit) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(title)
+        val input = EditText(this).apply {
+            inputType = InputType.TYPE_CLASS_NUMBER
+            hint = "Amount"
+        }
+        builder.setView(input)
+        builder.setPositiveButton("OK") { _, _ ->
+            val amt = input.text.toString().toLongOrNull() ?: 0L
+            onConfirm(amt)
+        }
+        builder.setNegativeButton("Cancel", null)
+        builder.show()
+    }
+
     private fun formatDate(date: String): String {
         val parts = date.split("-")
-        return if (parts.size == 3) {
-            "${parts[2]} ${getMonthName(parts[1])} ${parts[0]}"
-        } else {
-            date
-        }
+        return if (parts.size == 3) "${parts[2]} ${getMonthName(parts[1])} ${parts[0]}" else date
     }
 
-    // Fungsi untuk mendapatkan nama bulan dari angka
-    private fun getMonthName(month: String): String {
-        return when (month) {
-            "01" -> "JANUARY"
-            "02" -> "FEBRUARY"
-            "03" -> "MARCH"
-            "04" -> "APRIL"
-            "05" -> "MAY"
-            "06" -> "JUNE"
-            "07" -> "JULY"
-            "08" -> "AUGUST"
-            "09" -> "SEPTEMBER"
-            "10" -> "OCTOBER"
-            "11" -> "NOVEMBER"
-            "12" -> "DECEMBER"
-            else -> ""
-        }
+    private fun getMonthName(month: String): String = when (month) {
+        "01" -> "JANUARY"; "02" -> "FEBRUARY"; "03" -> "MARCH"; "04" -> "APRIL"
+        "05" -> "MAY"; "06" -> "JUNE"; "07" -> "JULY"; "08" -> "AUGUST"
+        "09" -> "SEPTEMBER"; "10" -> "OCTOBER"; "11" -> "NOVEMBER"; "12" -> "DECEMBER"
+        else -> ""
     }
 }
+
+

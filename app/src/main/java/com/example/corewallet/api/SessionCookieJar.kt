@@ -2,7 +2,6 @@ import android.content.Context
 import android.util.Log
 import okhttp3.*
 import java.util.*
-import java.util.concurrent.ConcurrentHashMap
 
 class SessionCookieJar(private val context: Context) : CookieJar {
 

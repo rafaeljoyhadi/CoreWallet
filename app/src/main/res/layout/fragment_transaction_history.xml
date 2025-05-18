@@ -1,14 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TransactionHistoryFragment">
+    android:orientation="vertical"
+    tools:context=".MainActivity">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:background="@color/blue">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="110dp"
+                android:layout_height="20dp"
+                android:src="@drawable/img_corewallet_icon_raw" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="-70dp"
+        android:background="@drawable/half_rounded_corners">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="25dp"
+            android:paddingEnd="20dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Activity"
+                android:textColor="@android:color/background_dark"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <!--            TODO: add icon here : android:src="@drawable/ic_filter"         -->
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+
+                app:tint="@android:color/black" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Body -->
+    <!-- Konten Body -->
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:background="@android:color/white"
+        android:paddingBottom="56dp">
 
-</FrameLayout>
+        <LinearLayout
+            android:id="@+id/containerTransactions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="16dp"
+            android:paddingTop="0dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="12dp" />
+    </ScrollView>
+</LinearLayout>

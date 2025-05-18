@@ -4,17 +4,19 @@
     android:viewportWidth="960"
     android:viewportHeight="960">
 
+  <!-- Rounded Rectangle Background -->
   <path
       android:pathData="M80,0 h800 a120,120 0 0 1 80,80 v800 a120,120 0 0 1 -80,80 h-800 a120,120 0 0 1 -80,-80 v-800 a120,120 0 0 1 80,-80 z"
-      android:fillColor="#E6FEDF" />
+      android:fillColor="#FEDFDF" />
 
+  <!-- Crossed Dollar Sign Group (scaled and centered) -->
   <group
       android:scaleX="0.6"
       android:scaleY="0.6"
       android:translateX="192"
       android:translateY="192">
     <path
-        android:pathData="M441,840v-86q-53,-12 -91.5,-46T293,612l74,-30q15,48 44.5,73t77.5,25q41,0 69.5,-18.5T587,604q0,-35 -22,-55.5T463,502q-86,-27 -118,-64.5T313,346q0,-65 42,-101t86,-41v-84h80v84q50,8 82.5,36.5T651,310l-74,32q-12,-32 -34,-48t-60,-16q-44,0 -67,19.5T393,346q0,33 30,52t104,40q69,20 104.5,63.5T667,602q0,71 -42,108t-104,46v84h-80Z"
-        android:fillColor="#08A700" />
+        android:pathData="M574,342q-12,-30 -35.5,-47T482,278q-18,0 -35,5t-31,19l-58,-58q14,-14 38,-25.5t44,-14.5v-84h80v82q45,9 79,36.5t51,71.5l-76,32ZM792,904 L608,720q-15,15 -41,24.5T520,756v84h-80v-86q-56,-14 -93.5,-51T292,610l80,-32q12,42 40.5,72t75.5,30q18,0 33,-4.5t29,-13.5L56,168l56,-56 736,736 -56,56Z"
+        android:fillColor="#A70000"/>
   </group>
 </vector>

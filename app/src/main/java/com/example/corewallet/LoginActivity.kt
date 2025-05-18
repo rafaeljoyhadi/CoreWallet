@@ -18,7 +18,6 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var emailInput: EditText
     private lateinit var passwordInput: EditText
     private lateinit var loginButton: Button
-    private lateinit var topUpTestButton: Button
     private lateinit var goToRegister: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,6 +60,10 @@ class LoginActivity : AppCompatActivity() {
             override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
                 if (response.isSuccessful) {
                     val user = response.body()?.user
+
+                    Log.d("LoginDebug", "User balance from server: ${user?.balance}") // Debugging user's balance
+
+
                     if (user != null) {
                         Toast.makeText(
                             this@LoginActivity,
@@ -68,11 +71,12 @@ class LoginActivity : AppCompatActivity() {
                             Toast.LENGTH_SHORT
                         ).show()
 
-                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                        intent.putExtra("userId", user.id_user)
-                        intent.putExtra("accountNumber", user.account_number)
-                        intent.putExtra("balance", user.balance)
-                        intent.putExtra("username", user.name)
+                        val intent = Intent(this@LoginActivity, MainActivity::class.java).apply {
+                            putExtra("userId", user.id_user)
+                            putExtra("accountNumber", user.account_number)
+                            putExtra("balance", user.balance.toDouble())
+                            putExtra("username", user.name)
+                        }
                         startActivity(intent)
                         finish()
                     } else {
@@ -87,14 +91,10 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
 
-
             override fun onFailure(call: Call<UserResponse>, t: Throwable) {
                 showToast("Network error: ${t.message}")
             }
-        }
-
-        )
-
+        })
     }
 
     private fun showToast(message: String) {

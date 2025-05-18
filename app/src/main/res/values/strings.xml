@@ -14,7 +14,7 @@
     <string name="profile">PROFILE</string>
     <string name="transfer">TRANSFER</string>
     <string name="contact">CONTACTS</string>
-    <string name="search_ca">SEARCH CORE ACCOUNT</string>
+    <string name="search_ca">Search Contact</string>
 
     <!--    NAV BAR     -->
     <string name="home">Home</string>

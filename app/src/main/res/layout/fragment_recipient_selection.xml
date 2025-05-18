@@ -56,7 +56,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="22dp"
             android:hint="@string/search_ca"
-            android:inputType="text"
+            android:inputType="textNoSuggestions|textVisiblePassword"
+            android:importantForAutofill="no"
             android:layout_gravity="center_vertical"/>
     </LinearLayout>
 

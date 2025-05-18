@@ -83,6 +83,8 @@ dependencies {
     // Retrofit
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
+    implementation(libs.androidx.camera.view)
+    implementation(libs.androidx.camera.lifecycle)
 
     // Testing
     testImplementation(libs.junit)
@@ -92,6 +94,15 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // CameraX
+    implementation("androidx.camera:camera-core:1.3.1")
+    implementation("androidx.camera:camera-camera2:1.3.1")
+    implementation("androidx.camera:camera-lifecycle:1.3.1")
+    implementation("androidx.camera:camera-view:1.3.1")
+
+    // ML Kit Barcode Scanning for QR
+    implementation("com.google.mlkit:barcode-scanning:17.2.0")
 
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.0")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.0")

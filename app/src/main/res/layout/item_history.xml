@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
+    <!-- Horizontal Transaction Details -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -8,7 +12,7 @@
         android:paddingVertical="6dp"
         android:gravity="center_vertical">
 
-        <!-- Tanggal -->
+        <!-- Date Column -->
         <LinearLayout
             android:layout_width="60dp"
             android:layout_height="wrap_content"
@@ -40,7 +44,7 @@
                 android:textSize="18sp"/>
         </LinearLayout>
 
-        <!-- Detail Transaksi -->
+        <!-- Transaction Details -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -61,6 +65,7 @@
                 android:id="@+id/tvAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textStyle="bold"
                 android:text="IDR 000.000.00"
                 android:textSize="14sp"/>
 
@@ -73,18 +78,19 @@
                 android:textSize="12sp"/>
         </LinearLayout>
 
-        <!-- Icon Transaksi -->
+        <!-- Icon -->
         <FrameLayout
             android:id="@+id/iconBg"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/ic_income"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="16dp"
             android:gravity="center"/>
     </LinearLayout>
 
+    <!-- Divider Line -->
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"/>
-</merge>
+</LinearLayout>

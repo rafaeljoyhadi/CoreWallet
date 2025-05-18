@@ -8,8 +8,6 @@ import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.Toast
@@ -20,13 +18,62 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.corewallet.R
 import com.example.corewallet.api.ApiClient
 import com.example.corewallet.models.BudgetAdapter
-import com.example.corewallet.models.Budget
+import Budget
+import com.google.gson.internal.bind.TypeAdapters.SHORT
 import kotlinx.coroutines.launch
 
 class CoreBudget : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var BudgetAdapter: BudgetAdapter
+    private lateinit var budgetAdapter: BudgetAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.core_budget)
+        window.statusBarColor = Color.parseColor("#0d5892")
+
+        recyclerView = findViewById(R.id.recyclerViewCoreBudget)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        getBudgetPlans()
+
+        findViewById<View>(R.id.btnBack).setOnClickListener {
+            onBackPressed()
+            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+        }
+
+        findViewById<View>(R.id.btnAddBudget).setOnClickListener {
+            startActivity(Intent(this@CoreBudget, CoreBudgetInput::class.java))
+        }
+    }
+
+    private fun getBudgetPlans() {
+        lifecycleScope.launch {
+            try {
+                val resp = ApiClient.apiService.getBudgetPlans()
+                if (resp.isSuccessful) {
+                    val budgets = resp.body() ?: emptyList()
+                    setupAdapter(budgets)
+                } else {
+                    Toast.makeText(this@CoreBudget, "Failed to load budgets", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(this@CoreBudget, "Network error", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun setupAdapter(budgets: List<Budget>) {
+        Log.d("CoreBudget", "setupAdapter() called with ${budgets.size} items")
+
+        budgetAdapter = BudgetAdapter(
+            budgetPlans = budgets,
+            onMoreOptionsClick = { view, plan -> showCustomPopup(view, plan) },
+            onItemClicked = { plan -> navigateToCoreBudgetDetail(plan) }
+        )
+        recyclerView.adapter = budgetAdapter
+    }
+
 
     private fun showCustomPopup(anchorView: View, plan: Budget) {
         val inflater = LayoutInflater.from(this)
@@ -43,22 +90,35 @@ class CoreBudget : AppCompatActivity() {
         popupWindow.showAsDropDown(anchorView, -178, -5, Gravity.START)
 
         popupView.findViewById<View>(R.id.itemEdit).setOnClickListener {
-            val data = HashMap<String, Any>()
-            data["id_budget"] = plan.id_budget
-            data["budgetName"] = plan.budget_name
-            data["category"] = plan.category_number
-            data["amount"] = "Rp. ${plan.amount_limit}"
-            data["progress"] = ((plan.spent_amount.toFloat() / plan.amount_limit) * 100).toInt()
-
-            // Kirim tanggal mulai dan akhir ke halaman edit
-            data["startDate"] = plan.start_date
-            data["endDate"] = plan.end_date
+            val data = hashMapOf<String, Any>(
+                "id_budget" to plan.id_budget,
+                "budgetName" to (plan.budget_name ?: "Unnamed"),
+                "category" to plan.id_category,
+                "amount" to plan.amount_limit,
+                "progress" to if (plan.amount_limit > 0)
+                    ((plan.spent_amount.toFloat() / plan.amount_limit) * 100).toInt()
+                else 0,
+                "startDate" to plan.start_date,
+                "endDate" to plan.end_date
+            )
 
             navigateToCoreBudgetEdit(this, CoreBudgetEdit::class.java, data)
         }
 
         popupView.findViewById<View>(R.id.itemDelete).setOnClickListener {
-            Toast.makeText(this, "Delete clicked", Toast.LENGTH_SHORT).show()
+            lifecycleScope.launch {
+                try {
+                    val response = ApiClient.apiService.deleteBudget(plan.id_budget)
+                    if (response.isSuccessful) {
+                        Toast.makeText(this@CoreBudget, "Budget deleted", Toast.LENGTH_SHORT).show()
+                        getBudgetPlans() // Refresh the list
+                    } else {
+                        Toast.makeText(this@CoreBudget, "Failed to delete budget", Toast.LENGTH_SHORT).show()
+                    }
+                } catch (e: Exception) {
+                    Toast.makeText(this@CoreBudget, "Network error", Toast.LENGTH_SHORT).show()
+                }
+            }
             popupWindow.dismiss()
         }
     }
@@ -69,165 +129,31 @@ class CoreBudget : AppCompatActivity() {
         data: HashMap<String, Any>
     ) {
         val intent = Intent(activity, nextActivityClass)
-        for ((key, value) in data) {
+        data.forEach { (key, value) ->
             when (value) {
-                is String -> intent.putExtra(key, value)
-                is Int -> intent.putExtra(key, value)
+                is String  -> intent.putExtra(key, value)
+                is Int     -> intent.putExtra(key, value)
                 is Boolean -> intent.putExtra(key, value)
-                is Float -> intent.putExtra(key, value)
-                is Double -> intent.putExtra(key, value)
-                else -> throw IllegalArgumentException("Unsupported data type for key: $key")
+                is Float   -> intent.putExtra(key, value)
+                is Double  -> intent.putExtra(key, value)
+                is Long    -> intent.putExtra(key, value)
+                else       -> throw IllegalArgumentException("Unsupported data type for key: $key")
             }
         }
         activity.startActivity(intent)
     }
 
+
     private fun navigateToCoreBudgetDetail(budget: Budget) {
-        val intent = Intent(this, CoreBudgetDetail::class.java)
-        intent.putExtra("id_budget", budget.id_budget)
-        intent.putExtra("budgetName", budget.budget_name)
-        intent.putExtra("category", budget.category_number)
-        intent.putExtra("amount", budget.amount_limit)
-        intent.putExtra("spentAmount", budget.spent_amount)
-        intent.putExtra("startDate", budget.start_date)
-        intent.putExtra("endDate", budget.end_date)
-        startActivity(intent)
-    }
-
-    private fun getBudgetPlans() {
-        val apiService = ApiClient.getApiService()
-        val userId = 1 // Ganti dengan singleton yahh
-
-        lifecycleScope.launch {
-            try {
-                val response = apiService.getBudgetPlans(userId)
-                if (response.isSuccessful && response.body() != null) {
-                    // Ambil daftar budget langsung dari respons body
-                    val budgetList = response.body()!!.map { budget ->
-                        Budget(
-                            id_budget = budget.id_budget,
-                            budget_name = budget.budget_name,
-                            amount_limit = budget.amount_limit,
-                            spent_amount = budget.spent_amount,
-                            start_date = budget.start_date,
-                            end_date = budget.end_date,
-                            category_number = budget.category_number // Mapping dari id_category
-                        )
-                    }
-
-                    // Log data untuk debugging
-                    Log.d("API_RESPONSE", "Data diterima: $budgetList")
-
-                    // Inisialisasi adapter dengan callback untuk popup dan navigasi
-                    BudgetAdapter = BudgetAdapter(
-                        budgetPlans = budgetList,
-                        onMoreOptionsClick = { anchorView, plan ->
-                            showCustomPopup(anchorView, plan)
-                        },
-                        onItemClicked = { plan ->
-                            navigateToCoreBudgetDetail(plan)
-                        }
-                    )
-
-                    recyclerView.adapter = BudgetAdapter
-                } else {
-                    Toast.makeText(this@CoreBudget, "Gagal mengambil data", Toast.LENGTH_SHORT)
-                        .show()
-                }
-            } catch (e: Exception) {
-                Log.e("API_ERROR", "Exception: ${e.message}")
-                Toast.makeText(this@CoreBudget, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.core_budget)
-        window.statusBarColor = Color.parseColor("#0d5892")
-
-        // Inisialisasi RecyclerView
-        recyclerView = findViewById(R.id.recyclerViewCoreBudget)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-
-        // Dummy Data untuk testing tampilan
-        val dummyList = listOf(
-            Budget(
-                id_budget = 1,
-                budget_name = "March Spendings",
-                amount_limit = 1000000,
-                spent_amount = 600000,
-                start_date = "2025-03-01",
-                end_date = "2025-03-31",
-                category_number = 1
-            ),
-            Budget(
-                id_budget = 2,
-                budget_name = "April Fun",
-                amount_limit = 500000,
-                spent_amount = 200000,
-                start_date = "2025-04-01",
-                end_date = "2025-04-30",
-                category_number = 2
-            ),
-            Budget(
-                id_budget = 3,
-                budget_name = "May Savings",
-                amount_limit = 2000000,
-                spent_amount = 1500000,
-                start_date = "2025-05-01",
-                end_date = "2025-05-31",
-                category_number = 3
-            ),
-            Budget(
-                id_budget = 4,
-                budget_name = "June Vacation",
-                amount_limit = 3000000,
-                spent_amount = 25000000,
-                start_date = "2025-06-01",
-                end_date = "2025-06-30",
-                category_number = 4
-            ),
-            Budget(
-                id_budget = 5,
-                budget_name = "July Investments",
-                amount_limit = 1500000,
-                spent_amount = 1000000,
-                start_date = "2025-07-01",
-                end_date = "2025-07-31",
-                category_number = 5
-            )
-        )
-
-        // Inisialisasi adapter dengan dummyList
-        BudgetAdapter = BudgetAdapter(
-            budgetPlans = dummyList, // Ini make Dummy
-            onMoreOptionsClick = { view, budget ->
-                showCustomPopup(view, budget)
-            },
-            onItemClicked = { budget ->
-                navigateToCoreBudgetDetail(budget)
-            }
-        )
-
-        // Set adapter ke RecyclerView
-        recyclerView.adapter = BudgetAdapter
-
-////         NOTE: Pakai ini  panggil API
-//         getBudgetPlans()
-
-        // Tombol back
-        val btnBack = findViewById<ImageView>(R.id.btnBack)
-        btnBack.setOnClickListener {
-            onBackPressed() // Simulasikan tombol back
-            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
-        }
-
-        // Button Add Budget
-        val btnCoreGoal: Button = findViewById(R.id.btnAddBudget)
-        btnCoreGoal.setOnClickListener {
-            val moveIntent = Intent(this@CoreBudget, CoreBudgetInput::class.java)
-            startActivity(moveIntent)
+        Intent(this, CoreBudgetDetail::class.java).apply {
+            putExtra("id_budget", budget.id_budget)
+            putExtra("budgetName", budget.budget_name)
+            putExtra("category", budget.id_category)
+            putExtra("amount", budget.amount_limit)
+            putExtra("spentAmount", budget.spent_amount)
+            putExtra("startDate", budget.start_date)
+            putExtra("endDate", budget.end_date)
+            startActivity(this)
         }
     }
 }

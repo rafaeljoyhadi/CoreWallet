@@ -8,4 +8,4 @@ router.get("/:id", budgetController.getBudgetById);
 router.put("/:id", budgetController.updateBudgetPlan);
 router.delete("/:id", budgetController.deleteBudgetPlan);
 
-module.exports = router;
+module.exports = router;     

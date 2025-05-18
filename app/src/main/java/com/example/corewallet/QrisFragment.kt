@@ -1,59 +1,155 @@
 package com.example.corewallet
 
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
+import android.view.*
+import androidx.annotation.OptIn
+import androidx.camera.core.*
+import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import com.example.corewallet.databinding.FragmentQrisBinding
+import com.google.mlkit.vision.barcode.BarcodeScannerOptions
+import com.google.mlkit.vision.barcode.BarcodeScanning
+import com.google.mlkit.vision.barcode.common.Barcode
+import com.google.mlkit.vision.common.InputImage
+import java.util.concurrent.Executors
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [QrisFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class QrisFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    private var _binding: FragmentQrisBinding? = null
+    private val binding get() = _binding!!
+
+    private var lastScannedValue: String? = null
+    private var lastScannedTime = 0L
+
+    private val cameraExecutor = Executors.newSingleThreadExecutor()
+    private val REQUEST_CAMERA_PERMISSION = 10
+    private val scanner = BarcodeScanning.getClient(
+        BarcodeScannerOptions.Builder()
+            .setBarcodeFormats(Barcode.FORMAT_QR_CODE)
+            .build()
+    )
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentQrisBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        if (allPermissionsGranted()) {
+            startCamera()
+        } else {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.CAMERA),
+                REQUEST_CAMERA_PERMISSION
+            )
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_qris, container, false)
+    private fun allPermissionsGranted() =
+        ContextCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.CAMERA
+        ) == PackageManager.PERMISSION_GRANTED
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode == REQUEST_CAMERA_PERMISSION && allPermissionsGranted()) {
+            startCamera()
+        }
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment QrisFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            QrisFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    private fun startCamera() {
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
+        cameraProviderFuture.addListener({
+            val cameraProvider = cameraProviderFuture.get()
+
+            val preview = Preview.Builder().build().also {
+                it.setSurfaceProvider(binding.previewView.surfaceProvider)
             }
+
+            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+
+            val imageAnalysis = ImageAnalysis.Builder()
+                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+                .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_YUV_420_888)
+                .build()
+
+            imageAnalysis.setAnalyzer(cameraExecutor, { imageProxy ->
+                processImageProxy(imageProxy)
+            })
+
+            try {
+                cameraProvider.unbindAll()
+                cameraProvider.bindToLifecycle(
+                    viewLifecycleOwner,
+                    cameraSelector,
+                    preview,
+                    imageAnalysis
+                )
+            } catch (_: Exception) {
+            }
+        }, ContextCompat.getMainExecutor(requireContext()))
+    }
+
+    @OptIn(ExperimentalGetImage::class)
+    private fun processImageProxy(imageProxy: ImageProxy) {
+        val mediaImage = imageProxy.image
+        if (mediaImage != null) {
+            val image = InputImage.fromMediaImage(mediaImage, imageProxy.imageInfo.rotationDegrees)
+            scanner.process(image)
+                .addOnSuccessListener { barcodes ->
+                    for (barcode in barcodes) {
+                        val rawValue = barcode.rawValue ?: continue
+                        val currentTime = System.currentTimeMillis()
+
+                        if (rawValue != lastScannedValue || currentTime - lastScannedTime > 3000) {
+                            lastScannedValue = rawValue
+                            lastScannedTime = currentTime
+                            Log.d("QrisScanner", "QR Code: $rawValue")
+
+                            // Attempt to open URL if valid
+                            if (rawValue.startsWith("http://") || rawValue.startsWith("https://") || rawValue.startsWith("www.")) {
+                                val url = if (rawValue.startsWith("http")) rawValue else "http://$rawValue"
+                                val intent = Intent(Intent.ACTION_VIEW).apply {
+                                    data = Uri.parse(url)
+                                }
+                                startActivity(intent)
+                            }
+                        } else {
+                            Log.d("QrisScanner", "Duplicate QR ignored: $rawValue")
+                        }
+                    }
+
+                }
+                .addOnFailureListener {
+                    Log.e("QrisScanner", "Scan failed: ${it.message}")
+                }
+                .addOnCompleteListener {
+                    imageProxy.close()
+                }
+        } else {
+            imageProxy.close()
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+        cameraExecutor.shutdown()
     }
 }

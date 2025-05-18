@@ -50,14 +50,14 @@ class TransferFragment : Fragment() {
 
         // Load RecipientSelectionFragment into the FrameLayout, passing user data
         if (savedInstanceState == null) {
+            val recipientFragment = RecipientSelectionFragment.newInstance(userId, username, accountNumber, balance)
+
             childFragmentManager.commit {
-                replace(
-                    R.id.transfer_content,
-                    RecipientSelectionFragment()
-                )
+                replace(R.id.transfer_content, recipientFragment)
                 setReorderingAllowed(true)
             }
         }
+
     }
 
     override fun onDestroyView() {

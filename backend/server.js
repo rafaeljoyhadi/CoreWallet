@@ -21,22 +21,22 @@ app.use(
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false },
-  })
+  }) 
 );
 
 app.use(cors());
-app.use(bodyParser.json());
+app.use(bodyParser.json());  
 
-// * Test API
+// * Test API   
 app.get("/", (req, res) => {
-  res.send("coreWallet API is running...");
+  res.send("coreWallet API is running..."); 
 });
 
 // * Route Handlers
 app.use("/users", userRoutes);
 app.use("/transactions", transactionRoutes);
-app.use("/budget", budgetRoutes);
-app.use("/goal", goalRoutes);
+app.use("/budget", budgetRoutes);     
+app.use("/goal", goalRoutes); 
 app.use("/contact", contactRoutes);
 
 // * 404 Handler
@@ -46,16 +46,16 @@ app.use((req, res) => {
 
 // * Start
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+  console.log(`Server is running on port ${PORT}`); 
+}); 
 
 // * Setup
 // npm init -y
 // npm install express mysql2 dotenv cors body-parser
-// npm install -g nodemon (auto-refresh kalo ada change)
+// npm install -g nodemon (auto-refresh kalo ada change) 
 
-// * Start Server
-// npm install
-// npm start
-// OR
+// * Start Server 
+// npm install (sekali aja diawal) 
+// npm start 
+// OR  
 // npm run dev (kalo mo pake nodemon, biar ngerjain backend auto refresh changesnya)
