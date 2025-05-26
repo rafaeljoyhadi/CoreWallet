@@ -156,6 +156,19 @@ class CoreBudgetInput : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            if (catPos < 0 || catPos >= categories.size) {
+                MotionToast.createColorToast(
+                    this,
+                    "Error",
+                    "Pilih kategori",
+                    MotionToastStyle.ERROR,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.SHORT_DURATION,
+                    ResourcesCompat.getFont(this@CoreBudgetInput, www.sanju.motiontoast.R.font.helvetica_regular)
+                )
+                return@setOnClickListener
+            }
+
             val sDate = "%04d-%02d-%02d".format(startYear, startMonth + 1, startDay)
             val eDate = "%04d-%02d-%02d".format(endYear, endMonth + 1, endDay)
 
@@ -188,12 +201,34 @@ class CoreBudgetInput : AppCompatActivity() {
                                 finish()
                             }, 1500)
                         } else {
-                            Toast.makeText(this@CoreBudgetInput, "Server error", Toast.LENGTH_SHORT).show()
+                            MotionToast.createColorToast(
+                                this@CoreBudgetInput,
+                                "Error!",
+                                "Server Error!",
+                                MotionToastStyle.ERROR,
+                                MotionToast.GRAVITY_BOTTOM,
+                                MotionToast.LONG_DURATION,
+                                ResourcesCompat.getFont(
+                                    this@CoreBudgetInput,
+                                    www.sanju.motiontoast.R.font.helvetica_regular
+                                )
+                            )
                         }
                     }
 
                     override fun onFailure(call: Call<Void>, t: Throwable) {
-                        Toast.makeText(this@CoreBudgetInput, "Network error", Toast.LENGTH_SHORT).show()
+                        MotionToast.createColorToast(
+                            this@CoreBudgetInput,
+                            "Info!",
+                            "Network Error!",
+                            MotionToastStyle.INFO,
+                            MotionToast.GRAVITY_BOTTOM,
+                            MotionToast.LONG_DURATION,
+                            ResourcesCompat.getFont(
+                                this@CoreBudgetInput,
+                                www.sanju.motiontoast.R.font.helvetica_regular
+                            )
+                        )
                     }
                 })
         }

@@ -136,16 +136,49 @@ class CoreGoalEdit : AppCompatActivity() {
                 try {
                     val resp = ApiClient.apiService.updateGoal(goalId, req)
                     if (resp.isSuccessful) {
-                        Toast.makeText(this@CoreGoalEdit, "Goal updated", Toast.LENGTH_SHORT).show()
+                        MotionToast.createColorToast(
+                            this@CoreGoalEdit,
+                            "Berhasil!",
+                            "Goal baru dibuat",
+                            MotionToastStyle.SUCCESS,
+                            MotionToast.GRAVITY_BOTTOM,
+                            MotionToast.LONG_DURATION,
+                            ResourcesCompat.getFont(
+                                this@CoreGoalEdit,
+                                www.sanju.motiontoast.R.font.helvetica_regular
+                            )
+                        )
                         Handler(Looper.getMainLooper()).postDelayed({
-                            startActivity(Intent(this@CoreGoalEdit, CoreGoal::class.java))
+                            startActivity(Intent(this@CoreGoalEdit, CoreBudget::class.java))
                             finish()
-                        }, 500)
+                        }, 1500)
                     } else {
-                        Toast.makeText(this@CoreGoalEdit, "Update failed", Toast.LENGTH_SHORT).show()
+                        MotionToast.createColorToast(
+                            this@CoreGoalEdit,
+                            "Error!",
+                            "Update Failed!",
+                            MotionToastStyle.ERROR,
+                            MotionToast.GRAVITY_BOTTOM,
+                            MotionToast.LONG_DURATION,
+                            ResourcesCompat.getFont(
+                                this@CoreGoalEdit,
+                                www.sanju.motiontoast.R.font.helvetica_regular
+                            )
+                        )
                     }
                 } catch (e: Exception) {
-                    Toast.makeText(this@CoreGoalEdit, "Network error", Toast.LENGTH_SHORT).show()
+                    MotionToast.createColorToast(
+                        this@CoreGoalEdit,
+                        "Error!",
+                        "Network Error!",
+                        MotionToastStyle.INFO,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(
+                            this@CoreGoalEdit,
+                            www.sanju.motiontoast.R.font.helvetica_regular
+                        )
+                    )
                 }
             }
         }
