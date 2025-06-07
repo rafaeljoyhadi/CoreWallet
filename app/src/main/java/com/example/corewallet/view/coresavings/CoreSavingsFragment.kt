@@ -6,9 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.corewallet.R
 import com.example.corewallet.view.coresavings.corebudget.CoreBudget
 import com.example.corewallet.view.coresavings.coregoal.CoreGoal
 import com.example.corewallet.databinding.FragmentCoreSavingsBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class CoreSavingsFragment : Fragment() {
@@ -66,6 +68,9 @@ class CoreSavingsFragment : Fragment() {
             startActivity(intent)
         }
 
+        binding.logoBtn.setOnClickListener {
+            activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)?.selectedItemId = R.id.nav_home
+        }
 
     }
 

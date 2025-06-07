@@ -1,3 +1,3 @@
 package com.example.corewallet.api.request
 
-data class TopupRequest(val amount: Double)
+data class TopUpRequest(val amount: Double)

@@ -1,4 +1,4 @@
-package com.example.corewallet.api
+package com.example.corewallet.api.response
 
 import com.example.corewallet.models.Goal
 

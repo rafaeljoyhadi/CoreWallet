@@ -14,6 +14,7 @@ import com.example.corewallet.R
 import com.example.corewallet.TransferFormFragment
 import com.example.corewallet.api.response.ContactResponse
 import com.example.corewallet.databinding.FragmentRecipientSelectionBinding
+import com.example.corewallet.models.ContactAdapter
 import com.example.corewallet.viewmodel.TransferViewModel
 
 class RecipientSelectionFragment : Fragment() {

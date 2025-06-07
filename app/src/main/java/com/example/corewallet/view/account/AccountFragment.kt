@@ -21,6 +21,7 @@ import com.example.corewallet.api.User
 import com.example.corewallet.api.request.UpdateProfileRequest
 import com.example.corewallet.databinding.FragmentAccountBinding
 import com.example.corewallet.view.login.LoginActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -137,6 +138,10 @@ class AccountFragment : Fragment() {
                 saveProfileChanges()
             }
         }
+
+        binding.logoBtn.setOnClickListener {
+            activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)?.selectedItemId = R.id.nav_home
+        }
     }
 
     private fun saveProfileChanges() {
@@ -226,10 +231,6 @@ class AccountFragment : Fragment() {
                     ApiClient.getCookieJar().clearCookies()
                     Log.d("AccountFragment", "Session expired, clearing cookies")
                     Toast.makeText(requireContext(), "Session expired, please log in again", Toast.LENGTH_LONG).show()
-                    // Navigate to login screen (replace with your navigation logic)
-                    // Example using Intent:
-                     startActivity(Intent(requireContext(), LoginActivity::class.java))
-                     requireActivity().finish()
                 }
             }
 
@@ -253,12 +254,11 @@ class AccountFragment : Fragment() {
                         Toast.makeText(requireContext(), "Profile picture updated", Toast.LENGTH_SHORT).show()
                     }
 
-                    // 👇 Call updateUser again to update image_path in DB
                     val request = UpdateProfileRequest(
                         name = currentUser?.name ?: "",
                         email = currentUser?.email ?: "",
                         pin = currentUser?.pin ?: "",
-                        password = null, // don't change password
+                        password = null,
                         image_path = newImagePath
                     )
 

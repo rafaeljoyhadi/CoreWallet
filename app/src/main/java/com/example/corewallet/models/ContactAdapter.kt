@@ -1,4 +1,4 @@
-package com.example.corewallet.view.transfer
+package com.example.corewallet.models
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

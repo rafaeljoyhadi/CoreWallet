@@ -72,7 +72,7 @@ exports.topUp = (req, res) => {
                     source_id_user,
                     target_id_user,
                     id_category,
-                    transaction_type,
+                    transaction_category_name,
                     amount,
                     status,
                     note,

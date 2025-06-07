@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.commit
 import com.example.corewallet.databinding.FragmentTransferBinding
 import com.example.corewallet.view.transfer.RecipientSelectionFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class TransferFragment : Fragment() {
 
@@ -59,8 +60,11 @@ class TransferFragment : Fragment() {
         }
 
         binding.btnBack.setOnClickListener {
-            // Navigate back to the previous fragment in the parentFragmentManager's back stack
             parentFragmentManager.popBackStack()
+        }
+
+        binding.logoBtn.setOnClickListener {
+            activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)?.selectedItemId = R.id.nav_home
         }
 
     }

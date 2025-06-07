@@ -188,7 +188,6 @@
                     android:layout_margin="4dp"
                     android:background="@drawable/rounded_corners_rectangle_tb"
                     android:backgroundTint="#E3F2FD"
-                    android:elevation="2dp"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="8dp"
@@ -198,8 +197,8 @@
 
                     <!-- Icon dan Label -->
                     <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:src="@drawable/ic_transfer_white"/>
                     <TextView
                         android:layout_width="wrap_content"
@@ -227,8 +226,8 @@
                     app:layout_constraintEnd_toStartOf="@id/btnWithdraw">
 
                     <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:src="@drawable/ic_topup_white" />
                     <TextView
                         android:layout_width="wrap_content"
@@ -256,8 +255,8 @@
                     app:layout_constraintEnd_toStartOf="@id/btnProfile">
 
                     <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:src="@drawable/ic_withdraw_white"/>
                     <TextView
                         android:layout_width="wrap_content"
@@ -285,8 +284,8 @@
                     app:layout_constraintEnd_toEndOf="parent">
 
                     <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:src="@drawable/ic_profile" />
                     <TextView
                         android:layout_width="wrap_content"

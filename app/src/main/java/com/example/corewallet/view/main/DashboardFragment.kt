@@ -22,7 +22,9 @@ import com.example.corewallet.api.ApiClient
 import com.example.corewallet.api.User
 import com.example.corewallet.view.account.AccountFragment
 import com.example.corewallet.view.login.LoginActivity
+import com.example.corewallet.view.topup.TopUpFragment
 import com.example.corewallet.view.transactions.PinConfirmationFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class DashboardFragment : Fragment() {
 
@@ -146,15 +148,7 @@ class DashboardFragment : Fragment() {
 
         // Profile button
         binding.btnProfile.setOnClickListener {
-            parentFragmentManager.commit {
-                replace(
-                    R.id.fragment_container,
-                    AccountFragment.newInstance(userId),
-                    AccountFragment::class.java.simpleName
-                )
-                addToBackStack(null)
-                setReorderingAllowed(true)
-            }
+            activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)?.selectedItemId = R.id.nav_account
         }
 
         // Top-up button
@@ -162,8 +156,8 @@ class DashboardFragment : Fragment() {
             parentFragmentManager.commit {
                 replace(
                     R.id.fragment_container,
-                    PinConfirmationFragment(),
-                    PinConfirmationFragment::class.java.simpleName
+                    TopUpFragment(),
+                    TopUpFragment::class.java.simpleName
                 )
                 addToBackStack(null)
                 setReorderingAllowed(true)

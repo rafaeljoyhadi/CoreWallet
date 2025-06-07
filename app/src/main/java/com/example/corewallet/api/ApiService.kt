@@ -7,13 +7,13 @@ import com.example.corewallet.api.request.AddContactRequest
 import com.example.corewallet.api.request.AmountRequest
 import com.example.corewallet.api.request.CreateBudgetRequest
 import com.example.corewallet.api.request.NewGoalRequest
-import com.example.corewallet.api.request.TopupRequest
+import com.example.corewallet.api.request.TopUpRequest
 import com.example.corewallet.api.request.TransferRequest
 import com.example.corewallet.api.request.UpdateBudgetRequest
 import com.example.corewallet.api.request.UpdateGoalRequest
 import com.example.corewallet.api.response.AddContactResponse
 import com.example.corewallet.api.response.ContactResponse
-import com.example.corewallet.api.response.TopupResponse
+import com.example.corewallet.api.response.TopUpResponse
 import com.example.corewallet.api.response.TransactionResponse
 import com.example.corewallet.models.Goal
 import com.example.corewallet.models.TransactionCategory
@@ -24,7 +24,7 @@ import retrofit2.http.*
 interface ApiService {
     // Transactions API
     @POST("/transactions/topup")
-    fun topUp(@Body request: TopupRequest): Call<TopupResponse>
+    fun topUp(@Body request: TopUpRequest): Call<TopUpResponse>
 
     @GET("/transactions/history")
     suspend fun getTransactionHistory(): Response<List<TransactionResponse>>
