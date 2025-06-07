@@ -1,8 +1,8 @@
 package com.example.corewallet.api
 
-import SessionCookieJar
+
 import android.annotation.SuppressLint
-import com.example.corewallet.App
+import com.example.corewallet.view.main.App
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 object ApiClient {
-    private const val BASE_URL = "http://10.0.2.2:3000/"
+      const val BASE_URL = "http://10.0.2.2:3000/"
 
     @SuppressLint("StaticFieldLeak")
     private lateinit var cookieJar: SessionCookieJar

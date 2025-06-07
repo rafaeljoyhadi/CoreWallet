@@ -8,9 +8,11 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".App"
+        android:name=".view.main.App"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -24,33 +26,33 @@
         tools:targetApi="35">
         <!--    CORE SAVINGS    -->
         <activity
-            android:name=".coresavings.CoreSavingsActivity"
+            android:name=".view.coresavings.CoreSavingsActivity"
             android:exported="true" />
         <activity
-            android:name=".coresavings.CoreBudget"
+            android:name=".view.coresavings.corebudget.CoreBudget"
             android:exported="true" />
         <activity
-            android:name=".coresavings.CoreBudgetDetail"
+            android:name=".view.coresavings.corebudget.CoreBudgetDetail"
             android:exported="true" />
         <activity
-            android:name=".coresavings.CoreBudgetEdit"
+            android:name=".view.coresavings.corebudget.CoreBudgetEdit"
             android:exported="true" />
         <activity
-            android:name=".coresavings.CoreBudgetInput"
+            android:name=".view.coresavings.corebudget.CoreBudgetInput"
             android:exported="true" />
-        <activity android:name=".coresavings.CoreGoal"
+        <activity android:name=".view.coresavings.coregoal.CoreGoal"
             android:exported="true" />
-        <activity android:name=".coresavings.CoreGoalDetail"
+        <activity android:name=".view.coresavings.coregoal.CoreGoalDetail"
             android:exported="true" />
-        <activity android:name=".coresavings.CoreGoalEdit"
+        <activity android:name=".view.coresavings.coregoal.CoreGoalEdit"
             android:exported="true" />
-        <activity android:name=".coresavings.CoreGoalInput"
+        <activity android:name=".view.coresavings.coregoal.CoreGoalInput"
             android:exported="true" />
 
 
         <!-- LoginActivity as launcher -->
         <activity
-            android:name=".LoginActivity"
+            android:name=".view.login.LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.CoreWallet">
             <intent-filter>
@@ -62,14 +64,14 @@
 
         <!-- Register Activity -->
         <activity
-            android:name=".RegisterActivity"
+            android:name=".view.register.RegisterActivity"
             android:exported="true"
             android:label="@string/title_activity_register"
             android:theme="@style/Theme.CoreWallet" />
 
         <!-- HomeMenu Activity -->
         <activity
-            android:name=".MainActivity"
+            android:name=".view.main.MainActivity"
             android:exported="true" />
     </application>
 

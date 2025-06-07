@@ -1,9 +1,11 @@
 package com.example.corewallet.api
 
+import com.example.corewallet.api.request.UpdateProfileRequest
 import com.google.gson.annotations.SerializedName
 import retrofit2.Call
 import retrofit2.http.*
 import com.google.gson.annotations.Expose
+import okhttp3.MultipartBody
 
 data class LoginRequest(val username: String, val password: String)
 
@@ -12,7 +14,7 @@ data class RegisterRequest(
     val password: String,
     val email: String,
     val name: String,
-    val pin: String
+    val pin: String,
 )
 
 data class UserResponse(
@@ -42,11 +44,16 @@ data class User(
     @Expose
     @SerializedName("pin") val pin: String,
 
-    @SerializedName("password") val password: String = ""
+    @SerializedName("password") val password: String = "",
+
+    @Expose
+    @SerializedName("image_path") val profile_picture: String?
 
 ) {
     override fun toString(): String {
-        return "User(id_user=$id_user, username='$username', name='$name', account_number='$account_number', balance=$balance, email='$email', pin='*****')"
+        return "User(id_user=$id_user, username='$username', name='$name', " +
+                "account_number='$account_number', balance=$balance, email='$email', " +
+                "pin='*****', image_path='$profile_picture')"
     }
 }
 
@@ -65,4 +72,8 @@ interface AuthService {
 
     @PUT("users/{id}")
     fun updateUser(@Path("id") userId: Int, @Body request: UpdateProfileRequest): Call<User>
+
+    @Multipart
+    @PUT("users/{id}/profile-picture")
+    fun uploadProfilePicture(@Path("id") userId: Int, @Part image: MultipartBody.Part): Call<User>
 }

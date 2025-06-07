@@ -4,7 +4,7 @@
     android:id="@+id/qris_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".QrisFragment">
+    tools:context=".view.transactions.QrisFragment">
 
     <androidx.camera.view.PreviewView
         android:id="@+id/previewView"

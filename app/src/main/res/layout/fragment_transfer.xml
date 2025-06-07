@@ -42,6 +42,14 @@
         app:layout_constraintStart_toStartOf="@id/logo_header"
         app:layout_constraintTop_toBottomOf="@id/logo_header">
 
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arrow_backward"
+            android:layout_gravity="center"
+            android:layout_margin="8dp"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

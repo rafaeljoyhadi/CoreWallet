@@ -10,6 +10,8 @@
     </string-array>
     <string name="title_activity_register">RegisterActivity</string>
     <string name="title_activity_transfer">TransferActivity</string>
+    <string name="coreGoal">CoreGoal</string>
+    <string name="coreBudget">CoreBudget</string>
 
     <string name="profile">PROFILE</string>
     <string name="transfer">TRANSFER</string>

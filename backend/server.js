@@ -3,6 +3,7 @@ const express = require("express");         // Node.JS Framework buat API ama We
 const cors = require("cors");               // Cross-Origin Resource Sharing
 const bodyParser = require("body-parser");  // Parse untuk req.body etc
 const session = require("express-session"); // Middleware for Storing Session ID
+const fileUpload = require('express-fileupload');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -38,6 +39,8 @@ app.use("/transactions", transactionRoutes);
 app.use("/budget", budgetRoutes);     
 app.use("/goal", goalRoutes); 
 app.use("/contact", contactRoutes);
+app.use(fileUpload());
+app.use(express.static('Uploads'));
 
 // * 404 Handler
 app.use((req, res) => {
@@ -45,7 +48,7 @@ app.use((req, res) => {
 });
 
 // * Start
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server is running on port ${PORT}`); 
 }); 
 

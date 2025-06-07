@@ -1,5 +1,7 @@
 const db = require("../config/db");
 const bcrypt = require("bcryptjs");
+const path = require('path');
+const fs = require('fs');
 
 // * Get all user
 exports.getAllUsers = (req, res) => {
@@ -188,6 +190,33 @@ exports.updateUser = async (req, res) => {
     }
   };
 
+exports.uploadProfilePicture = async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const token = req.headers.authorization?.split(' ')[1];
+        if (!token) {
+            return res.status(401).json({ message: 'Access denied, token missing' });
+        }
+        // Verify token (e.g., using jsonwebtoken)
+        const decoded = jwt.verify(token, 'your-secret-key');
+        if (decoded.id_user != parseInt(userId)) {
+            return res.status(401).json({ message: 'Unauthorized' });
+        }
+        if (!req.files || !req.files.profile_picture) {
+            return res.status(400).json({ message: 'No file uploaded' });
+        }
+        const file = req.files.profile_picture;
+        const fileName = `${Date.now()}_${file.name}`;
+        const filePath = path.join(__dirname, '../Uploads', fileName);
+        await file.mv(filePath);
+        await db.query('UPDATE user SET image_path = ? WHERE id_user = ?', [`/Uploads/${fileName}`, userId]);
+        const [user] = await db.query('SELECT * FROM user WHERE id_user = ?', [userId]);
+        res.status(200).json(user[0]);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
 // * LOGIN USER
 exports.loginUser = (req, res) => {
     if (req.session.user) {

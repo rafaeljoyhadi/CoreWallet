@@ -4,8 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
 
+<!--    LOGO HEADER     -->
     <LinearLayout
         android:id="@+id/logo_header"
         android:layout_width="match_parent"
@@ -30,7 +32,7 @@
         </LinearLayout>
     </LinearLayout>
 
-
+<!--    MENU HEADER     -->
     <LinearLayout
         android:id="@+id/menu_header"
         android:layout_width="match_parent"
@@ -61,7 +63,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/menu_header"
-        android:layout_marginTop="24dp"
+        android:layout_marginBottom="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -70,9 +72,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="32dp"
+            android:layout_margin="14dp"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:padding="6dp">
 
             <!-- Profile Picture -->
             <FrameLayout
@@ -82,11 +84,12 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/profile_picture_placeholder">
 
-                <TextView
+                <ImageView
+                    android:id="@+id/profilePict"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="Profile Picture"
+                    android:src="@drawable/img_default_profile_pict"
                     android:textColor="@android:color/white"
                     android:textSize="14sp"
                     android:textStyle="bold" />
@@ -205,8 +208,8 @@
             <Button
                 android:id="@+id/btnEditProfile"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="70dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/btn_rounded"
                 android:gravity="center"
