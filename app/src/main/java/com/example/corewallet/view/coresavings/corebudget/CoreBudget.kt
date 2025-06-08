@@ -19,7 +19,10 @@ import com.example.corewallet.R
 import com.example.corewallet.api.ApiClient
 import com.example.corewallet.models.BudgetAdapter
 import Budget
+import androidx.core.content.res.ResourcesCompat
 import kotlinx.coroutines.launch
+import www.sanju.motiontoast.MotionToast
+import www.sanju.motiontoast.MotionToastStyle
 
 class CoreBudget : AppCompatActivity() {
 
@@ -54,10 +57,22 @@ class CoreBudget : AppCompatActivity() {
                     val budgets = resp.body() ?: emptyList()
                     setupAdapter(budgets)
                 } else {
-                    Toast.makeText(this@CoreBudget, "Failed to load budgets", Toast.LENGTH_SHORT).show()
+                    MotionToast.createColorToast(this@CoreBudget,
+                        "Load Failed!",
+                        "Failed to load budgets",
+                        MotionToastStyle.ERROR,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(this@CoreBudget, www.sanju.motiontoast.R.font.helvetica_regular))
                 }
             } catch (e: Exception) {
-                Toast.makeText(this@CoreBudget, "Network error", Toast.LENGTH_SHORT).show()
+                MotionToast.createColorToast(this@CoreBudget,
+                    "Network Issues",
+                    "Network Error",
+                    MotionToastStyle.ERROR,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(this@CoreBudget, www.sanju.motiontoast.R.font.helvetica_regular))
             }
         }
     }
@@ -109,13 +124,31 @@ class CoreBudget : AppCompatActivity() {
                 try {
                     val response = ApiClient.apiService.deleteBudget(plan.id_budget)
                     if (response.isSuccessful) {
-                        Toast.makeText(this@CoreBudget, "Budget deleted", Toast.LENGTH_SHORT).show()
+                        MotionToast.createColorToast(this@CoreBudget,
+                            "Task Completed",
+                            "Budget Deleted",
+                            MotionToastStyle.SUCCESS,
+                            MotionToast.GRAVITY_BOTTOM,
+                            MotionToast.LONG_DURATION,
+                            ResourcesCompat.getFont(this@CoreBudget, www.sanju.motiontoast.R.font.helvetica_regular))
                         getBudgetPlans() // Refresh the list
                     } else {
-                        Toast.makeText(this@CoreBudget, "Failed to delete budget", Toast.LENGTH_SHORT).show()
+                        MotionToast.createColorToast(this@CoreBudget,
+                            "Task Failed!",
+                            "Failed to delete budget",
+                            MotionToastStyle.ERROR,
+                            MotionToast.GRAVITY_BOTTOM,
+                            MotionToast.LONG_DURATION,
+                            ResourcesCompat.getFont(this@CoreBudget, www.sanju.motiontoast.R.font.helvetica_regular))
                     }
                 } catch (e: Exception) {
-                    Toast.makeText(this@CoreBudget, "Network error", Toast.LENGTH_SHORT).show()
+                    MotionToast.createColorToast(this@CoreBudget,
+                        "Network Issues",
+                        "Network Error",
+                        MotionToastStyle.ERROR,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(this@CoreBudget, www.sanju.motiontoast.R.font.helvetica_regular))
                 }
             }
             popupWindow.dismiss()

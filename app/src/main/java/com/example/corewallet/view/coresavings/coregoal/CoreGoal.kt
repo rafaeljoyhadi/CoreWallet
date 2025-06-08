@@ -13,6 +13,7 @@ import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,6 +22,8 @@ import com.example.corewallet.api.ApiClient
 import com.example.corewallet.models.Goal
 import com.example.corewallet.models.GoalAdapter
 import kotlinx.coroutines.launch
+import www.sanju.motiontoast.MotionToast
+import www.sanju.motiontoast.MotionToastStyle
 
 
 class CoreGoal : AppCompatActivity() {
@@ -60,10 +63,22 @@ class CoreGoal : AppCompatActivity() {
                 if (resp.isSuccessful) {
                     setupAdapter(resp.body() ?: emptyList())
                 } else {
-                    Toast.makeText(this@CoreGoal, "Failed to load goals", Toast.LENGTH_SHORT).show()
+                    MotionToast.createColorToast(this@CoreGoal,
+                        "Load Failed!",
+                        "Failed to load budgets",
+                        MotionToastStyle.ERROR,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(this@CoreGoal, www.sanju.motiontoast.R.font.helvetica_regular))
                 }
             } catch (e: Exception) {
-                Toast.makeText(this@CoreGoal, "Network error", Toast.LENGTH_SHORT).show()
+                MotionToast.createColorToast(this@CoreGoal,
+                    "Network Issues",
+                    "Network Error",
+                    MotionToastStyle.ERROR,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(this@CoreGoal, www.sanju.motiontoast.R.font.helvetica_regular))
             }
         }
     }
@@ -115,13 +130,32 @@ class CoreGoal : AppCompatActivity() {
             try {
                 val resp = ApiClient.apiService.deleteGoal(id)
                 if (resp.isSuccessful) {
-                    Toast.makeText(this@CoreGoal, "Deleted", Toast.LENGTH_SHORT).show()
+                    MotionToast.createColorToast(this@CoreGoal,
+                        "Task Completed!",
+                        "Goal Deleted",
+                        MotionToastStyle.SUCCESS,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(this@CoreGoal, www.sanju.motiontoast.R.font.helvetica_regular))
                     loadGoals()
                 } else {
-                    Toast.makeText(this@CoreGoal, "Delete failed", Toast.LENGTH_SHORT).show()
+                    MotionToast.createColorToast(this@CoreGoal,
+                        "Task Failed",
+                        "Failed to delete goal",
+                        MotionToastStyle.ERROR,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(this@CoreGoal, www.sanju.motiontoast.R.font.helvetica_regular))
                 }
             } catch (e: Exception) {
                 Toast.makeText(this@CoreGoal, "Network error", Toast.LENGTH_SHORT).show()
+                MotionToast.createColorToast(this@CoreGoal,
+                    "Network Issue",
+                    "Network Error",
+                    MotionToastStyle.ERROR,
+                    MotionToast.GRAVITY_BOTTOM,
+                    MotionToast.LONG_DURATION,
+                    ResourcesCompat.getFont(this@CoreGoal, www.sanju.motiontoast.R.font.helvetica_regular))
             }
         }
     }
