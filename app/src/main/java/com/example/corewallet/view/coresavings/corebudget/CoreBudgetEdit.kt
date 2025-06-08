@@ -23,58 +23,79 @@ import java.util.Calendar
 
 class CoreBudgetEdit : AppCompatActivity() {
 
+    private lateinit var etName: EditText
+    private lateinit var etAmount: EditText
+    private lateinit var spinnerCategory: Spinner
+    private lateinit var tvStart: TextView
+    private lateinit var tvEnd: TextView
+    private lateinit var btnPickStart: View
+    private lateinit var btnPickEnd: View
+    private lateinit var btnSave: Button
+    private lateinit var btnBack: ImageView
+
     private var startYear = 0
     private var startMonth = 0
     private var startDay = 0
-
     private var endYear = 0
     private var endMonth = 0
     private var endDay = 0
 
     private var categories: List<TransactionCategory> = emptyList()
+    private var idBudget = 0
+    private var initialCategory = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.core_budget_edit)
         window.statusBarColor = Color.parseColor("#0d5892")
 
-        val idBudget = intent.getIntExtra("id_budget", 0)
+        initViews()
+        initIntentData()
+        setupInitialData()
+        setupCategorySpinner()
+        setupDatePickers()
+        setupListeners()
+    }
+
+    private fun initViews() {
+        etName = findViewById(R.id.etBudgetPlanNameEdit)
+        etAmount = findViewById(R.id.etBudgetAmountEdit)
+        spinnerCategory = findViewById(R.id.spinnerCategory)
+        tvStart = findViewById(R.id.tvSelectedDateStart)
+        tvEnd = findViewById(R.id.tvSelectedDateEnd)
+        btnPickStart = findViewById(R.id.buttonPickDateStart)
+        btnPickEnd = findViewById(R.id.buttonPickDateEnd)
+        btnSave = findViewById(R.id.btnSave_CoreBudgetEdit)
+        btnBack = findViewById(R.id.btnBack)
+    }
+
+    private fun initIntentData() {
+        idBudget = intent.getIntExtra("id_budget", 0)
+        initialCategory = intent.getIntExtra("category", -1)
+
         val initialName = intent.getStringExtra("budgetName") ?: ""
-        val initialCategory = intent.getIntExtra("category", -1)
         val initialAmount = intent.getLongExtra("amount", 0L)
         val initialStart = intent.getStringExtra("startDate") ?: ""
         val initialEnd = intent.getStringExtra("endDate") ?: ""
-
-        val etName = findViewById<EditText>(R.id.etBudgetPlanNameEdit)
-        val etAmount = findViewById<EditText>(R.id.etBudgetAmountEdit)
-        val spinnerCategory = findViewById<Spinner>(R.id.spinnerCategory)
-        val tvStart = findViewById<TextView>(R.id.tvSelectedDateStart)
-        val tvEnd = findViewById<TextView>(R.id.tvSelectedDateEnd)
-        val btnPickStart = findViewById<View>(R.id.buttonPickDateStart)
-        val btnPickEnd = findViewById<View>(R.id.buttonPickDateEnd)
-        val btnSave = findViewById<Button>(R.id.btnSave_CoreBudgetEdit)
-        val btnBack = findViewById<ImageView>(R.id.btnBack)
 
         etName.setText(initialName)
         etAmount.setText(initialAmount.toString())
         tvStart.text = formatDisplayDate(initialStart)
         tvEnd.text = formatDisplayDate(initialEnd)
 
-        initialStart.substringBefore("T").split("-").let {
-            if (it.size == 3) {
-                startYear = it[0].toInt()
-                startMonth = it[1].toInt() - 1
-                startDay = it[2].toInt()
-            }
+        initialStart.extractDate()?.let { (y, m, d) ->
+            startYear = y; startMonth = m; startDay = d
         }
-        initialEnd.substringBefore("T").split("-").let {
-            if (it.size == 3) {
-                endYear = it[0].toInt()
-                endMonth = it[1].toInt() - 1
-                endDay = it[2].toInt()
-            }
+        initialEnd.extractDate()?.let { (y, m, d) ->
+            endYear = y; endMonth = m; endDay = d
         }
+    }
 
+    private fun setupInitialData() {
+        // Placeholder jika ingin inisialisasi tambahan
+    }
+
+    private fun setupCategorySpinner() {
         ApiClient.apiService.getTransactionCategories()
             .enqueue(object : Callback<List<TransactionCategory>> {
                 override fun onResponse(
@@ -83,11 +104,8 @@ class CoreBudgetEdit : AppCompatActivity() {
                 ) {
                     categories = response.body() ?: emptyList()
                     val names = categories.map { it.category_name }
-                    val adapter = ArrayAdapter(
-                        this@CoreBudgetEdit,
-                        android.R.layout.simple_spinner_item,
-                        names
-                    ).also { it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item) }
+                    val adapter = ArrayAdapter(this@CoreBudgetEdit, android.R.layout.simple_spinner_item, names)
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                     spinnerCategory.adapter = adapter
 
                     val idx = categories.indexOfFirst { it.id_category == initialCategory }
@@ -95,26 +113,19 @@ class CoreBudgetEdit : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<List<TransactionCategory>>, t: Throwable) {
-                    MotionToast.createColorToast(
-                        this@CoreBudgetEdit,
-                        "Error",
-                        "Failed to load categories",
-                        MotionToastStyle.ERROR,
-                        MotionToast.GRAVITY_BOTTOM,
-                        MotionToast.LONG_DURATION,
-                        ResourcesCompat.getFont(this@CoreBudgetEdit, www.sanju.motiontoast.R.font.helvetica_regular)
-                    )
+                    showToast("Error", "Failed to load categories", MotionToastStyle.ERROR)
                 }
             })
+    }
+
+    private fun setupDatePickers() {
+        val cal = Calendar.getInstance()
 
         btnPickStart.setOnClickListener {
-            val cal = Calendar.getInstance()
-            DatePickerDialog(
-                this,
-                { _, y, m, d ->
-                    startYear = y; startMonth = m; startDay = d
-                    tvStart.text = formatDisplayDate(d, m, y)
-                },
+            DatePickerDialog(this, { _, y, m, d ->
+                startYear = y; startMonth = m; startDay = d
+                tvStart.text = formatDisplayDate(d, m, y)
+            },
                 startYear.ifZero { cal.get(Calendar.YEAR) },
                 startMonth.ifZero { cal.get(Calendar.MONTH) },
                 startDay.ifZero { cal.get(Calendar.DAY_OF_MONTH) }
@@ -123,157 +134,91 @@ class CoreBudgetEdit : AppCompatActivity() {
 
         btnPickEnd.setOnClickListener {
             if (startYear == 0) {
-                MotionToast.createColorToast(
-                    this,
-                    "Warning",
-                    "Pilih Tanggal Awal dulu",
-                    MotionToastStyle.WARNING,
-                    MotionToast.GRAVITY_BOTTOM,
-                    MotionToast.SHORT_DURATION,
-                    ResourcesCompat.getFont(this@CoreBudgetEdit, www.sanju.motiontoast.R.font.helvetica_regular)
-                )
+                showToast("Warning", "Pilih Tanggal Awal dulu", MotionToastStyle.WARNING)
                 return@setOnClickListener
             }
-            val cal = Calendar.getInstance()
-            DatePickerDialog(
-                this,
-                { _, y, m, d ->
-                    val ok = when {
-                        y > startYear -> true
-                        y == startYear && m > startMonth -> true
-                        y == startYear && m == startMonth && d > startDay -> true
-                        else -> false
-                    }
-                    if (!ok) {
-                        MotionToast.createColorToast(
-                            this,
-                            "Invalid",
-                            "Tanggal Akhir harus setelah Awal",
-                            MotionToastStyle.ERROR,
-                            MotionToast.GRAVITY_BOTTOM,
-                            MotionToast.SHORT_DURATION,
-                            ResourcesCompat.getFont(this@CoreBudgetEdit, www.sanju.motiontoast.R.font.helvetica_regular)
-                        )
-                        return@DatePickerDialog
-                    }
-                    endYear = y; endMonth = m; endDay = d
-                    tvEnd.text = formatDisplayDate(d, m, y)
-                },
+            DatePickerDialog(this, { _, y, m, d ->
+                val valid = y > startYear || (y == startYear && (m > startMonth || (m == startMonth && d > startDay)))
+                if (!valid) {
+                    showToast("Invalid", "Tanggal Akhir harus setelah Awal", MotionToastStyle.ERROR)
+                    return@DatePickerDialog
+                }
+                endYear = y; endMonth = m; endDay = d
+                tvEnd.text = formatDisplayDate(d, m, y)
+            },
                 endYear.ifZero { cal.get(Calendar.YEAR) },
                 endMonth.ifZero { cal.get(Calendar.MONTH) },
                 endDay.ifZero { cal.get(Calendar.DAY_OF_MONTH) }
             ).show()
         }
+    }
 
+    private fun setupListeners() {
         btnBack.setOnClickListener {
             onBackPressed()
             overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
         }
 
         btnSave.setOnClickListener {
-            val name = etName.text.toString().trim()
-            val amount = etAmount.text.toString().toLongOrNull() ?: 0L
-            val pos = spinnerCategory.selectedItemPosition
-
-            if (name.isBlank()) {
-                MotionToast.createColorToast(
-                    this,
-                    "Error",
-                    "Nama anggaran harus diisi",
-                    MotionToastStyle.ERROR,
-                    MotionToast.GRAVITY_BOTTOM,
-                    MotionToast.SHORT_DURATION,
-                    ResourcesCompat.getFont(this@CoreBudgetEdit, www.sanju.motiontoast.R.font.helvetica_regular)
-                )
-                return@setOnClickListener
-            }
-            if (amount < 10000) {
-                MotionToast.createColorToast(
-                    this,
-                    "Error",
-                    "Limit harus minimal 10000",
-                    MotionToastStyle.ERROR,
-                    MotionToast.GRAVITY_BOTTOM,
-                    MotionToast.SHORT_DURATION,
-                    ResourcesCompat.getFont(this@CoreBudgetEdit, www.sanju.motiontoast.R.font.helvetica_regular)
-                )
-                return@setOnClickListener
-            }
-            if (pos < 0 || pos >= categories.size) {
-                MotionToast.createColorToast(
-                    this,
-                    "Error",
-                    "Pilih kategori",
-                    MotionToastStyle.ERROR,
-                    MotionToast.GRAVITY_BOTTOM,
-                    MotionToast.SHORT_DURATION,
-                    ResourcesCompat.getFont(this@CoreBudgetEdit, www.sanju.motiontoast.R.font.helvetica_regular)
-                )
-                return@setOnClickListener
-            }
-
-            val sDate = "%04d-%02d-%02d".format(startYear, startMonth + 1, startDay)
-            val eDate = "%04d-%02d-%02d".format(endYear, endMonth + 1, endDay)
-
-            val req = UpdateBudgetRequest(
-                planName = name,
-                idCategory = categories[pos].id_category,
-                amountLimit = amount,
-                startDate = sDate,
-                endDate = eDate
-            )
-
-            ApiClient.apiService.updateBudget(idBudget, req)
-                .enqueue(object : Callback<Void> {
-                    override fun onResponse(call: Call<Void>, resp: Response<Void>) {
-                        if (resp.isSuccessful) {
-                            MotionToast.createColorToast(
-                                this@CoreBudgetEdit,
-                                "Success",
-                                "Anggaran diperbarui",
-                                MotionToastStyle.SUCCESS,
-                                MotionToast.GRAVITY_BOTTOM,
-                                MotionToast.LONG_DURATION,
-                                ResourcesCompat.getFont(this@CoreBudgetEdit, www.sanju.motiontoast.R.font.helvetica_regular)
-                            )
-                            Handler(Looper.getMainLooper()).postDelayed({
-                                startActivity(Intent(this@CoreBudgetEdit, CoreBudget::class.java))
-                                finish()
-                            }, 500)
-                        } else {
-                            MotionToast.createColorToast(
-                                this@CoreBudgetEdit,
-                                "Error",
-                                "Server error",
-                                MotionToastStyle.ERROR,
-                                MotionToast.GRAVITY_BOTTOM,
-                                MotionToast.LONG_DURATION,
-                                ResourcesCompat.getFont(this@CoreBudgetEdit, www.sanju.motiontoast.R.font.helvetica_regular)
-                            )
-                        }
-                    }
-
-                    override fun onFailure(call: Call<Void>, t: Throwable) {
-                        MotionToast.createColorToast(
-                            this@CoreBudgetEdit,
-                            "Error",
-                            "Network error",
-                            MotionToastStyle.ERROR,
-                            MotionToast.GRAVITY_BOTTOM,
-                            MotionToast.LONG_DURATION,
-                            ResourcesCompat.getFont(this@CoreBudgetEdit, www.sanju.motiontoast.R.font.helvetica_regular)
-                        )
-                    }
-                })
+            validateAndSaveBudget()
         }
     }
 
-    private fun formatDisplayDate(iso: String): String = iso.substringBefore("T").split("-").let {
-        if (it.size == 3) "%02d/%02d/%04d".format(it[2].toInt(), it[1].toInt(), it[0].toInt()) else iso
+    private fun validateAndSaveBudget() {
+        val name = etName.text.toString().trim()
+        val amount = etAmount.text.toString().toLongOrNull() ?: 0L
+        val pos = spinnerCategory.selectedItemPosition
+
+        when {
+            name.isBlank() -> showToast("Error", "Nama anggaran harus diisi", MotionToastStyle.ERROR)
+            amount < 10000 -> showToast("Error", "Limit harus minimal 10000", MotionToastStyle.ERROR)
+            pos !in categories.indices -> showToast("Error", "Pilih kategori", MotionToastStyle.ERROR)
+            else -> {
+                val sDate = "%04d-%02d-%02d".format(startYear, startMonth + 1, startDay)
+                val eDate = "%04d-%02d-%02d".format(endYear, endMonth + 1, endDay)
+                val req = UpdateBudgetRequest(name, categories[pos].id_category, amount, sDate, eDate)
+
+                ApiClient.apiService.updateBudget(idBudget, req)
+                    .enqueue(object : Callback<Void> {
+                        override fun onResponse(call: Call<Void>, resp: Response<Void>) {
+                            if (resp.isSuccessful) {
+                                showToast("Success", "Anggaran diperbarui", MotionToastStyle.SUCCESS)
+                                Handler(Looper.getMainLooper()).postDelayed({
+                                    startActivity(Intent(this@CoreBudgetEdit, CoreBudget::class.java))
+                                    finish()
+                                }, 500)
+                            } else showToast("Error", "Server error", MotionToastStyle.ERROR)
+                        }
+
+                        override fun onFailure(call: Call<Void>, t: Throwable) {
+                            showToast("Error", "Network error", MotionToastStyle.ERROR)
+                        }
+                    })
+            }
+        }
     }
-    private fun formatDisplayDate(day: Int, month: Int, year: Int): String = "%02d/%02d/%04d".format(day, month+1, year)
+
+    private fun showToast(title: String, msg: String, style: MotionToastStyle) {
+        MotionToast.createColorToast(
+            this, title, msg, style,
+            MotionToast.GRAVITY_BOTTOM,
+            MotionToast.SHORT_DURATION,
+            ResourcesCompat.getFont(this, www.sanju.motiontoast.R.font.helvetica_regular)
+        )
+    }
+
+    private fun formatDisplayDate(iso: String): String =
+        iso.substringBefore("T").split("-").let {
+            if (it.size == 3) "%02d/%02d/%04d".format(it[2].toInt(), it[1].toInt(), it[0].toInt()) else iso
+        }
+
+    private fun formatDisplayDate(day: Int, month: Int, year: Int): String =
+        "%02d/%02d/%04d".format(day, month + 1, year)
 
     private fun Int.ifZero(default: () -> Int): Int = if (this == 0) default() else this
+
+    private fun String.extractDate(): Triple<Int, Int, Int>? =
+        this.substringBefore("T").split("-").let {
+            if (it.size == 3) Triple(it[0].toInt(), it[1].toInt() - 1, it[2].toInt()) else null
+        }
 }
-
-

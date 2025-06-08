@@ -5,12 +5,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.text.InputType
-
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
@@ -21,7 +16,7 @@ import com.example.corewallet.models.Goal
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import java.text.NumberFormat
-import java.util.Locale
+import java.util.*
 
 class CoreGoalDetail : AppCompatActivity() {
 
@@ -38,59 +33,61 @@ class CoreGoalDetail : AppCompatActivity() {
         setContentView(R.layout.core_goal_detail)
         window.statusBarColor = Color.parseColor("#0d5892")
 
-        // Receive intent data
+        initializeIntentExtras()
+        setupUI()
+        renderUI()
+    }
+
+    private fun initializeIntentExtras() {
         idGoal = intent.getIntExtra("id_goal", 0)
-        val goalName = intent.getStringExtra("goalName").orEmpty()
         targetAmount = intent.getLongExtra("targetAmount", 0L)
         savedAmount = intent.getLongExtra("savedAmount", 0L)
+    }
+
+    private fun setupUI() {
+        val goalName = intent.getStringExtra("goalName").orEmpty()
         val deadline = intent.getStringExtra("deadline").orEmpty()
 
-        // UI refs
         val tvTitle = findViewById<TextView>(R.id.tvTitle)
         val tvDeadline = findViewById<TextView>(R.id.tvDeadline)
-        tvSaved = findViewById(R.id.tvSavedAmount)
         val tvTarget = findViewById<TextView>(R.id.tvTargetAmount)
+        tvSaved = findViewById(R.id.tvSavedAmount)
         progressBar = findViewById(R.id.progressBar)
         val btnDeposit = findViewById<Button>(R.id.btnAddMoney)
         val btnWithdraw = findViewById<Button>(R.id.btnWithdraw)
         val btnBack = findViewById<ImageView>(R.id.btnBack)
         val btnEdit = findViewById<ImageView>(R.id.btnEditGoal)
 
-        // Static UI
         tvTitle.text = goalName.uppercase(Locale.getDefault())
         tvDeadline.text = formatDate(deadline)
         tvTarget.text = "IDR ${formatter.format(targetAmount)}"
 
-        // Back
-        btnBack.setOnClickListener {
-            onBackPressed()
-            overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
-        }
-        // Edit
-        btnEdit.setOnClickListener {
-            Intent(this, CoreGoalEdit::class.java).apply {
-                putExtra("id_goal", idGoal)
-                putExtra("goalName", goalName)
-                putExtra("targetAmount", targetAmount)
-                putExtra("deadline", deadline)
-                startActivity(this)
-            }
-        }
-
-        // Initial render
-        renderUI()
-
-        // Deposit
+        btnBack.setOnClickListener { finishWithAnimation() }
+        btnEdit.setOnClickListener { navigateToEditGoal(goalName, deadline) }
         btnDeposit.setOnClickListener {
-            showAmountDialog("Enter deposit amount") { amt ->
-                performTransaction(isDeposit = true, amount = amt)
+            showAmountDialog("Enter deposit amount") {
+                performTransaction(isDeposit = true, amount = it)
             }
         }
-        // Withdraw
         btnWithdraw.setOnClickListener {
-            showAmountDialog("Enter withdrawal amount") { amt ->
-                performTransaction(isDeposit = false, amount = amt)
+            showAmountDialog("Enter withdrawal amount") {
+                performTransaction(isDeposit = false, amount = it)
             }
+        }
+    }
+
+    private fun finishWithAnimation() {
+        onBackPressed()
+        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+    }
+
+    private fun navigateToEditGoal(goalName: String, deadline: String) {
+        Intent(this, CoreGoalEdit::class.java).apply {
+            putExtra("id_goal", idGoal)
+            putExtra("goalName", goalName)
+            putExtra("targetAmount", targetAmount)
+            putExtra("deadline", deadline)
+            startActivity(this)
         }
     }
 
@@ -99,17 +96,21 @@ class CoreGoalDetail : AppCompatActivity() {
         val progress = if (targetAmount == 0L) 0 else
             ((savedAmount.toDouble() / targetAmount.toDouble()) * 100).toInt().coerceAtMost(100)
         progressBar.progress = progress
-        if (savedAmount >= targetAmount) {
-            progressBar.progressDrawable = ContextCompat.getDrawable(this, R.drawable.progress_bar_full)
+
+        val drawable = if (savedAmount >= targetAmount) {
             tvSaved.setTextColor(Color.parseColor("#008000"))
+            R.drawable.progress_bar_full
         } else {
-            progressBar.progressDrawable = ContextCompat.getDrawable(this, R.drawable.progress_bar)
             tvSaved.setTextColor(Color.BLACK)
+            R.drawable.progress_bar
         }
+
+        progressBar.progressDrawable = ContextCompat.getDrawable(this, drawable)
     }
 
     private fun performTransaction(isDeposit: Boolean, amount: Long) {
         if (amount <= 0L) return
+
         lifecycleScope.launch {
             try {
                 val resp: Response<Goal> = if (isDeposit) {
@@ -118,7 +119,6 @@ class CoreGoalDetail : AppCompatActivity() {
                     ApiClient.apiService.withdrawFromGoal(idGoal, AmountRequest(amount))
                 }
                 if (resp.isSuccessful) {
-                    // Fetch full updated goal to ensure consistency
                     fetchGoalDetail()
                 }
             } catch (_: Exception) {}
@@ -144,10 +144,12 @@ class CoreGoalDetail : AppCompatActivity() {
     private fun showAmountDialog(title: String, onConfirm: (Long) -> Unit) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle(title)
+
         val input = EditText(this).apply {
             inputType = InputType.TYPE_CLASS_NUMBER
             hint = "Amount"
         }
+
         builder.setView(input)
         builder.setPositiveButton("OK") { _, _ ->
             val amt = input.text.toString().toLongOrNull() ?: 0L
@@ -159,7 +161,9 @@ class CoreGoalDetail : AppCompatActivity() {
 
     private fun formatDate(date: String): String {
         val parts = date.split("-")
-        return if (parts.size == 3) "${parts[2]} ${getMonthName(parts[1])} ${parts[0]}" else date
+        return if (parts.size == 3)
+            "${parts[2]} ${getMonthName(parts[1])} ${parts[0]}"
+        else date
     }
 
     private fun getMonthName(month: String): String = when (month) {
@@ -169,5 +173,3 @@ class CoreGoalDetail : AppCompatActivity() {
         else -> ""
     }
 }
-
-
