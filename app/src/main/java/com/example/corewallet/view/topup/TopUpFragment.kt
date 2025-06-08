@@ -39,10 +39,6 @@ class TopUpFragment : Fragment() {
         binding.btnBack.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
-
-
-
-
     }
 
     private fun setupUI() {

@@ -40,12 +40,7 @@ class BudgetAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val plan = budgetPlans[position]
-
-        // Title
         holder.title.text = plan.budget_name.uppercase(Locale.getDefault())
-
-
-        // End date formatting
         holder.endDate.text = run {
             val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             val outputFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
@@ -57,20 +52,14 @@ class BudgetAdapter(
             }
         }
 
-        // Display category name directly
         holder.category.text = plan.category_name
-
-        // Format amounts
         val formatter = NumberFormat.getNumberInstance(Locale("id", "ID"))
         val spent = plan.spent_amount
         val limit = plan.amount_limit
         holder.amount.text = "${formatter.format(spent)} / ${formatter.format(limit)}"
-
-        // Progress logic
         val progress = if (limit == 0L) 0 else ((spent * 100) / limit).toInt().coerceAtMost(100)
         holder.progressBar.progress = progress
 
-        // Overflow styling when exceeded
         if (spent > limit) {
             holder.progressBar.progressDrawable = ContextCompat.getDrawable(
                 holder.itemView.context, R.drawable.progress_bar_full
@@ -82,7 +71,6 @@ class BudgetAdapter(
             holder.amount.setTypeface(null, Typeface.NORMAL)
         }
 
-        // Click listeners
         holder.itemView.setOnClickListener { onItemClicked(plan) }
         holder.btnMoreOptions.setOnClickListener { onMoreOptionsClick(it, plan) }
     }
