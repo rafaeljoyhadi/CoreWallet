@@ -148,7 +148,6 @@ class CoreGoal : AppCompatActivity() {
                         ResourcesCompat.getFont(this@CoreGoal, www.sanju.motiontoast.R.font.helvetica_regular))
                 }
             } catch (e: Exception) {
-                Toast.makeText(this@CoreGoal, "Network error", Toast.LENGTH_SHORT).show()
                 MotionToast.createColorToast(this@CoreGoal,
                     "Network Issue",
                     "Network Error",
