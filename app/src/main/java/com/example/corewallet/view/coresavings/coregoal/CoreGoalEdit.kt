@@ -139,7 +139,7 @@ class CoreGoalEdit : AppCompatActivity() {
                     if (resp.isSuccessful) {
                         showMotionToast("Berhasil!", "Goal baru dibuat", MotionToastStyle.SUCCESS)
                         Handler(Looper.getMainLooper()).postDelayed({
-                            startActivity(Intent(this@CoreGoalEdit, CoreBudget::class.java))
+                            startActivity(Intent(this@CoreGoalEdit, CoreGoal::class.java))
                             finish()
                         }, 1500)
                     } else {
