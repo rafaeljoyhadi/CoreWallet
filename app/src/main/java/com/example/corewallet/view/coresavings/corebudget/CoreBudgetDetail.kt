@@ -19,29 +19,57 @@ import java.util.*
 
 class CoreBudgetDetail : AppCompatActivity() {
 
+    private lateinit var tvTitle: TextView
+    private lateinit var tvDateRange: TextView
+    private lateinit var tvCategory: TextView
+    private lateinit var tvAmount: TextView
+    private lateinit var tvTargetAmount: TextView
+    private lateinit var progressBar: ProgressBar
+    private lateinit var btnBack: ImageView
+    private lateinit var btnEdit: ImageView
+
+    private var idBudget: Int = 0
+    private var budgetName: String = ""
+    private var categoryId: Int = -1
+    private var amountLimit: Long = 0L
+    private var spentAmount: Long = 0L
+    private var startDate: String = ""
+    private var endDate: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.core_budget_detail)
         window.statusBarColor = Color.parseColor("#0d5892")
 
-        val idBudget = intent.getIntExtra("id_budget", 0)
-        val budgetName = intent.getStringExtra("budgetName").orEmpty()
-        val categoryId = intent.getIntExtra("category", -1)
-        val amountLimit = intent.getLongExtra("amount", 0L)
-        val spentAmount = intent.getLongExtra("spentAmount", 0L)
-        val startDate = intent.getStringExtra("startDate").orEmpty()
-        val endDate = intent.getStringExtra("endDate").orEmpty()
+        initViews()
+        getIntentData()
+        displayBudgetDetails()
+        fetchAndDisplayCategory()
+        setupButtonListeners()
+    }
 
-        val tvTitle = findViewById<TextView>(R.id.tvTitle)
-        val tvDateRange = findViewById<TextView>(R.id.tvDateRange)
-        val tvCategory = findViewById<TextView>(R.id.tvCategory)
-        val tvAmount = findViewById<TextView>(R.id.tvAmount)
-        val tvTargetAmount = findViewById<TextView>(R.id.tvTargetAmount)
-        val progressBar = findViewById<ProgressBar>(R.id.progressBar)
-        val btnBack = findViewById<ImageView>(R.id.btnBack)
-        val btnEdit = findViewById<ImageView>(R.id.btnEditBudget)
+    private fun initViews() {
+        tvTitle = findViewById(R.id.tvTitle)
+        tvDateRange = findViewById(R.id.tvDateRange)
+        tvCategory = findViewById(R.id.tvCategory)
+        tvAmount = findViewById(R.id.tvAmount)
+        tvTargetAmount = findViewById(R.id.tvTargetAmount)
+        progressBar = findViewById(R.id.progressBar)
+        btnBack = findViewById(R.id.btnBack)
+        btnEdit = findViewById(R.id.btnEditBudget)
+    }
 
-        // Set static fields
+    private fun getIntentData() {
+        idBudget = intent.getIntExtra("id_budget", 0)
+        budgetName = intent.getStringExtra("budgetName").orEmpty()
+        categoryId = intent.getIntExtra("category", -1)
+        amountLimit = intent.getLongExtra("amount", 0L)
+        spentAmount = intent.getLongExtra("spentAmount", 0L)
+        startDate = intent.getStringExtra("startDate").orEmpty()
+        endDate = intent.getStringExtra("endDate").orEmpty()
+    }
+
+    private fun displayBudgetDetails() {
         tvTitle.text = budgetName.uppercase(Locale.getDefault())
         tvDateRange.text = formatDate(startDate) + " - " + formatDate(endDate)
 
@@ -59,8 +87,9 @@ class CoreBudgetDetail : AppCompatActivity() {
             progressBar.progressDrawable = ContextCompat.getDrawable(this, R.drawable.progress_bar)
             tvAmount.setTextColor(Color.BLACK)
         }
+    }
 
-        // Fetch categories and map ID to name
+    private fun fetchAndDisplayCategory() {
         ApiClient.apiService.getTransactionCategories()
             .enqueue(object : Callback<List<TransactionCategory>> {
                 override fun onResponse(call: Call<List<TransactionCategory>>, response: Response<List<TransactionCategory>>) {
@@ -68,11 +97,14 @@ class CoreBudgetDetail : AppCompatActivity() {
                     val matched = categories.find { it.id_category == categoryId }
                     tvCategory.text = matched?.category_name ?: "Unknown"
                 }
+
                 override fun onFailure(call: Call<List<TransactionCategory>>, t: Throwable) {
                     tvCategory.text = "Unknown"
                 }
             })
+    }
 
+    private fun setupButtonListeners() {
         btnBack.setOnClickListener {
             onBackPressed()
             overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
