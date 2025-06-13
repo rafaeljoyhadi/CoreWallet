@@ -1,4 +1,43 @@
 <resources>
     <string name="app_name">coreWallet</string>
+    <string name="core_savings">Core Savings</string>
+
+    <string name="transaction_category">Transaction Category</string>
+    <string-array name="categories_cb_form">
+        <item>Lifestyle</item>
+        <item>Traveling</item>
+        <item>Shopping</item>
+    </string-array>
     <string name="title_activity_register">RegisterActivity</string>
+    <string name="title_activity_transfer">TransferActivity</string>
+    <string name="coreGoal">CoreGoal</string>
+    <string name="coreBudget">CoreBudget</string>
+
+    <string name="profile">PROFILE</string>
+    <string name="transfer">TRANSFER</string>
+    <string name="contact">CONTACTS</string>
+    <string name="search_ca">Search Contact</string>
+
+    <!--    NAV BAR     -->
+    <string name="home">Home</string>
+    <string name="history">History</string>
+    <string name="qr">QRIS</string>
+    <string name="coresaving">coreSavings</string>
+    <string name="user_account">Account</string>
+    <string name="settings">Settings</string>
+    <string name="top_up">Top Up</string>
+    <string name="withdraw">Withdraw</string>
+
+    <!--    CONFIRMATIONS  & QUESTIONS   -->
+    <string name="amount">AMOUNT</string>
+    <string name="ent_amount">Enter Ammount</string>
+    <string name="save">SAVE</string>
+    <string name="confirm">CONFIRM</string>
+    <string name="cancel">CANCEL</string>
+    <string name="u_sure">Are You Sure Want To </string>
+    <string name="logout">LOG OUT</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
 </resources>
