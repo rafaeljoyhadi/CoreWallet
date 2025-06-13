@@ -11,10 +11,12 @@ import com.example.corewallet.api.request.TopUpRequest
 import com.example.corewallet.api.request.TransferRequest
 import com.example.corewallet.api.request.UpdateBudgetRequest
 import com.example.corewallet.api.request.UpdateGoalRequest
+import com.example.corewallet.api.request.WithdrawRequest
 import com.example.corewallet.api.response.AddContactResponse
 import com.example.corewallet.api.response.ContactResponse
 import com.example.corewallet.api.response.TopUpResponse
 import com.example.corewallet.api.response.TransactionResponse
+import com.example.corewallet.api.response.WithdrawResponse
 import com.example.corewallet.models.Goal
 import com.example.corewallet.models.TransactionCategory
 import retrofit2.Call
@@ -25,6 +27,9 @@ interface ApiService {
     // Transactions API
     @POST("/transactions/topup")
     fun topUp(@Body request: TopUpRequest): Call<TopUpResponse>
+
+    @POST("/transactions/withdraw")
+    fun withdraw(@Body request: WithdrawRequest): Call<WithdrawResponse>
 
     @GET("/transactions/history")
     suspend fun getTransactionHistory(): Response<List<TransactionResponse>>

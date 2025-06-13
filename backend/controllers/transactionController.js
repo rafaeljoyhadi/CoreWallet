@@ -293,7 +293,7 @@ exports.transferToUser = (req, res) => {
                           );
                         }
 
-                        // 🔍 DEBUG: fetch the newly inserted row
+                        // DEBUG: fetch the newly inserted row
                         db.query(
                           "SELECT * FROM `transaction` WHERE id_transaction = ?",
                           [insertResult.insertId],
@@ -422,3 +422,128 @@ exports.getTransactionCategories = (req, res) => {
     res.json(results);
   });
 };
+
+
+// * Withdraw Function
+exports.withdraw = (req, res) => {
+  const { amount } = req.body;
+  const sender_account_number = req.session.user?.account_number;
+
+  if (!sender_account_number) {
+    return res.status(401).json({ message: "Unauthorized: Please log in" });
+  }
+  if (!amount || amount <= 0) {
+    return res.status(400).json({ message: "Invalid top-up request" });
+  }
+  
+   // 1) Find the user
+  db.query(
+    "SELECT id_user, balance FROM user WHERE account_number = ?",
+    [sender_account_number],
+    (userErr, userResults) => {
+      if (userErr) {
+        console.error("Database error:", userErr);
+        return res.status(500).json({ message: "Database error" });
+      }
+      if (userResults.length === 0) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      const user = userResults[0];
+      const newBalance = user.balance - amount;
+
+      // 2) Lookup Withdraw category ID
+      db.query(
+        "SELECT id_category FROM transaction_category WHERE category_name = 'Withdraw' LIMIT 1",
+        (catErr, catResults) => {
+          if (catErr) {
+            console.error("Error fetching category:", catErr);
+            return res.status(500).json({ message: "Database error" });
+          }
+          if (catResults.length === 0) {
+            return res
+              .status(500)
+              .json({ message: "Withdraw category not found" });
+          }
+
+          const id_category = catResults[0].id_category;
+          const isCredit = 1;
+
+          // 3) Begin atomic transaction
+          db.beginTransaction((txErr) => {
+            if (txErr) {
+              console.error("Transaction start error:", txErr);
+              return res.status(500).json({ message: "Database error" });
+            }
+
+            // a) Update the user's balance
+            db.query(
+              "UPDATE user SET balance = ? WHERE id_user = ?",
+              [newBalance, user.id_user],
+              (updateErr) => {
+                if (updateErr) {
+                  return db.rollback(() => {
+                    console.error("Error updating balance:", updateErr);
+                    res
+                      .status(500)
+                      .json({ message: "Failed to update balance" });
+                  });
+                }
+
+                // b) Insert the transaction record with is_credit = 1
+                const insertQuery = `
+                  INSERT INTO transaction (
+                    source_id_user,
+                    target_id_user,
+                    id_category,
+                    transaction_category_name,
+                    amount,
+                    status,
+                    note,
+                    is_credit
+                  ) VALUES (?, NULL, ?, 'Withdraw', ?, 0, 'Withdraw', 1)
+                `;
+                db.query(
+                  insertQuery,
+                  [user.id_user, id_category, amount, isCredit],
+                  (insertErr) => {
+                    if (insertErr) {
+                      return db.rollback(() => {
+                        console.error(
+                          "Error inserting transaction:",
+                          insertErr
+                        );
+                        res
+                          .status(500)
+                          .json({ message: "Failed to record transaction" });
+                      });
+                    }
+
+                    // c) Commit
+                    db.commit((commitErr) => {
+                      if (commitErr) {
+                        return db.rollback(() => {
+                          console.error("Transaction commit error:", commitErr);
+                          res
+                            .status(500)
+                            .json({ message: "Transaction failed" });
+                        });
+                      }
+
+                      // Success!
+                      res.json({
+                        message: "Withdraw successful",
+                        new_balance: newBalance,
+                      });
+                    });
+                  }
+                );
+              }
+            );
+          });
+
+        }
+      );    
+    }
+  );
+}

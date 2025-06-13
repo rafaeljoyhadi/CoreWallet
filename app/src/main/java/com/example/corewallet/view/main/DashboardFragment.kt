@@ -24,6 +24,7 @@ import com.example.corewallet.view.account.AccountFragment
 import com.example.corewallet.view.login.LoginActivity
 import com.example.corewallet.view.topup.TopUpFragment
 import com.example.corewallet.view.transactions.PinConfirmationFragment
+import com.example.corewallet.view.withdraw.WithdrawFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class DashboardFragment : Fragment() {
@@ -166,7 +167,15 @@ class DashboardFragment : Fragment() {
 
         // Withdraw button
         binding.btnWithdraw.setOnClickListener {
-            Toast.makeText(requireContext(), "Withdraw clicked", Toast.LENGTH_SHORT).show()
+            parentFragmentManager.commit {
+                replace(
+                    R.id.fragment_container,
+                    WithdrawFragment(),
+                    WithdrawFragment::class.java.simpleName
+                )
+                addToBackStack(null)
+                setReorderingAllowed(true)
+            }
         }
     }
 

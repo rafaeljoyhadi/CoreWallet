@@ -1,6 +1,7 @@
-package com.example.corewallet.view.topup
+package com.example.corewallet.view.withdraw
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,25 +10,23 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import com.example.corewallet.R
 import com.example.corewallet.databinding.FragmentTopUpBinding
-import com.example.corewallet.view.main.DashboardFragment
+import com.example.corewallet.databinding.FragmentWithdrawBinding
+import com.example.corewallet.view.topup.WithdrawViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class TopUpFragment : Fragment() {
-
-    private lateinit var binding: FragmentTopUpBinding
-    private val viewModel: TopUpViewModel by viewModels()
+class WithdrawFragment : Fragment() {
+    private lateinit var binding: FragmentWithdrawBinding
+    private val viewModel: WithdrawViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentTopUpBinding.inflate(inflater, container, false)
+        binding = FragmentWithdrawBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -35,7 +34,6 @@ class TopUpFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupUI()
         setupObservers()
-
     }
 
     private fun setupUI() {
@@ -43,7 +41,7 @@ class TopUpFragment : Fragment() {
             val amountText = binding.amountET.text.toString()
             binding.confirmBtn.isEnabled = false
             binding.progressBar.visibility = View.VISIBLE
-            viewModel.performTopUp(amountText)
+            viewModel.performWithdraw(amountText)
         }
         binding.btnBack.setOnClickListener {
             parentFragmentManager.popBackStack()
@@ -54,7 +52,7 @@ class TopUpFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        viewModel.topUpResult.observe(viewLifecycleOwner) { result ->
+        viewModel.withdrawResult.observe(viewLifecycleOwner) { result ->
             binding.confirmBtn.isEnabled = true // Re-enable button
             binding.progressBar.visibility = View.GONE // Hide loading
             result?.let {
@@ -62,7 +60,7 @@ class TopUpFragment : Fragment() {
                     it.isSuccess -> {
                         val response = it.getOrNull()
                         if (response?.new_balance != null) {
-                            val message = "Top-up successful! \nNew balance: IDR ${"%,.2f".format(response.new_balance).replace(",", ".")}"
+                            val message = "Withdraw successful! \nNew balance: IDR ${"%,.2f".format(response.new_balance).replace(",", ".")}"
                             showResultDialog(
                                 title = "Success",
                                 message = message,
@@ -71,7 +69,7 @@ class TopUpFragment : Fragment() {
                         } else {
                             showResultDialog(
                                 title = "Error",
-                                message = response?.message ?: "Top-up failed"
+                                message = response?.message ?: "Withdraw failed"
                             )
                         }
                     }
@@ -79,7 +77,7 @@ class TopUpFragment : Fragment() {
                         val exception = it.exceptionOrNull()
                         showResultDialog(
                             title = "Error",
-                            message = exception?.message ?: "Top-up failed"
+                            message = exception?.message ?: "Withdraw failed"
                         )
                     }
                 }

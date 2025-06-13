@@ -18,7 +18,6 @@ import androidx.lifecycle.lifecycleScope
 import com.example.corewallet.R
 import com.example.corewallet.api.ApiClient
 import com.example.corewallet.api.request.UpdateGoalRequest
-import com.example.corewallet.view.coresavings.corebudget.CoreBudget
 import www.sanju.motiontoast.MotionToast
 import www.sanju.motiontoast.MotionToastStyle
 import java.util.Calendar
@@ -149,7 +148,8 @@ class CoreGoalEdit : AppCompatActivity() {
                             )
                         )
                         Handler(Looper.getMainLooper()).postDelayed({
-                            startActivity(Intent(this@CoreGoalEdit, CoreBudget::class.java))
+                            startActivity(Intent(this@CoreGoalEdit, CoreGoal
+                            ::class.java))
                             finish()
                         }, 1500)
                     } else {
